@@ -32,5 +32,9 @@ public class PlayerBehaviour : MonoBehaviour
         beenHit = true;
         GameController.speedModifier = 0;
         GetComponent<Animator>().speed = 0.0f;
+        if (!gameObject.GetComponent<GameEndBehaviour>())
+        {
+            gameObject.AddComponent<GameEndBehaviour>();
+        }
     }
 }
