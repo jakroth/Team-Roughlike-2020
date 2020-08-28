@@ -40,6 +40,8 @@ public class FollowCameraBehaviour : MonoBehaviour
         maxY = mapY - vertExtent - offset.y;
     }
 
+
+    // moves camera with the player
     void LateUpdate()
     {
         Vector3 viewPos = new Vector3(playerTransform.position.x, playerTransform.position.y, -10);
@@ -48,6 +50,7 @@ public class FollowCameraBehaviour : MonoBehaviour
         transform.position = viewPos;
     }
 
+    // used by the Dungeon Manager to set the initial camera offset
     public void setMap(Vector2 mapSize, Vector2 offset)
     {
         mapX = mapSize.x;

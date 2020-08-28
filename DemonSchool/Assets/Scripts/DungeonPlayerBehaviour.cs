@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DungeonPlayerBehaviour : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class DungeonPlayerBehaviour : MonoBehaviour
     public Vector2 target;
     private DungeonManager dungeonManager;
 
+    public GameObject tilePrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -85,4 +87,19 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         transform.position = new Vector3(Mathf.Lerp(start.x, target.x, moveProgress),
                                          Mathf.Lerp(start.y, target.y, moveProgress), 0);
     }
+
+
+    //trying to make the character not walk through walls...
+  /*  private void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("collision");
+        isMoving = false;
+        if (other.GetType().Equals(tilePrefab))
+        {
+            if(other.gameObject.GetComponent<DungeonTile>().tileID == wallID)
+            {
+                isMoving = false;
+            }
+        }
+    }*/
 }
