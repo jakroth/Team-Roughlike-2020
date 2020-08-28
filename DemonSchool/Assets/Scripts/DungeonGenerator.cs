@@ -320,7 +320,7 @@ public class DungeonGenerator : MonoBehaviour
         return false;
     }
 
-    // this method will 
+    // ...
     public void spawnMap()
     {
         // instantiate instance of this Singleton
@@ -344,7 +344,7 @@ public class DungeonGenerator : MonoBehaviour
             roomTilePairs.Add(-2, corridorID);
         }
 
-        // Set random tile types for each roomID
+        // Set basic tile for each room if ticked, otherwise random tile types for each room
         for (int i = 1; i <= _roomCount; i++)
         {
             roomTilePairs.Add(i, basicOnly ? basicID : validIDs[Random.Range(0, validIDs.Count)]);

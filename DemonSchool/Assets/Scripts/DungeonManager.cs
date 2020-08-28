@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class DungeonManager : Singleton<DungeonManager>
 {
+    // maps tile texture sprites to tileIDs
+    // set in the Inspector
     public List<Sprite> tileTextures;
-    public List<Sprite> objectTextures;
 
+    // map of tilePrefab objects
     private GameObject[,] map;
     public int mapWidth, mapHeight;
-    public List<GameObject> objects;
 
+    // the prefab for all the Tiles, set in the Inspector
     public GameObject tilePrefab;
-    public GameObject objectPrefab;
 
-    // ??
+    //??
     public float cellDim = 2;
 
+    // check if this is the first update for the program, to populate the map
     private bool firstUpdate = true;
 
+    // save tiles under this parent in the Hierarchy
     private Transform _tileParent;
-    private Transform _objectParent;
-
-    public bool spawnObjects = true;
 
 
     // Start is called before the first frame update
@@ -30,15 +30,11 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         // ??
         instance = this;
-        // make a new 2D array of Game Objects
+        // make a new 2D array of tilePrefab game objects
         map = new GameObject[mapWidth, mapHeight];
 
         // returns the transforms of the children of DungeonManager
         _tileParent = transform.GetChild(0);
-        _objectParent = transform.GetChild(1);
-
-        // make new List of game objects
-        objects = new List<GameObject>();
     }
 
 
@@ -47,32 +43,19 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         if (firstUpdate)
         {
-            applyPGC();
+            applyProcGen();
             firstUpdate = false;
         }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            applyPGC();
-        }
-        else if(Input.GetKeyDown(KeyCode.O))
-        {
-            destroyAllObjects();
-
-            DungeonGenerator mapGen = GetComponent<DungeonGenerator>();
-
-            DungeonObjectGenerator objGen = GetComponent<DungeonObjectGenerator>();
-            objGen.generatePoisson(mapWidth, mapHeight);
-            objGen.printGrid();
-            objGen.filterGrid(mapGen.map);
-            objGen.printFilteredGrid();
-            objGen.spawnObjects();
+            applyProcGen();
         }
     }
 
 
-
-    private void applyPGC()
+    // called when Dungeon Manager is first created
+    private void applyProcGen()
     {
         // generate the random dungeon
         DungeonGenerator mapGen = GetComponent<DungeonGenerator>();
@@ -83,28 +66,18 @@ public class DungeonManager : Singleton<DungeonManager>
         //print("Map Spawned");
         mapGen.printRooms();
 
-        // make objects
-        if (spawnObjects)
-        {
-            DungeonObjectGenerator objGen = GetComponent<DungeonObjectGenerator>();
-            objGen.generatePoisson(mapWidth, mapHeight);
-            objGen.printGrid();
-            objGen.filterGrid(mapGen.map);
-            objGen.printFilteredGrid();
-            objGen.spawnObjects();
-        }
 
         // print center of first room
         print(mapGen.rooms[0].center);
         // put player at center of first room
-        GameObject.Find("Player").transform.position = new Vector3(mapGen.rooms[0].center.x * cellDim,
+        GameObject.Find("PlayerPlaceholder").transform.position = new Vector3(mapGen.rooms[0].center.x * cellDim,
                                                                    mapGen.rooms[0].center.y * cellDim, 0);
         Camera.main.GetComponent<FollowCameraBehaviour>().setMap(new Vector2((mapWidth) * cellDim, (mapHeight) * cellDim), new Vector2(cellDim / 2, cellDim / 2));
     }
 
+    // setup a new map with no tile game objects
     public void setMapSize(int mapWidth, int mapHeight)
     {
-        destroyAllObjects();
         if (this.mapWidth == mapWidth && this.mapHeight == mapHeight)
             return;
         deleteMap();
@@ -113,33 +86,40 @@ public class DungeonManager : Singleton<DungeonManager>
         map = new GameObject[mapWidth, mapHeight];
     }
 
+
+    // called by the Dungeon Generator after setting up map coordinate IDs
     public void createBaseMap(int width, int height, int basicID, int wallID)
     {
         setMapSize(width, height);
+        // fill the map with the basic fill tiles
         fillGridObject(basicID, new Vector2Int(1, 1), new Vector2Int(width - 2, height - 2));
+        // make the border all wall tiles
         fillBorderObject(wallID, new Vector2Int(0, 0), new Vector2Int(width - 1, height - 1));
     }
 
+
+
+    // actually makes the game objects that are the background tiles
+    // called by createBaseMap method to setup the basic (usually water) and border tiles
+    // called by the Dungeon Generator to make the room, inner wall and other special tiles
     public void createTile(int tileID, Vector2Int pos)
     {
         if (map[pos.x, pos.y] == null)
         {
+            // instantiate new tilePrefab game objects all over the map, where they don't already exists
             map[pos.x, pos.y] = Instantiate(tilePrefab, new Vector3(pos.x * cellDim, pos.y * cellDim, 0), Quaternion.identity, _tileParent);
         }
+        // if they already exist, set the tile ID to the one passed in
         map[pos.x, pos.y].GetComponent<DungeonTile>().setTile(tileID, pos);
     }
 
-    public void createObject(int objectID, Vector2Int pos)
-    {
-        GameObject newObj = Instantiate(objectPrefab, new Vector3(pos.x * cellDim, pos.y * cellDim, 0), Quaternion.identity, _objectParent);
-        newObj.GetComponent<DungeonObject>().setObject(objectID, pos);
-        objects.Add(newObj);
-    }
 
     public bool isPositionOutsideMap(Vector2Int pos)
     {
         return (pos.x > mapWidth - 1 || pos.x < 0 || pos.y > mapHeight - 1 || pos.y < 0);
     }
+
+
 
     public void fillGridObject(int tileID, Vector2Int start, Vector2Int end)
     {
@@ -149,15 +129,19 @@ public class DungeonManager : Singleton<DungeonManager>
             return;
         }
 
+        // in case end is less than start??
         int start_X = Mathf.Min(start.x, end.x);
-        int start_Z = Mathf.Min(start.y, end.y);
+        int start_Y = Mathf.Min(start.y, end.y);
         int end_X = Mathf.Max(start.x, end.x);
-        int end_Z = Mathf.Max(start.y, end.y);
+        int end_Y = Mathf.Max(start.y, end.y);
+
+        // main loop for this method
+        // creates basic fill tiles across the whole map
         for (int x = start_X; x <= end_X; x++)
         {
-            for (int z = start_Z; z <= end_Z; z++)
+            for (int y = start_Y; y <= end_Y; y++)
             {
-                createTile(tileID, new Vector2Int(x, z));
+                createTile(tileID, new Vector2Int(x, y));
             }
         }
     }
@@ -174,6 +158,8 @@ public class DungeonManager : Singleton<DungeonManager>
         int start_Z = Mathf.Min(start.y, end.y);
         int end_X = Mathf.Max(start.x, end.x);
         int end_Z = Mathf.Max(start.y, end.y);
+
+        //creates wall tiles around the border
         for (int x = start.x; x <= end_X; x++)
         {
             createTile(tileID, new Vector2Int(x, start_Z));
@@ -186,6 +172,8 @@ public class DungeonManager : Singleton<DungeonManager>
         }
     }
 
+
+    // destroys all the tile objects on the map
     private void deleteMap()
     {
         for (int x = 0; x < mapWidth; x++)
@@ -200,12 +188,5 @@ public class DungeonManager : Singleton<DungeonManager>
         }
     }
 
-    private void destroyAllObjects()
-    {
-        foreach (GameObject obj in objects)
-        {
-            Destroy(obj);
-        }
-        objects.Clear();
-    }
+
 }
