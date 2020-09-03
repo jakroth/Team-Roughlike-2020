@@ -88,18 +88,30 @@ public class DungeonPlayerBehaviour : MonoBehaviour
                                          Mathf.Lerp(start.y, target.y, moveProgress), 0);
     }
 
+    public void returnToOriginPos()
+    {
+        target = start;
+        start = new Vector2(transform.position.x, transform.position.y);
+        moveProgress = 0;
+        isMoving = true;
+    }
+
 
     //trying to make the character not walk through walls...
-  /*  private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("collision");
+
         isMoving = false;
-        if (other.GetType().Equals(tilePrefab))
-        {
-            if(other.gameObject.GetComponent<DungeonTile>().tileID == wallID)
-            {
-                isMoving = false;
-            }
-        }
-    }*/
+        returnToOriginPos();
+
+        //isMoving = false;
+        //if (other.GetType().Equals(tilePrefab))
+        //{
+        //    //if(other.gameObject.GetComponent<DungeonTile>().tileID == wallID)
+        //    //{
+        //        isMoving = false;
+        //    //}
+        //}
+    }
 }

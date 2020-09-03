@@ -7,8 +7,10 @@ public class DungeonTile : MonoBehaviour
     private DungeonManager dungeonManager;
     public int tileID;
     public Vector2Int pos;
+    public bool isCollision;
 
     private SpriteRenderer spriteRenderer;
+    private BoxCollider2D collisionBox;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +34,22 @@ public class DungeonTile : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+        if(collisionBox == null)
+        {
+            collisionBox = GetComponent<BoxCollider2D>();
+        }
 
         this.tileID = tileID;
         this.pos = pos;
+        this.isCollision = tileID == 2 ? true : false;
         gameObject.name = "Tile (" + pos.x + "," + pos.y + "): " + tileID;
 
         spriteRenderer.sprite = dungeonManager.tileTextures[tileID];
+
+        if(isCollision)
+            collisionBox.enabled = true;
+        else
+            collisionBox.enabled = false;
+
     }
 }
