@@ -15,8 +15,8 @@ public class DungeonManager : Singleton<DungeonManager>
     // the prefab for all the Tiles, set in the Inspector
     public GameObject tilePrefab;
 
-    //??
-    public float cellDim = 2;
+    // cell dimensions
+    public float cellDimensions = 2;
 
     // check if this is the first update for the program, to populate the map
     private bool firstUpdate = true;
@@ -28,8 +28,10 @@ public class DungeonManager : Singleton<DungeonManager>
     // Start is called before the first frame update
     void Start()
     {
-        // ??
+        // this references the parent "Singleton.cs", and sets the protected instance variable to this object. 
+        // why? it allows the Instance() method to be called...
         instance = this;
+
         // make a new 2D array of tilePrefab game objects
         map = new GameObject[mapWidth, mapHeight];
 
@@ -70,9 +72,9 @@ public class DungeonManager : Singleton<DungeonManager>
         // print center of first room
         print(mapGen.rooms[0].center);
         // put player at center of first room
-        GameObject.Find("PlayerPlaceholder").transform.position = new Vector3(mapGen.rooms[0].center.x * cellDim,
-                                                                   mapGen.rooms[0].center.y * cellDim, 0);
-        Camera.main.GetComponent<FollowCameraBehaviour>().setMap(new Vector2((mapWidth) * cellDim, (mapHeight) * cellDim), new Vector2(cellDim / 2, cellDim / 2));
+        GameObject.Find("Player").transform.position = new Vector3(mapGen.rooms[0].center.x * cellDimensions,
+                                                                   mapGen.rooms[0].center.y * cellDimensions, 0);
+        Camera.main.GetComponent<FollowCameraBehaviour>().setMap(new Vector2((mapWidth) * cellDimensions, (mapHeight) * cellDimensions), new Vector2(cellDimensions / 2, cellDimensions / 2));
     }
 
     // setup a new map with no tile game objects
@@ -107,7 +109,7 @@ public class DungeonManager : Singleton<DungeonManager>
         if (map[pos.x, pos.y] == null)
         {
             // instantiate new tilePrefab game objects all over the map, where they don't already exists
-            map[pos.x, pos.y] = Instantiate(tilePrefab, new Vector3(pos.x * cellDim, pos.y * cellDim, 0), Quaternion.identity, _tileParent);
+            map[pos.x, pos.y] = Instantiate(tilePrefab, new Vector3(pos.x * cellDimensions, pos.y * cellDimensions, 0), Quaternion.identity, _tileParent);
         }
         // if they already exist, set the tile ID to the one passed in
         map[pos.x, pos.y].GetComponent<DungeonTile>().setTile(tileID, pos);
