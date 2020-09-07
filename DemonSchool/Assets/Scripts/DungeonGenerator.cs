@@ -1,49 +1,70 @@
-﻿using System.Collections;
+﻿using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    // This class sets up IDs (as ints in a 2D array) for a map of the room using (x,y,) coordinates
+    // The IDs are -3 (doors), -2 (walls), -1 (corridors), 1+ (unique for each room)
+    // Texture sprites are (mostly) added in the DungeonManager
+
+
+    // this will hold the DungeonManager instance, so elements inside it can be accessed
     private DungeonManager dungeonManager;
 
-    // max number of rooms we want (usually will be a lot less than this, depending on how that fit in the map)
-    public int maxRooms;
     // the map dimensions
-    public int width, height;
-    // the room min and max dimensions
+    // set in the Inspector
+    public int mapWidth, mapHeight;
+
+    // max number of rooms we want (will usually end up with a lot less than this, depending on how they fit in the map)
+    // set in the Inspector
+    public int maxRooms;
+
+    // how many rooms we actually get
+    // view in the Inspector, is set in populateRooms method
+    public int _roomCount;
+
+    // the min and max room dimensions
+    // set in the Inspector
     public int minRoomWidth, minRoomHeight;
     public int maxRoomWidth, maxRoomHeight;
     
-    // how many rooms we actually got
-    public int _roomCount;
+    // some IDs for the texture/sprite of rooms
+    // set in the Inspector
+    public int basicFloorTileID;
+    public int corridorTileID;
+    public int backgroundTileID;
 
-    // some IDs for the textures and types of rooms
-    public int wallID;
-    public int basicID;
-    public int fillID;
+    public int doorTileID;
+    public int wallTileID;
 
-    //??
-    public bool basicOnly;
+    // toggles between basic floor tiles and fire/ice/water floor tiles
+    public bool basicFloorTilesOnly;
 
-    public bool makeCorridorsRooms;
-    // only used if makeCorridorsRooms is true
-    public int corridorID;
-
-    //??
+    // used to randomly pick a room tileset if basicOnly is false
     public List<int> validIDs;
 
-    // a 2D array of all the x,y coordinates on the map amd which roomID they are part of. Will be set to the height and width of the map.
+    // a 2D array of all the IDs and the (x,y) coordinates they correspond to. 
     public int[,] map;
 
-    // this is the basic room (it's a nested struct/class)
+    // will hold the list of "rooms" (see nested calls below) in the map
+    public List<Room> rooms;
+
+
+
+    // this is the basic ROOM (it's a nested struct/class)
     public struct Room
     {
         // x and y values will be the bottom and left coordinates of each room
         // w and h are width and height of each room
         public int x, y, w, h;
         public int x2, y2;
-        public Vector2Int center;
+        public Vector2Int centre;
+        public Vector2Int door;
+        public Vector2Int doorFloor;
 
+        //room constructor
         public Room(int x, int y, int w, int h)
         {
             this.x = x;
@@ -55,9 +76,15 @@ public class DungeonGenerator : MonoBehaviour
             x2 = x + w;
             y2 = y + h;
 
-            // center is halfway between x and x2 and y and y2
-            center = new Vector2Int((x + x2) / 2,
+            // centre is halfway between x and x2 and y and y2
+            centre = new Vector2Int((x + x2) / 2,
                 (y + y2) / 2);
+
+            // door is set to bottom left wall by default
+            door = new Vector2Int(x-1,y-1);
+
+            // doorFloor is set to bottom left floor by default
+            doorFloor = new Vector2Int(x, y);
         }
 
         // return true if this room intersects the room passed in as a parameter
@@ -69,37 +96,32 @@ public class DungeonGenerator : MonoBehaviour
         }
 
     }
-    // will hold the list of rooms in the map
-    public List<Room> rooms;
 
 
-    // the CONSTRUCTOR for the dungeon class
-    public DungeonGenerator(int maxRooms, int width, int height, int minRoomWidth, int maxRoomWidth, int minRoomHeight, int maxRoomHeight)
+    // method to make ROOMS:
+    // 1. populate a list of room objects
+    // 2. populate the map with roomIDs for each coordinate in a room
+    // 3. populate the map with corridorIDs for each coordinate in a corridor
+    // 4. populate the map with wallIDs for each coordinate in a wall
+    public void populateRooms()
     {
-        this.maxRooms = maxRooms;
-        this.width = width;
-        this.height = height;
-        this.minRoomHeight = minRoomHeight;
-        this.maxRoomHeight = maxRoomHeight;
-        this.minRoomWidth = minRoomWidth;
-        this.maxRoomWidth = maxRoomWidth;
-    }
+        // grab the instance of the Dungeon Manager
+        if (dungeonManager == null)
+        {
+            dungeonManager = DungeonManager.Instance;
+        }
 
-
-    // method to put all the rooms on the map
-    public void populateRooms(bool applyWalls = true)
-    {
         // create a new List of rooms
         rooms = new List<Room>();
 
         //reset room count to 0
         _roomCount = 0;
 
-        // create a new 2D array of coordinates to hold the room IDs (array size set to map width and height)
-        map = new int[width, height];
+        // create a new 2D array of coordinates to hold the mapIDs (array size set to map width and height)
+        map = new int[mapWidth, mapHeight];
 
-        // variable for tracking center of each room; initialised to (0,0)
-        Vector2Int newCenter = Vector2Int.zero;
+        // variable for tracking centre of each room; initialised to (0,0)
+        Vector2Int newCentre = Vector2Int.zero;
 
         // main loop to populate rooms
         for (int i = 0; i < maxRooms; i++)
@@ -108,8 +130,8 @@ public class DungeonGenerator : MonoBehaviour
             int w = Random.Range(minRoomWidth, maxRoomWidth + 1);
             int h = Random.Range(minRoomHeight, maxRoomHeight + 1);
             // this will range from 1 to the width of the dungeon minus the width of the room generated above (remember x is the left hand coordinate of each room)
-            int x = Random.Range(1, width - w);
-            int y = Random.Range(1, height - h);
+            int x = Random.Range(1, mapWidth - w);
+            int y = Random.Range(1, mapHeight - h);
 
             // create newRoom with randomized values
             Room newRoom = new Room(x, y, w, h);
@@ -132,70 +154,26 @@ public class DungeonGenerator : MonoBehaviour
                 // no overlap, so good to go; increment our room count
                 _roomCount++;
 
-                // local function to carve out new room
-                // sets up the map array with the coordinates of this room and the roomID (based on roomCount)
+                // adds the coordinates of this room and the roomID (based on roomCount) to the map array
                 createRoom(newRoom, _roomCount);
 
-                // THIS SECTION IS TO MAKE A CORRIDOR
-                // this first part creates a newCenter somewhere inside newRoom
-                // store the center from newRoom in the newCenter Vector2
-                newCenter = newRoom.center;
-                // create two offsets that are half the width and height of the newRoom
-                int offsetW = newRoom.w / 2;
-                int offsetH = newRoom.h / 2;
-                // set the x value of newCenter to be somewhere along the x coordinates of newRoom
-                newCenter.x = Random.Range(newCenter.x - offsetW, newCenter.x + offsetW);
-                // set the y value of newCenter to be somewhere along the y coordinates of newRoom
-                newCenter.y = Random.Range(newCenter.y - offsetH, newCenter.y + offsetH);
-
-                // only make a CORRIDOR if a room already exists
+                // make a CORRIDOR only if a room already exists
                 if (rooms.Count != 0)
                 {
-                    // grab the center of the previous room added to the list
-                    Vector2Int prevCenter = rooms[rooms.Count - 1].center;
-                    //as above, put a new prevCenter somewhere inside the previousRoom
-                    offsetW = rooms[rooms.Count - 1].w / 2;
-                    offsetH = rooms[rooms.Count - 1].h / 2;
-                    prevCenter.x = Random.Range(prevCenter.x - offsetW, prevCenter.x + offsetW);
-                    prevCenter.y = Random.Range(prevCenter.y - offsetH, prevCenter.y + offsetH);
-
-                    // carve out CORRIDORS between rooms based on new centers
-                    // randomly start with horizontal or vertical corridors
-                    if (Random.Range(0, 2) == 1)
-                    {
-                        hCorridor(prevCenter.x, newCenter.x, prevCenter.y);
-                        vCorridor(prevCenter.y, newCenter.y, newCenter.x);
-                    }
-                    else
-                    {
-                        vCorridor(prevCenter.y, newCenter.y, prevCenter.x);
-                        hCorridor(prevCenter.x, newCenter.x, newCenter.y);
-                    }
+                    createCorridor(newRoom,rooms[rooms.Count-1]);
                 }
 
-                // add new room to rooms list
+                // add the new room to rooms list
                 rooms.Add(newRoom);
             }
         }
-
-        //??
-        if(applyWalls)
-        {
-            this.applyWalls();
-        }
-
+        // work out where walls should be and set all the coordinates to the wallID
+        createWalls();
+        createDoors();
     }
 
 
-    // creates a map with one room that fills the whole map
-    public void createDefaultMap()
-    {
-        map = new int[width, height];
-        createRoom(new Room(0, 0, width, height), 0);
-    }
-
-
-    // sets all the coordinates of this room on the map to the roomID
+    // sets all the coordinates of this room on the map to the roomID for this room (each room has a unique ID)
     public void createRoom(Room room, int roomID)
     {
         for (int x = room.x; x < room.x2; x++)
@@ -207,20 +185,45 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    // prints out all the room IDs
-    public void printRooms()
+    // method to make CORRIDORS
+    // sets all the coordinates of the corridors between rooms to the corridorID (all corridors have the same ID)
+    public void createCorridor(Room newRoom, Room prevRoom)
     {
-        string result = "";
-        for (int y = 0; y < height; y++)
+        // this first part creates a newCentre somewhere inside the newRoom
+        // grabs .centre from newRoom and puts it into newCentre (so .centre isn't affected)
+        Vector2Int newCentre = newRoom.centre;
+
+        // create two offsets that are half the width and height of the newRoom
+        int offsetW = newRoom.w / 2;
+        int offsetH = newRoom.h / 2;
+        // set the x value of newCentre to be somewhere along the x coordinates of newRoom
+        newCentre.x = Random.Range(newCentre.x - offsetW, newCentre.x + offsetW);
+        // set the y value of newCentre to be somewhere along the y coordinates of newRoom
+        newCentre.y = Random.Range(newCentre.y - offsetH, newCentre.y + offsetH);
+
+        // this second part creates a prevCentre somewhere inside the previous room
+        // grab the centre of the last room added to the list
+        Vector2Int prevCentre = prevRoom.centre;
+        //create two offsets that are half the width and height of the previous room
+        offsetW = prevRoom.w / 2;
+        offsetH = prevRoom.h / 2;
+        prevCentre.x = Random.Range(prevCentre.x - offsetW, prevCentre.x + offsetW);
+        prevCentre.y = Random.Range(prevCentre.y - offsetH, prevCentre.y + offsetH);
+
+        // assign corridorIDs to coordinates between rooms based on new centres
+        // randomly start with horizontal or vertical corridors
+        if (Random.Range(0, 2) == 1)
         {
-            for (int x = 0; x < width; x++)
-            {
-                result += map[x, y];
-            }
-            result += "\n";
+            hCorridor(prevCentre.x, newCentre.x, prevCentre.y);
+            vCorridor(prevCentre.y, newCentre.y, newCentre.x);
         }
-        Debug.Log(result);
+        else
+        {
+            vCorridor(prevCentre.y, newCentre.y, prevCentre.x);
+            hCorridor(prevCentre.x, newCentre.x, newCentre.y);
+        }
     }
+
 
     // make a horizontal corridor (y is fixed)
     private void hCorridor(int x1, int x2, int y)
@@ -230,79 +233,61 @@ public class DungeonGenerator : MonoBehaviour
         //end at the most right hand centre
         int endX = Mathf.Max(x1, x2);
 
-        bool firstEdit = true;
-
-        // set the roomID of corridor coordinates to -2
+        // set the roomID of corridor coordinates to -1
         for (int x = startX; x <= endX; x++)
         {
             // check if the space is empty
+            // this way corridoors aren't made over existing rooms, only the space between them
             if (map[x, y] == 0)
             {
-                //??
-                if (firstEdit)
-                {
-                    //??
-                    if (makeCorridorsRooms)
-                    {
-                        _roomCount++;
-                    }
-                    firstEdit = false;
-                }
-                // set corridors to roomID -2
-                map[x, y] = makeCorridorsRooms ? _roomCount : -2;
+                // set corridor mapID to -1
+                map[x, y] = -1;
             }
         }
     }
 
-    //as above, but for vertical corridor
+    // make a vertical corridor (x is fixed)
     private void vCorridor(int y1, int y2, int x)
     {
         int startY = Mathf.Min(y1, y2);
         int endY = Mathf.Max(y1, y2);
 
-        bool firstEdit = true;
-
         for (int y = startY; y <= endY; y++)
         {
             if (map[x, y] == 0)
             {
-                if (firstEdit)
-                {
-                    if (makeCorridorsRooms)
-                    { 
-                        _roomCount++;
-                    }
-                    firstEdit = false;
-                }
-                map[x, y] = makeCorridorsRooms ? _roomCount : -2;
+                // set corridor mapID to -1
+                map[x, y] = -1;
             }
         }
     }
 
+
+
+    // creates WALLS wherever required    
     // runs through every coordinate on the map
-    // tests if a wall is required
-    // sets the roomID of all the walls on the map to -1
-    private void applyWalls()
+    // sets the ID of all the walls on the map to the WallID (-2)
+    private void createWalls()
     {
-        for (int x = 1; x < width - 1; x++)
+        for (int x = 1; x < mapWidth - 1; x++)
         {
-            for (int y = 1; y < height - 1; y++)
+            for (int y = 1; y < mapHeight - 1; y++)
             {
                 if (testWallRequired(x, y))
                 {
-                    map[x, y] = -1;
+                    map[x, y] = -2;
                 }
             }
         }
     }
 
 
-
+    // returns true if the (x,y) coordinate is currently empty and has an adjacent (or diagonal) wall or corridor
     private bool testWallRequired(int x, int y)
     {
-        // save the roomID of the given coordinates into v
+        // get the mapID for the given coordinates
         int v = map[x, y];
-        //if v is already occupied (with wall (-1), room (>1) or corridor (-2)) exit method with false
+        //if v is already occupied (with wall (-2), corridor (-1) or room (>0)) exit method with false
         if (v != 0) return false;
         // otherwise v must be equal to 0 (so empty)
         // for the 3 x 3 box around x,y...
@@ -310,8 +295,8 @@ public class DungeonGenerator : MonoBehaviour
         {
             for (int iy = y - 1; iy <= y + 1; iy++)
             {
-                // if any of the x,y coordinates around the position being tested are a room or corridor, return true (wall required)
-                if (map[ix, iy] != 0 && map[ix, iy] != -1)
+                // if any of the x,y coordinates around the position being tested are a room (1+) or corridor (-1) but not already a wall (-2) return true (wall required)
+                if (map[ix, iy] != 0 && map[ix, iy] != -2)
                 {
                     return true;
                 }
@@ -320,46 +305,200 @@ public class DungeonGenerator : MonoBehaviour
         return false;
     }
 
-    // ...
+
+
+    // adds DOORS to the first and last room
+    // sets the ID of the doors to the DoorID (-3)
+    private void createDoors()
+    {
+        // method to make door in first room
+        // randomnly choose x or y walls
+        if (Random.Range(0, 2) == 0) 
+            findDoorInXWalls(0);
+        else
+            findDoorInYWalls(0);
+
+        // make door in last room
+        if (Random.Range(0, 2) == 0)
+            findDoorInXWalls(rooms.Count - 1);
+        else
+            findDoorInYWalls(rooms.Count - 1);
+    }
+
+
+    // helper method for createDoors() method
+    private void findDoorInXWalls(int rmNum)
+    {
+        Room room = rooms[rmNum];
+        int count = 0;
+        while (true)
+        {
+            // generate random x along the walls of the room
+            int wallX = Random.Range(room.x, room.x2);
+
+            // check if the beneath the wall is unassigned (background) or is the border
+            if (map[wallX, room.y - 2] == 0 || (room.y - 1) <= 0)
+            {
+                // set this coordinate to be a door
+                map[wallX, room.y - 1] = -3;
+                room.door.x = wallX;
+                room.doorFloor.x = wallX;
+                // assign the edited room back to the room list
+                rooms[rmNum] = room;
+                break;
+            }
+            // check if above the wall is unassigned (background) or is the border
+            else if (map[wallX, room.y2 + 1] == 0 || room.y2 >= mapHeight)
+            {
+                // set this coordinate to be a door
+                map[wallX, room.y2] = -3;
+                room.door.x = wallX;
+                room.door.y = room.y2;
+                room.doorFloor.x = wallX;
+                room.doorFloor.y = room.y2-1;
+                // assign the edited room back to the room list
+                rooms[rmNum] = room;
+                break;
+            }
+
+            count++;
+            if (count >= 50)
+            {
+                //TODO: generate a new dungeon
+                dungeonManager.applyProcGen();
+            }
+        }
+    }
+
+    // helper method for createDoors() method
+    private void findDoorInYWalls(int rmNum)
+    {
+        Room room = rooms[rmNum];
+        int count = 0;
+        while (true)
+        {
+            // generate random y along the walls of the room
+            int wallY = Random.Range(room.y, room.y2);
+
+            // check if the left of the wall is unassigned (background)
+            if (map[room.x - 2, wallY] == 0 || (room.x - 1) <= 0)
+            {
+                // set this coordinate to be a door
+                map[room.x - 1, wallY] = -3;
+                room.door.y = wallY;
+                room.doorFloor.y = wallY;
+                // assign the edited room back to the room list
+                rooms[rmNum] = room;
+                break;
+            }
+            // check if the right of the wall is unassigned (background)
+            else if (map[room.x2 + 1, wallY] == 0 || room.x >= mapWidth)
+            {
+                // set this coordinate to be a door
+                map[room.x2, wallY] = -3;
+                room.door.y = wallY;
+                room.door.x = room.x2;
+                room.doorFloor.y = wallY;
+                room.doorFloor.x = room.x2-1;
+                // assign the edited room back to the room list
+                rooms[rmNum] = room;
+                break;
+            }
+            
+            count++;
+            if (count >= 50)
+            {
+                //TODO: generate a new dungeon
+                dungeonManager.applyProcGen();
+            }
+        }
+    }
+
+
+
+    // RENDERS the appropriate textures/sprites for each of the map coordinates
     public void spawnMap()
     {
-        // instantiate instance of this Singleton
+        // grab the instance of the Dungeon Manager
         if(dungeonManager == null)
         {
             dungeonManager = DungeonManager.Instance;
         }
 
-        //??
-        dungeonManager.createBaseMap(width, height, fillID, wallID);
+        // create the base map with background tiles and border (wall) tiles only
+        dungeonManager.createBaseMap(mapWidth, mapHeight, backgroundTileID, wallTileID);
 
-        // create dictionary to hold the mapping of roomIDs to int values
+        // create dictionary to hold the mapping of mapIDs to tileIDs/textures
         Dictionary<int, int> roomTilePairs = new Dictionary<int, int>();
 
-        // set all Walls to have the wallID
-        roomTilePairs.Add(-1, wallID);
+        // set all Corridors to have the CorridorTileID
+        roomTilePairs.Add(-1, corridorTileID);
 
-        // set all Corridors to have the CorridorID
-        if (!makeCorridorsRooms)
-        {
-            roomTilePairs.Add(-2, corridorID);
-        }
+        // set all Walls to have the WallTileID
+        roomTilePairs.Add(-2, wallTileID);
 
-        // Set basic tile for each room if ticked, otherwise random tile types for each room
+        // set all Doors to have the DoorTileID
+        roomTilePairs.Add(-3, doorTileID);
+
+
+        // Set basic floor tiles for each room if ticked, otherwise random tile types for each room
         for (int i = 1; i <= _roomCount; i++)
         {
-            roomTilePairs.Add(i, basicOnly ? basicID : validIDs[Random.Range(0, validIDs.Count)]);
+            roomTilePairs.Add(i, basicFloorTilesOnly ? basicFloorTileID : validIDs[Random.Range(0, validIDs.Count)]);
         }
 
-        // Populate blocks with assigned tile types
-        for (int x = 0; x < width; x++)
+
+        // Render the associated tile type/texture for each map coordinate
+        for (int x = 0; x < mapWidth; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < mapHeight; y++)
             {
-                if (map[x, y] != 0)
+                // if mapID is a corridor or room, isWall = false
+                if (map[x, y] == -1 || map[x, y] > 0)
+                {   
+                    // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
+                    // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
+                    dungeonManager.createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), false);
+                }
+                // if mapID is a wall or door, isWall = true
+                else if (map[x, y] < -1)
                 {
-                    dungeonManager.createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y));
+                    dungeonManager.createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), true);               
                 }
             }
         }
+
+        // set finalDoor variable in associated tile in the final room
+        Debug.Log(dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor);
+        dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
+        Debug.Log(rooms[rooms.Count - 1].door.x + ", " + rooms[rooms.Count - 1].door.y);
+        Debug.Log(dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor);
     }
+
+
+
+    // PRINTS out all the map IDs
+    public void printRooms()
+    {
+        string result = "";
+        for (int y = mapHeight-1; y >= 0; y--)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                result += map[x, y];
+            }
+            result += "\n";
+        }
+        Debug.Log(result);
+    }
+
+
+
+    // creates a map with one room that fills the whole map
+    public void createEmptyMap()
+    {
+        map = new int[mapWidth, mapHeight];
+        createRoom(new Room(0, 0, mapWidth, mapHeight), 0);
+    }
+
 }

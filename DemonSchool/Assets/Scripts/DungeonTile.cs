@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class DungeonTile : MonoBehaviour
 {
+    // for grabbing these components from this object or the DungeonManager instance
     private DungeonManager dungeonManager;
-    public int tileID;
-    public Vector2Int pos;
-    public bool isCollision;
-
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D collisionBox;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // the tileID for this tile
+    public int tileID;
+    // the location of this tile in the map
+    public Vector2Int pos;
+    // if this tile is a collision tile
+    public bool isCollision;
+    // if this tile is a door or wall tile
+    public bool isDoorOrWall;
+    // is this tile is the final door
+    public bool isFinalDoor = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    public void setTile(int tileID, Vector2Int pos)
+    // set up the tile
+    public void setTile(int tileID, Vector2Int pos, bool isDoorOrWall)
     {
+        // make sure these links exist
         if(dungeonManager == null)
         {
             dungeonManager = DungeonManager.Instance;
@@ -39,17 +38,29 @@ public class DungeonTile : MonoBehaviour
             collisionBox = GetComponent<BoxCollider2D>();
         }
 
+        // set up this tile with tileID and position
         this.tileID = tileID;
         this.pos = pos;
-        this.isCollision = tileID == 2 ? true : false;
-        gameObject.name = "Tile (" + pos.x + "," + pos.y + "): " + tileID;
+        this.isDoorOrWall = isDoorOrWall;
 
-        spriteRenderer.sprite = dungeonManager.tileTextures[tileID];
 
-        if(isCollision)
+        // give the tile a name in the Hierarchy
+        gameObject.name = "Tile (" + pos.x + "," + pos.y + "): " + (isDoorOrWall ? "Wall, " : "Floor, ") + tileID;
+
+
+        // render the sprite with either a door/wall tile or floor tile
+        // and enable the collision mechanics for walls
+        if (isDoorOrWall)
+        {
+            spriteRenderer.sprite = dungeonManager.wallTileTextures[tileID];
             collisionBox.enabled = true;
+        }
         else
+        {
+            spriteRenderer.sprite = dungeonManager.floorTileTextures[tileID];
             collisionBox.enabled = false;
+        }
 
     }
+
 }

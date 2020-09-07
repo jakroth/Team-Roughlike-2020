@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class DungeonPlayerBehaviour : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class DungeonPlayerBehaviour : MonoBehaviour
     // this boolean stores whether the player should still be moving and needs their position updated this frame. 
     public bool isMoving;
 
-    // this represents the change in position required
+    // this represents the change in position required e.g. (0,1), (-1,0)
     public Vector2Int moveAction;
 
     // these represent the absolute start position and target destination of the character for a move action
@@ -122,11 +121,19 @@ public class DungeonPlayerBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("collision");
-
-        // stop moving forward any more on collision, and run the returnToOriginalPos() method
+        // stop moving forward any more on collision,
         isMoving = false;
-        returnToOriginPos();
 
+        if (!other.GetComponent<DungeonTile>().isFinalDoor)
+        {
+            // run the returnToOriginalPos() method
+            returnToOriginPos();
+        }
+        else
+        {
+            // final door, so make a new dungeon
+            dungeonManager.applyProcGen();
+        }
     }
 
     // when the character tries to walk through a wall, will them to their original position (gives a nice "bump" effect). 

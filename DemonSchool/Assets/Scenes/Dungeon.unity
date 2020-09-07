@@ -261,19 +261,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941b94d2caa46034a9f6deb0e83d6d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileTextures:
+  floorTileTextures:
   - {fileID: 21300000, guid: aee5aad5d966e7b499f2f18bff800091, type: 3}
-  - {fileID: 21300000, guid: aee5aad5d966e7b499f2f18bff800091, type: 3}
-  - {fileID: 21300000, guid: 21ff10f2476ad8f4fbe4ee9dd0b90dab, type: 3}
-  - {fileID: 21300000, guid: 341b8565dd5a2b240819209d2e048201, type: 3}
   - {fileID: 21300000, guid: a2252eed243ee874fae34e22c94e7ddc, type: 3}
+  - {fileID: 21300000, guid: 341b8565dd5a2b240819209d2e048201, type: 3}
   - {fileID: 21300000, guid: f0027aa9e291ac543a241cddc3af6b96, type: 3}
+  - {fileID: 21300000, guid: ad115496f1068df46aaa3b842527f76d, type: 3}
   - {fileID: 21300000, guid: 5d4ec00728a5fe148a8d6f2a25a6998f, type: 3}
-  mapWidth: 100
-  mapHeight: 100
+  wallTileTextures:
+  - {fileID: 21300000, guid: 5f88851ae9d8255489df525fb27ae91b, type: 3}
+  - {fileID: 21300000, guid: 21ff10f2476ad8f4fbe4ee9dd0b90dab, type: 3}
+  - {fileID: 21300000, guid: d4dd8c6c5ce0bc44a9912aefca210101, type: 3}
+  - {fileID: 21300000, guid: 11a69948c2d0a0c4d9742e3a74853ef0, type: 3}
   tilePrefab: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
     type: 3}
-  cellDim: 2
+  cellDimensions: 2
 --- !u!4 &553746544
 Transform:
   m_ObjectHideFlags: 0
@@ -301,20 +303,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6374ac4f94d04404eb4bf0167647c5c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapWidth: 30
+  mapHeight: 30
   maxRooms: 50
-  width: 30
-  height: 30
+  _roomCount: 0
   minRoomWidth: 3
   minRoomHeight: 3
   maxRoomWidth: 7
   maxRoomHeight: 7
-  _roomCount: 0
-  wallID: 2
-  basicID: 1
-  fillID: 3
-  basicOnly: 1
-  makeCorridorsRooms: 0
-  corridorID: 1
+  basicFloorTileID: 0
+  corridorTileID: 1
+  backgroundTileID: 2
+  doorTileID: 0
+  wallTileID: 1
+  basicFloorTilesOnly: 1
   validIDs: 0100000003000000040000000500000001000000
 --- !u!1 &2061573052
 GameObject:
@@ -384,7 +386,6 @@ MonoBehaviour:
   moveAction: {x: 0, y: 0}
   start: {x: 0, y: 0}
   target: {x: 0, y: 0}
-  tilePrefab: {fileID: 0}
 --- !u!212 &2064411073
 SpriteRenderer:
   m_ObjectHideFlags: 0
