@@ -1,4 +1,5 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,7 +63,7 @@ public class DungeonGenerator : MonoBehaviour
         public int x2, y2;
         public Vector2Int centre;
         public Vector2Int door;
-        public Vector2Int doorFloor;
+        public Vector2Int doorMat;
 
         //room constructor
         public Room(int x, int y, int w, int h)
@@ -84,7 +85,7 @@ public class DungeonGenerator : MonoBehaviour
             door = new Vector2Int(x-1,y-1);
 
             // doorFloor is set to bottom left floor by default
-            doorFloor = new Vector2Int(x, y);
+            doorMat = new Vector2Int(x, y);
         }
 
         // return true if this room intersects the room passed in as a parameter
@@ -127,11 +128,11 @@ public class DungeonGenerator : MonoBehaviour
         for (int i = 0; i < maxRooms; i++)
         {
             // generate some random width, height, x and y for each room
-            int w = Random.Range(minRoomWidth, maxRoomWidth + 1);
-            int h = Random.Range(minRoomHeight, maxRoomHeight + 1);
+            int w = UnityEngine.Random.Range(minRoomWidth, maxRoomWidth + 1);
+            int h = UnityEngine.Random.Range(minRoomHeight, maxRoomHeight + 1);
             // this will range from 1 to the width of the dungeon minus the width of the room generated above (remember x is the left hand coordinate of each room)
-            int x = Random.Range(1, mapWidth - w);
-            int y = Random.Range(1, mapHeight - h);
+            int x = UnityEngine.Random.Range(1, mapWidth - w);
+            int y = UnityEngine.Random.Range(1, mapHeight - h);
 
             // create newRoom with randomized values
             Room newRoom = new Room(x, y, w, h);
@@ -197,9 +198,9 @@ public class DungeonGenerator : MonoBehaviour
         int offsetW = newRoom.w / 2;
         int offsetH = newRoom.h / 2;
         // set the x value of newCentre to be somewhere along the x coordinates of newRoom
-        newCentre.x = Random.Range(newCentre.x - offsetW, newCentre.x + offsetW);
+        newCentre.x = UnityEngine.Random.Range(newCentre.x - offsetW, newCentre.x + offsetW);
         // set the y value of newCentre to be somewhere along the y coordinates of newRoom
-        newCentre.y = Random.Range(newCentre.y - offsetH, newCentre.y + offsetH);
+        newCentre.y = UnityEngine.Random.Range(newCentre.y - offsetH, newCentre.y + offsetH);
 
         // this second part creates a prevCentre somewhere inside the previous room
         // grab the centre of the last room added to the list
@@ -207,12 +208,12 @@ public class DungeonGenerator : MonoBehaviour
         //create two offsets that are half the width and height of the previous room
         offsetW = prevRoom.w / 2;
         offsetH = prevRoom.h / 2;
-        prevCentre.x = Random.Range(prevCentre.x - offsetW, prevCentre.x + offsetW);
-        prevCentre.y = Random.Range(prevCentre.y - offsetH, prevCentre.y + offsetH);
+        prevCentre.x = UnityEngine.Random.Range(prevCentre.x - offsetW, prevCentre.x + offsetW);
+        prevCentre.y = UnityEngine.Random.Range(prevCentre.y - offsetH, prevCentre.y + offsetH);
 
         // assign corridorIDs to coordinates between rooms based on new centres
         // randomly start with horizontal or vertical corridors
-        if (Random.Range(0, 2) == 1)
+        if (UnityEngine.Random.Range(0, 2) == 1)
         {
             hCorridor(prevCentre.x, newCentre.x, prevCentre.y);
             vCorridor(prevCentre.y, newCentre.y, newCentre.x);
@@ -307,19 +308,20 @@ public class DungeonGenerator : MonoBehaviour
 
 
 
+
     // adds DOORS to the first and last room
     // sets the ID of the doors to the DoorID (-3)
     private void createDoors()
     {
         // method to make door in first room
         // randomnly choose x or y walls
-        if (Random.Range(0, 2) == 0) 
+        if (UnityEngine.Random.Range(0, 2) == 0) 
             findDoorInXWalls(0);
         else
             findDoorInYWalls(0);
 
         // make door in last room
-        if (Random.Range(0, 2) == 0)
+        if (UnityEngine.Random.Range(0, 2) == 0)
             findDoorInXWalls(rooms.Count - 1);
         else
             findDoorInYWalls(rooms.Count - 1);
@@ -330,34 +332,54 @@ public class DungeonGenerator : MonoBehaviour
     private void findDoorInXWalls(int rmNum)
     {
         Room room = rooms[rmNum];
+
+        //check in case room is against bottom wall
+        int bottom = room.y <= 1 ? 1 : 2;
+
+        //check in case room is against top wall
+        int top = room.y2 >= (mapHeight - 1) ? 0 : 1;
+
         int count = 0;
         while (true)
         {
             // generate random x along the walls of the room
-            int wallX = Random.Range(room.x, room.x2);
+            int wallX = UnityEngine.Random.Range(room.x, room.x2);
 
             // check if the beneath the wall is unassigned (background) or is the border
-            if (map[wallX, room.y - 2] == 0 || (room.y - 1) <= 0)
+            if (map[wallX, room.y - bottom] == 0 || (room.y - 1) <= 0)
             {
                 // set this coordinate to be a door
                 map[wallX, room.y - 1] = -3;
+                // change the door and doorMat variables in this room
                 room.door.x = wallX;
-                room.doorFloor.x = wallX;
+                room.doorMat.x = wallX;
                 // assign the edited room back to the room list
-                rooms[rmNum] = room;
+                try {
+                    rooms[rmNum] = room;
+                } catch (ArgumentOutOfRangeException e) {
+                    Debug.Log(e.Message);
+                    dungeonManager.applyProcGen();
+                }
                 break;
             }
             // check if above the wall is unassigned (background) or is the border
-            else if (map[wallX, room.y2 + 1] == 0 || room.y2 >= mapHeight)
+            else if (room.y2 >= mapHeight || map[wallX, room.y2 + top] == 0)
             {
                 // set this coordinate to be a door
                 map[wallX, room.y2] = -3;
+                // change the door and doorMat variables in this room
                 room.door.x = wallX;
                 room.door.y = room.y2;
-                room.doorFloor.x = wallX;
-                room.doorFloor.y = room.y2-1;
+                room.doorMat.x = wallX;
+                room.doorMat.y = room.y2-1;
                 // assign the edited room back to the room list
-                rooms[rmNum] = room;
+                try {
+                    rooms[rmNum] = room;
+                }
+                catch (ArgumentOutOfRangeException e) {
+                    Debug.Log(e.Message);
+                    dungeonManager.applyProcGen();
+                }
                 break;
             }
 
@@ -374,34 +396,53 @@ public class DungeonGenerator : MonoBehaviour
     private void findDoorInYWalls(int rmNum)
     {
         Room room = rooms[rmNum];
+
+        //check in case room is against left side wall
+        int lSide = room.x <= 1 ? 1 : 2;
+
+        //check in case room is against right side wall
+        int rSide = room.x2 >= (mapWidth - 1) ? 0 : 1;
+
         int count = 0;
         while (true)
         {
             // generate random y along the walls of the room
-            int wallY = Random.Range(room.y, room.y2);
+            int wallY = UnityEngine.Random.Range(room.y, room.y2);
 
             // check if the left of the wall is unassigned (background)
-            if (map[room.x - 2, wallY] == 0 || (room.x - 1) <= 0)
+            if (map[room.x - lSide, wallY] == 0 || (room.x - 1) <= 0)
             {
                 // set this coordinate to be a door
                 map[room.x - 1, wallY] = -3;
+                // change the door and doorMat variables in this room
                 room.door.y = wallY;
-                room.doorFloor.y = wallY;
+                room.doorMat.y = wallY;
                 // assign the edited room back to the room list
-                rooms[rmNum] = room;
+                try {
+                    rooms[rmNum] = room;
+                } catch (ArgumentOutOfRangeException e) {
+                    Debug.Log(e.Message);
+                    dungeonManager.applyProcGen();
+                }
                 break;
             }
             // check if the right of the wall is unassigned (background)
-            else if (map[room.x2 + 1, wallY] == 0 || room.x >= mapWidth)
+            else if (room.x >= mapWidth || map[room.x2 + rSide, wallY] == 0)
             {
                 // set this coordinate to be a door
                 map[room.x2, wallY] = -3;
+                // change the door and doorMat variables in this room
                 room.door.y = wallY;
                 room.door.x = room.x2;
-                room.doorFloor.y = wallY;
-                room.doorFloor.x = room.x2-1;
+                room.doorMat.y = wallY;
+                room.doorMat.x = room.x2-1;
                 // assign the edited room back to the room list
-                rooms[rmNum] = room;
+                try {
+                    rooms[rmNum] = room;
+                } catch (ArgumentOutOfRangeException e) {
+                    Debug.Log(e.Message);
+                    dungeonManager.applyProcGen();
+                }
                 break;
             }
             
@@ -413,6 +454,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
+
 
 
 
@@ -444,7 +486,7 @@ public class DungeonGenerator : MonoBehaviour
         // Set basic floor tiles for each room if ticked, otherwise random tile types for each room
         for (int i = 1; i <= _roomCount; i++)
         {
-            roomTilePairs.Add(i, basicFloorTilesOnly ? basicFloorTileID : validIDs[Random.Range(0, validIDs.Count)]);
+            roomTilePairs.Add(i, basicFloorTilesOnly ? basicFloorTileID : validIDs[UnityEngine.Random.Range(0, validIDs.Count)]);
         }
 
 
@@ -469,10 +511,7 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         // set finalDoor variable in associated tile in the final room
-        Debug.Log(dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor);
         dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
-        Debug.Log(rooms[rooms.Count - 1].door.x + ", " + rooms[rooms.Count - 1].door.y);
-        Debug.Log(dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor);
     }
 
 

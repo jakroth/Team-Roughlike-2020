@@ -84,11 +84,11 @@ public class DungeonManager : Singleton<DungeonManager>
         mapGen.printRooms();
 
         // print center of first room
-        print(mapGen.rooms[0].centre);
+        print(mapGen.rooms[0].doorMat);
 
         // put player outside door of first room created
-        GameObject.Find("Player").transform.position = new Vector3(mapGen.rooms[0].doorFloor.x * cellDimensions,
-                                                                   mapGen.rooms[0].doorFloor.y * cellDimensions, 0);
+        GameObject.Find("Player").transform.position = new Vector3(mapGen.rooms[0].doorMat.x * cellDimensions,
+                                                                   mapGen.rooms[0].doorMat.y * cellDimensions, 0);
         // put camera on player
         Camera.main.GetComponent<FollowCameraBehaviour>().setMap(new Vector2((mapWidth) * cellDimensions, (mapHeight) * cellDimensions), 
                                                                  new Vector2(cellDimensions / 2, cellDimensions / 2));
