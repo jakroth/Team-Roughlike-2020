@@ -25,6 +25,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
     // will need to access the instance of the DungeonManager to see how big cell dimensions are to move the correct distance
     private DungeonManager dungeonManager;
 
+ 
+
 
     // Start is called before the first frame update
     void Start()
@@ -114,6 +116,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         // moves the character towards the destination target, based on the percent of timeToMove time passed since the move action commenced.
         transform.position = new Vector3(Mathf.Lerp(start.x, target.x, moveProgress),
                                          Mathf.Lerp(start.y, target.y, moveProgress), 0);
+
+        
     }
 
 
@@ -147,5 +151,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         isMoving = true;
     }
+
+   
+
 
 }
