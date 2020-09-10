@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DungeonPlayerBehaviour : MonoBehaviour
 {
+
     // this is the time we want the player to take to move 1 tile. 
     // it is set in the Unity Inspector
     public float timeToMove;
@@ -27,6 +28,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
 
     //Animator Loading
     public Animator anim;
+
+  
 
 
     // Start is called before the first frame update
@@ -68,8 +71,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            move(new Vector2Int(-1, 0));
-            transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
+                move(new Vector2Int(-1, 0));
+                transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -143,6 +146,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
             // final door, so make a new dungeon
             dungeonManager.applyProcGen();
         }
+
+        
     }
 
     // when the character tries to walk through a wall, will them to their original position (gives a nice "bump" effect). 
@@ -156,8 +161,6 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         isMoving = true;
     }
-
-   
 
 
 }
