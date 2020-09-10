@@ -25,7 +25,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
     // will need to access the instance of the DungeonManager to see how big cell dimensions are to move the correct distance
     private DungeonManager dungeonManager;
 
- 
+    //Animator Loading
+    public Animator anim;
 
 
     // Start is called before the first frame update
@@ -54,6 +55,8 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         {
             updateMoveInput();
         }
+        //Animation Function Calling
+        anim.SetBool("isMoving", isMoving);
     }
 
     // check for player input
@@ -66,6 +69,7 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             move(new Vector2Int(-1, 0));
+            transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -74,6 +78,7 @@ public class DungeonPlayerBehaviour : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             move(new Vector2Int(1, 0));
+            transform.localScale = new Vector3(1, 1, 1);//Flip when move to right
         }
     }
 
