@@ -876,7 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a342f51a8558e442a0462afe68f6d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 1
+  timeToMove: 0.5
   moveProgress: 0
   isMoving: 0
   moveAction: {x: 0, y: 0}
