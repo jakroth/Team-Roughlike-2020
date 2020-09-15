@@ -876,13 +876,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a342f51a8558e442a0462afe68f6d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 0
+  timeToMove: 0.5
   moveProgress: 0
   isMoving: 0
   moveAction: {x: 0, y: 0}
   start: {x: 0, y: 0}
   target: {x: 0, y: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 2064411077}
 --- !u!212 &2064411073
 SpriteRenderer:
   m_ObjectHideFlags: 0
