@@ -10,17 +10,16 @@ public class DungeonGenerator : MonoBehaviour
     // The IDs are -3 (doors), -2 (walls), -1 (corridors), 1+ (unique for each room)
     // Texture sprites are (mostly) added in the DungeonManager
 
-
     // this will hold the DungeonManager instance, so elements inside it can be accessed
     private DungeonManager dungeonManager;
 
     // the map dimensions
-    // set in the Inspector
-    public int mapWidth, mapHeight;
+    // private, set in DungeonManager, obtained in populateRooms() method
+    private int mapWidth, mapHeight;
 
-    // max number of rooms we want (will usually end up with a lot less than this, depending on how they fit in the map)
-    // set in the Inspector
-    public int maxRooms;
+    // max number of rooms we want
+    // private, set in DungeonManager, obtained in populateRooms() method
+    private int maxRooms;
 
     // how many rooms we actually get
     // view in the Inspector, is set in populateRooms method
@@ -31,20 +30,6 @@ public class DungeonGenerator : MonoBehaviour
     public int minRoomWidth, minRoomHeight;
     public int maxRoomWidth, maxRoomHeight;
     
-    // some IDs for the texture/sprite of rooms
-    // set in the Inspector
-    public int basicFloorTileID;
-    public int corridorTileID;
-    public int backgroundTileID;
-
-    public int doorTileID;
-    public int wallTileID;
-
-    // toggles between basic floor tiles and fire/ice/water floor tiles
-    public bool basicFloorTilesOnly;
-
-    // used to randomly pick a room tileset if basicOnly is false
-    public List<int> validIDs;
 
     // a 2D array of all the IDs and the (x,y) coordinates they correspond to. 
     public int[,] map;
@@ -54,6 +39,8 @@ public class DungeonGenerator : MonoBehaviour
 
 
 
+
+    // ************ ROOM STRUCT ************************
     // this is the basic ROOM (it's a nested struct/class)
     public struct Room
     {
@@ -99,6 +86,9 @@ public class DungeonGenerator : MonoBehaviour
     }
 
 
+
+
+    // **************** FIRST ENTRY POINT for the DUNGEON GENERATOR ****************
     // method to make ROOMS:
     // 1. populate a list of room objects
     // 2. populate the map with roomIDs for each coordinate in a room
@@ -111,6 +101,13 @@ public class DungeonGenerator : MonoBehaviour
         {
             dungeonManager = DungeonManager.Instance;
         }
+
+
+        // get map dimensions and max rooms from DungeonManager
+        mapHeight = dungeonManager.mapHeight;
+        mapWidth = dungeonManager.mapWidth;
+        maxRooms = dungeonManager.maxRooms;
+
 
         // create a new List of rooms
         rooms = new List<Room>();
@@ -169,13 +166,18 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
         // work out where walls should be and set all the coordinates to the wallID
-        createWalls();
-        createDoors();
+        // if any rooms have been created
+        if (_roomCount > 0)
+        {
+            createWalls();
+            createDoors();
+        }
     }
 
 
+
     // sets all the coordinates of this room on the map to the roomID for this room (each room has a unique ID)
-    public void createRoom(Room room, int roomID)
+    private void createRoom(Room room, int roomID)
     {
         for (int x = room.x; x < room.x2; x++)
         {
@@ -186,9 +188,11 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+
+
     // method to make CORRIDORS
     // sets all the coordinates of the corridors between rooms to the corridorID (all corridors have the same ID)
-    public void createCorridor(Room newRoom, Room prevRoom)
+    private void createCorridor(Room newRoom, Room prevRoom)
     {
         // this first part creates a newCentre somewhere inside the newRoom
         // grabs .centre from newRoom and puts it into newCentre (so .centre isn't affected)
@@ -226,6 +230,7 @@ public class DungeonGenerator : MonoBehaviour
     }
 
 
+
     // make a horizontal corridor (y is fixed)
     private void hCorridor(int x1, int x2, int y)
     {
@@ -247,6 +252,7 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+
     // make a vertical corridor (x is fixed)
     private void vCorridor(int y1, int y2, int x)
     {
@@ -262,7 +268,6 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
-
 
 
     // creates WALLS wherever required    
@@ -281,6 +286,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
+
 
 
     // returns true if the (x,y) coordinate is currently empty and has an adjacent (or diagonal) wall or corridor
@@ -305,7 +311,6 @@ public class DungeonGenerator : MonoBehaviour
         }
         return false;
     }
-
 
 
 
@@ -345,7 +350,7 @@ public class DungeonGenerator : MonoBehaviour
             // generate random x along the walls of the room
             int wallX = UnityEngine.Random.Range(room.x, room.x2);
 
-            // check if the beneath the wall is unassigned (background) or is the border
+            // check if beneath the wall is unassigned (background) or is the border
             if (map[wallX, room.y - bottom] == 0 || (room.y - 1) <= 0)
             {
                 // set this coordinate to be a door
@@ -386,11 +391,11 @@ public class DungeonGenerator : MonoBehaviour
             count++;
             if (count >= 50)
             {
-                //TODO: generate a new dungeon
                 dungeonManager.makeDungeon();
             }
         }
     }
+
 
     // helper method for createDoors() method
     private void findDoorInYWalls(int rmNum)
@@ -409,7 +414,7 @@ public class DungeonGenerator : MonoBehaviour
             // generate random y along the walls of the room
             int wallY = UnityEngine.Random.Range(room.y, room.y2);
 
-            // check if the left of the wall is unassigned (background)
+            // check if left of the wall is unassigned (background)
             if (map[room.x - lSide, wallY] == 0 || (room.x - 1) <= 0)
             {
                 // set this coordinate to be a door
@@ -426,7 +431,7 @@ public class DungeonGenerator : MonoBehaviour
                 }
                 break;
             }
-            // check if the right of the wall is unassigned (background)
+            // check if right of the wall is unassigned (background)
             else if (room.x >= mapWidth || map[room.x2 + rSide, wallY] == 0)
             {
                 // set this coordinate to be a door
@@ -456,67 +461,7 @@ public class DungeonGenerator : MonoBehaviour
     }
 
 
-
-
-    // RENDERS the appropriate textures/sprites for each of the map coordinates
-    public void spawnMap()
-    {
-        // grab the instance of the Dungeon Manager
-        if(dungeonManager == null)
-        {
-            dungeonManager = DungeonManager.Instance;
-        }
-
-        // create the base map with background tiles and border (wall) tiles only
-        dungeonManager.createBaseMap(mapWidth, mapHeight, backgroundTileID, wallTileID);
-
-        // create dictionary to hold the mapping of mapIDs to tileIDs/textures
-        Dictionary<int, int> roomTilePairs = new Dictionary<int, int>();
-
-        // set all Corridors to have the CorridorTileID
-        roomTilePairs.Add(-1, corridorTileID);
-
-        // set all Walls to have the WallTileID
-        roomTilePairs.Add(-2, wallTileID);
-
-        // set all Doors to have the DoorTileID
-        roomTilePairs.Add(-3, doorTileID);
-
-
-        // Set basic floor tiles for each room if ticked, otherwise random tile types for each room
-        for (int i = 1; i <= _roomCount; i++)
-        {
-            roomTilePairs.Add(i, basicFloorTilesOnly ? basicFloorTileID : validIDs[UnityEngine.Random.Range(0, validIDs.Count)]);
-        }
-
-
-        // Render the associated tile type/texture for each map coordinate
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                // if mapID is a corridor or room, isWall = false
-                if (map[x, y] == -1 || map[x, y] > 0)
-                {   
-                    // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
-                    // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
-                    dungeonManager.createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), false);
-                }
-                // if mapID is a wall or door, isWall = true
-                else if (map[x, y] < -1)
-                {
-                    dungeonManager.createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), true);               
-                }
-            }
-        }
-
-        // set finalDoor variable in the assigned tile in the final room
-        dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
-    }
-
-
-
-    // PRINTS out all the map IDs
+    // ********** PRINTS out MAP COORDINATES and IDs *******************
     public void printRooms()
     {
         string result = "";
@@ -533,6 +478,7 @@ public class DungeonGenerator : MonoBehaviour
 
 
 
+    // NOT USED at PRESENT
     // creates a map with one room that fills the whole map
     public void createEmptyMap()
     {

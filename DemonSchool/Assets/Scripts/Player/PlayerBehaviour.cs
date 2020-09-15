@@ -23,8 +23,11 @@ public class PlayerBehaviour : MonoBehaviour
     public Vector2 start;
     public Vector2 target;
 
-    // will need to access the instance of the DungeonManager to see how big cell dimensions are to move the correct distance
+    // will need to access the instance of the DungeonManager to remake the Dungeon when colliding with an exit door
     private DungeonManager dungeonManager;
+
+    // will need to access the DungeonRenderer to see how big cell dimensions are to move the correct distance
+    private DungeonRenderer dungeonRenderer;
 
     //Animator Loading
     public Animator anim;
@@ -38,6 +41,8 @@ public class PlayerBehaviour : MonoBehaviour
         isMoving = false;
         moveProgress = 0;
         moveAction = new Vector2Int();
+
+        dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
     }
 
 
@@ -108,8 +113,8 @@ public class PlayerBehaviour : MonoBehaviour
 
             // sets the starting location and the target destination
             start = new Vector2(transform.position.x, transform.position.y);
-            target = new Vector2(transform.position.x + moveAction.x * dungeonManager.cellDimensions, 
-                                 transform.position.y + moveAction.y * dungeonManager.cellDimensions);
+            target = new Vector2(transform.position.x + moveAction.x * dungeonRenderer.cellDimensions, 
+                                 transform.position.y + moveAction.y * dungeonRenderer.cellDimensions);
         }
     }
 

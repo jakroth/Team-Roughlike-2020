@@ -5,7 +5,7 @@ using UnityEngine;
 public class DungeonTile : MonoBehaviour
 {
     // for grabbing these components from this object or the DungeonManager instance
-    private DungeonManager dungeonManager;
+    private DungeonRenderer dungeonRenderer;
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D collisionBox;
 
@@ -25,9 +25,9 @@ public class DungeonTile : MonoBehaviour
     public void setTile(int tileID, Vector2Int pos, bool isDoorOrWall)
     {
         // make sure these links exist
-        if(dungeonManager == null)
+        if(dungeonRenderer == null)
         {
-            dungeonManager = DungeonManager.Instance;
+            dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         }
         if(spriteRenderer == null)
         {
@@ -52,12 +52,12 @@ public class DungeonTile : MonoBehaviour
         // and enable the collision mechanics for walls
         if (isDoorOrWall)
         {
-            spriteRenderer.sprite = dungeonManager.wallTileTextures[tileID];
+            spriteRenderer.sprite = dungeonRenderer.wallTileTextures[tileID];
             collisionBox.enabled = true;
         }
         else
         {
-            spriteRenderer.sprite = dungeonManager.floorTileTextures[tileID];
+            spriteRenderer.sprite = dungeonRenderer.floorTileTextures[tileID];
             collisionBox.enabled = false;
         }
 
