@@ -81,9 +81,11 @@ public class ObjectGenerator : MonoBehaviour
                 {          // probability of 0.1           // not in centre of each room               // not on doorMat of first room
                     if (Random.Range(0, 10) == 0 && !(x == r.centre.x && y == r.centre.y) && !(i == 0 && x == r.doorMat.x && y == r.doorMat.y))
                     {
+                        // randomise object type
+                        int randomObjectID = Random.Range(0, objectSprites.Count);
                         objectMap[x, y] = Instantiate(objectPrefab, new Vector3(x * cellDim, y * cellDim, 0),
                                                             Quaternion.identity, dungeonManager._objectParent);
-                        objectMap[x, y].GetComponent<ObjectBehaviour>().setObject(backpackID, new Vector2Int(x, y));
+                        objectMap[x, y].GetComponent<ObjectBehaviour>().setObject(randomObjectID, new Vector2Int(x, y));
                     }
                 }
             }
