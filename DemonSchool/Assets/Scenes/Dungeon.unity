@@ -852,11 +852,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2064411074}
   - component: {fileID: 2064411073}
+  - component: {fileID: 2064411072}
+  - component: {fileID: 2064411078}
   - component: {fileID: 2064411075}
   - component: {fileID: 2064411076}
-  - component: {fileID: 2064411072}
   - component: {fileID: 2064411077}
-  - component: {fileID: 2064411078}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -876,13 +876,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a342f51a8558e442a0462afe68f6d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 0.5
+  timeToMove: 0
   moveProgress: 0
   isMoving: 0
   moveAction: {x: 0, y: 0}
   start: {x: 0, y: 0}
   target: {x: 0, y: 0}
-  anim: {fileID: 2064411077}
+  anim: {fileID: 0}
 --- !u!212 &2064411073
 SpriteRenderer:
   m_ObjectHideFlags: 0

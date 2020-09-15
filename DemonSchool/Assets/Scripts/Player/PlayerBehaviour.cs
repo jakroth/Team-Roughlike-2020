@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonPlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour
 {
 
     // this is the time we want the player to take to move 1 tile. 
