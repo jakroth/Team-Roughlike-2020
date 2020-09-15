@@ -52,21 +52,33 @@ public class DungeonManager : Singleton<DungeonManager>
         // apply procedural generation only on the first update
         if (firstUpdate)
         {
-            applyProcGen();
+            makeDungeon();
             firstUpdate = false;
         }
 
-        // of if the user presses 'G' (this is probably only during testing)
+        // or if the user presses 'G' (this is probably only during testing)
         if (Input.GetKeyDown(KeyCode.G))
         {
-            applyProcGen();
+            makeDungeon();
         }
     }
 
 
-    // called when Dungeon Manager is first created
+
+    // call three methods in one call
+    public void makeDungeon()
+    {
+        applyProcGen();
+        applyObjectGen();
+        applyEnemyGen();
+    }
+
+
+
+    // *********** CALCULATE the TILE COORDINATES, MAKE the MAP **********
+    // called when Dungeon Manager is first updated, or when G is pressed, or when the Player walks through a door
     // the main method for generating the dungeon, from which a bunch of DungeonGenerator methods are called
-    public void applyProcGen()
+    private void applyProcGen()
     {
         // get the DungeonGenerator object attached to the same gameObject as this DungeonManager
         // below we call a bunch of the methods in the DungeonGenerator class
@@ -95,6 +107,37 @@ public class DungeonManager : Singleton<DungeonManager>
     }
 
 
+
+
+    // *********** CALCULATE the OBJECT COORDINATES, PLACE THEM on MAP **********
+    // called when Dungeon Manager is first updated, or when G is pressed, or when the Player walks through a door
+    // the main method for generating objects in the dungeon
+    private void applyObjectGen()
+    {
+        ObjectGenerator objGen = GetComponent<ObjectGenerator>();
+
+
+    }
+
+
+
+    // *********** CALCULATE the ENEMY COORDINATES, PLACE THEM on MAP **********
+    // called when Dungeon Manager is first updated, or when G is pressed, or when the Player walks through a door
+    // the main method for generating enemies in the dungeon
+    private void applyEnemyGen()
+    {
+        EnemyGenerator enemyGen = GetComponent<EnemyGenerator>();
+
+
+    }
+
+
+
+
+
+
+
+    // ************** CREATING MAP and MAP TILES *********************
 
     // called by the Dungeon Generator after setting up map coordinate IDs
     // calls three other methods in this Class

@@ -40,6 +40,8 @@ public class PlayerBehaviour : MonoBehaviour
         moveAction = new Vector2Int();
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -61,6 +63,8 @@ public class PlayerBehaviour : MonoBehaviour
         //Animation Function Calling
         anim.SetBool("isMoving", isMoving);
     }
+
+
 
     // check for player input
     public void updateMoveInput()
@@ -85,6 +89,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
+
     // this starts a move action. Sets start and destination positions. called once per player key press. 
     public void move(Vector2Int moveAction)
     {
@@ -107,6 +113,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
+
     // actually moves the character between start and destination points. called once each frame if necessary. 
     public void updateMovement()
     {
@@ -125,11 +133,11 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = new Vector3(Mathf.Lerp(start.x, target.x, moveProgress),
                                          Mathf.Lerp(start.y, target.y, moveProgress), 0);
 
-        
     }
 
 
     // stop the character from walking through walls
+    // loads a new map if collision is with the final door
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("collision");
@@ -144,11 +152,11 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             // final door, so make a new dungeon
-            dungeonManager.applyProcGen();
+            dungeonManager.makeDungeon();
         }
 
-        
     }
+
 
     // when the character tries to walk through a wall, will them to their original position (gives a nice "bump" effect). 
     public void returnToOriginPos()

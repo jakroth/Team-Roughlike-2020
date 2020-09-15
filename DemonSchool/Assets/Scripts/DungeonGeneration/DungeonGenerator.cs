@@ -358,7 +358,7 @@ public class DungeonGenerator : MonoBehaviour
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.applyProcGen();
+                    dungeonManager.makeDungeon();
                 }
                 break;
             }
@@ -378,7 +378,7 @@ public class DungeonGenerator : MonoBehaviour
                 }
                 catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.applyProcGen();
+                    dungeonManager.makeDungeon();
                 }
                 break;
             }
@@ -387,7 +387,7 @@ public class DungeonGenerator : MonoBehaviour
             if (count >= 50)
             {
                 //TODO: generate a new dungeon
-                dungeonManager.applyProcGen();
+                dungeonManager.makeDungeon();
             }
         }
     }
@@ -422,7 +422,7 @@ public class DungeonGenerator : MonoBehaviour
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.applyProcGen();
+                    dungeonManager.makeDungeon();
                 }
                 break;
             }
@@ -441,7 +441,7 @@ public class DungeonGenerator : MonoBehaviour
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.applyProcGen();
+                    dungeonManager.makeDungeon();
                 }
                 break;
             }
@@ -450,7 +450,7 @@ public class DungeonGenerator : MonoBehaviour
             if (count >= 50)
             {
                 //TODO: generate a new dungeon
-                dungeonManager.applyProcGen();
+                dungeonManager.makeDungeon();
             }
         }
     }
@@ -510,7 +510,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
 
-        // set finalDoor variable in associated tile in the final room
+        // set finalDoor variable in the assigned tile in the final room
         dungeonManager.map[rooms[rooms.Count - 1].door.x, rooms[rooms.Count - 1].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
     }
 
