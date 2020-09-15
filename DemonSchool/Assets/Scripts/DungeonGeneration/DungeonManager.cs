@@ -115,10 +115,8 @@ public class DungeonManager : Singleton<DungeonManager>
     private void applyObjectGen()
     {
         ObjectGenerator objGen = GetComponent<ObjectGenerator>();
-
-
+        objGen.makeObjects();
     }
-
 
 
 
@@ -129,8 +127,7 @@ public class DungeonManager : Singleton<DungeonManager>
     private void applyEnemyGen()
     {
         EnemyGenerator enemyGen = GetComponent<EnemyGenerator>();
-
-
+        enemyGen.makeEnemies();
     }
 
 

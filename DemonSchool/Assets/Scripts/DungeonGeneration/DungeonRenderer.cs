@@ -37,7 +37,7 @@ public class DungeonRenderer : MonoBehaviour
     public int doorTileID;
     public int wallTileID;
 
-        // 2D array of tiles (made from the tilePrefab)
+    // 2D array of tiles (made from the tilePrefab)
     public GameObject[,] tileMap;
 
     // the map dimensions

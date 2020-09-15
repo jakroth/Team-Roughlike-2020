@@ -495,7 +495,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d552978f53314e4e9c07c5c9c1aceee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 1145993030362832771, guid: eaaba79ab1ca43d459af858da004184f,
+    type: 3}
+  enemySprites:
+  - {fileID: 21300000, guid: aee98098c958eb440bee371b6c318bf1, type: 3}
+  - {fileID: 21300000, guid: 3a014f17f480c47469261cbd148be063, type: 3}
+  spiderID: 0
+  bossID: 1
 --- !u!114 &553746547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,7 +514,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c806942110d94a9348049009899aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 4965464990215112315, guid: c9fbca263b31e614db15b3ae7a99172e,
+    type: 3}
+  objectSprites:
+  - {fileID: 21300000, guid: b6c734be250ac0d48ba59bd369a9d279, type: 3}
+  - {fileID: 21300000, guid: 875e2ff6f3e5da24c9b31d366eea085b, type: 3}
+  backpackID: 0
+  otherID: 1
 --- !u!114 &553746548
 MonoBehaviour:
   m_ObjectHideFlags: 0

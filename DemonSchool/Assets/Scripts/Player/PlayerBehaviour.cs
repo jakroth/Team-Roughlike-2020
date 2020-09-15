@@ -149,15 +149,20 @@ public class PlayerBehaviour : MonoBehaviour
         // stop moving forward any more on collision,
         isMoving = false;
 
-        if (!other.GetComponent<DungeonTile>().isFinalDoor)
-        {
-            // run the returnToOriginalPos() method
-            returnToOriginPos();
-        }
-        else
+        if (other.GetComponent<DungeonTile>().isFinalDoor)
         {
             // final door, so make a new dungeon
             dungeonManager.makeDungeon();
+        }
+        else if (other.GetComponent<ObjectBehaviour>().isObject)
+        {
+            // is an object, so ...??
+
+        }
+        else
+        {
+            // run the returnToOriginalPos() method
+            returnToOriginPos();
         }
 
     }
