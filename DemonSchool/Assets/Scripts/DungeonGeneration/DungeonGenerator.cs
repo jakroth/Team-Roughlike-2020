@@ -88,12 +88,12 @@ public class DungeonGenerator : MonoBehaviour
 
 
 
-    // **************** FIRST ENTRY POINT for the DUNGEON GENERATOR ****************
+    // **************** ENTRY POINT for the DUNGEON GENERATOR ****************
     // method to make ROOMS:
     // 1. populate a list of room objects
     // 2. populate the map with roomIDs for each coordinate in a room
     // 3. populate the map with corridorIDs for each coordinate in a corridor
-    // 4. populate the map with wallIDs for each coordinate in a wall
+    // 4. populate the map with wallIDs for each coordinate in a wall (extended for multiple wall types)
     public void populateRooms()
     {
         // grab the instance of the Dungeon Manager
@@ -321,20 +321,20 @@ public class DungeonGenerator : MonoBehaviour
         // method to make door in first room
         // randomnly choose x or y walls
         if (UnityEngine.Random.Range(0, 2) == 0) 
-            findDoorInXWalls(0);
+            findDoorInXWall(0);
         else
-            findDoorInYWalls(0);
+            findDoorInYWall(0);
 
         // make door in last room
         if (UnityEngine.Random.Range(0, 2) == 0)
-            findDoorInXWalls(rooms.Count - 1);
+            findDoorInXWall(rooms.Count - 1);
         else
-            findDoorInYWalls(rooms.Count - 1);
+            findDoorInYWall(rooms.Count - 1);
     }
 
 
     // helper method for createDoors() method
-    private void findDoorInXWalls(int rmNum)
+    private void findDoorInXWall(int rmNum)
     {
         Room room = rooms[rmNum];
 
@@ -398,7 +398,7 @@ public class DungeonGenerator : MonoBehaviour
 
 
     // helper method for createDoors() method
-    private void findDoorInYWalls(int rmNum)
+    private void findDoorInYWall(int rmNum)
     {
         Room room = rooms[rmNum];
 
@@ -459,6 +459,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
+
 
 
     // ********** PRINTS out MAP COORDINATES and IDs *******************
