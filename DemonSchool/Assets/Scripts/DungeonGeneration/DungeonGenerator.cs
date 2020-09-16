@@ -121,6 +121,7 @@ public class DungeonGenerator : MonoBehaviour
         // variable for tracking centre of each room; initialised to (0,0)
         Vector2Int newCentre = Vector2Int.zero;
 
+        print("Creating Rooms...");
         // main loop to populate rooms
         for (int i = 0; i < maxRooms; i++)
         {
@@ -153,6 +154,7 @@ public class DungeonGenerator : MonoBehaviour
                 _roomCount++;
 
                 // adds the coordinates of this room and the roomID (based on roomCount) to the map array
+                
                 createRoom(newRoom, _roomCount);
 
                 // make a CORRIDOR only if a room already exists
@@ -165,12 +167,18 @@ public class DungeonGenerator : MonoBehaviour
                 rooms.Add(newRoom);
             }
         }
+        print("Rooms created.");
+
         // work out where walls should be and set all the coordinates to the wallID
         // if any rooms have been created
         if (_roomCount > 0)
         {
+            print("Creating Walls...");
             createWalls();
+            print("Walls Created.");
+            print("Creating Doors...");
             createDoors();
+            print("Doors Created.");
         }
     }
 
@@ -363,9 +371,9 @@ public class DungeonGenerator : MonoBehaviour
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.makeDungeon();
-                }
-                break;
+                    dungeonManager.needsRegen = true;
+                    //dungeonManager.makeDungeon();
+                } break;
             }
             // check if above the wall is unassigned (background) or is the border
             else if (room.y2 >= mapHeight || map[wallX, room.y2 + top] == 0)
@@ -380,18 +388,19 @@ public class DungeonGenerator : MonoBehaviour
                 // assign the edited room back to the room list
                 try {
                     rooms[rmNum] = room;
-                }
-                catch (ArgumentOutOfRangeException e) {
+                } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.makeDungeon();
-                }
-                break;
+                    dungeonManager.needsRegen = true;
+                    //dungeonManager.makeDungeon();
+                } break;
             }
 
             count++;
             if (count >= 50)
             {
-                dungeonManager.makeDungeon();
+                dungeonManager.needsRegen = true;
+                //dungeonManager.makeDungeon();
+                break;
             }
         }
     }
@@ -427,9 +436,9 @@ public class DungeonGenerator : MonoBehaviour
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.makeDungeon();
-                }
-                break;
+                    dungeonManager.needsRegen = true;
+                    //dungeonManager.makeDungeon();
+                } break;
             }
             // check if right of the wall is unassigned (background)
             else if (room.x >= mapWidth || map[room.x2 + rSide, wallY] == 0)
@@ -442,23 +451,28 @@ public class DungeonGenerator : MonoBehaviour
                 room.doorMat.y = wallY;
                 room.doorMat.x = room.x2-1;
                 // assign the edited room back to the room list
-                try {
+                 try {
                     rooms[rmNum] = room;
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
-                    dungeonManager.makeDungeon();
-                }
-                break;
+                    dungeonManager.needsRegen = true;
+                    //dungeonManager.makeDungeon();
+                } break;
             }
             
             count++;
             if (count >= 50)
             {
-                //TODO: generate a new dungeon
-                dungeonManager.makeDungeon();
+                dungeonManager.needsRegen = true;
+                //dungeonManager.makeDungeon();
+                break;
             }
         }
     }
+
+
+
+    // 
 
 
 

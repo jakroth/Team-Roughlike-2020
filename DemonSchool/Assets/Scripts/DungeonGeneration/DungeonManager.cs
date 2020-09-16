@@ -18,6 +18,12 @@ public class DungeonManager : Singleton<DungeonManager>
     [HideInInspector] public Transform _objectParent;
     [HideInInspector] public Transform _enemyParent;
 
+    // flag that can be set at any time during dungeon creation, if anything goes wrong. Dungeon will be rebuilt at the end if it's checked. 
+    [HideInInspector] public bool needsRegen = false;
+
+    private bool makingDungeon = false;
+
+    private Vector2Int doorMat = new Vector2Int(0, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -39,15 +45,21 @@ public class DungeonManager : Singleton<DungeonManager>
         // apply procedural generation only on the first update
         if (firstUpdate)
         {
+            makingDungeon = true;
             makeDungeon();
             firstUpdate = false;
+            makingDungeon = false;
         }
 
-        // or if the user presses 'G' (this is probably only during testing)
-        if (Input.GetKeyDown(KeyCode.G))
+                // or if the user presses 'G' (this is probably only during testing)
+        if (Input.GetKeyDown(KeyCode.G) && !makingDungeon)
         {
+            //needsRegen = false;
+            makingDungeon = true;
             makeDungeon();
+            makingDungeon = false;
         }
+
     }
 
 
@@ -58,6 +70,15 @@ public class DungeonManager : Singleton<DungeonManager>
         applyProcGen();
         applyObjectGen();
         applyEnemyGen();
+
+        // check to see if the player is in lava, wall, or door
+        if(GetComponent<DungeonGenerator>()._roomCount > 0)
+            if (GetComponent<DungeonGenerator>().map[doorMat.x, doorMat.y] < 1 || needsRegen)
+            {
+                needsRegen = false;
+                makeDungeon();
+            }
+                
     }
 
 
@@ -73,25 +94,26 @@ public class DungeonManager : Singleton<DungeonManager>
         DungeonRenderer mapRenderer = GetComponent<DungeonRenderer>();
 
 
-        //print("Populating Rooms");
+        print("Populating Rooms");
         mapGenerator.populateRooms();
-        //print("Rooms Populated");
+        print("Rooms Populated");
 
 
-        //print("Spawning Map");
+        print("Spawning Map");
         mapRenderer.spawnMap();
-        //print("Map Spawned");
+        print("Map Spawned");
 
 
         // print the room coordinates and IDs, then print the doormat location
         mapGenerator.printRooms();
 
-
+        
         // put player outside door of first room created (or 1,1 in empty map)
         if (mapGenerator._roomCount > 0)
         {
-            print(mapGenerator.rooms[0].doorMat);
-            GameObject.Find("Player").transform.position = new Vector3(mapGenerator.rooms[0].doorMat.x * mapRenderer.cellDimensions, mapGenerator.rooms[0].doorMat.y * mapRenderer.cellDimensions, 0);
+            doorMat = mapGenerator.rooms[0].doorMat;
+            print(doorMat);
+            GameObject.Find("Player").transform.position = new Vector3(doorMat.x * mapRenderer.cellDimensions, doorMat.y * mapRenderer.cellDimensions, 0);
         }
         else
         {
@@ -102,6 +124,7 @@ public class DungeonManager : Singleton<DungeonManager>
         // put camera on player
         Camera.main.GetComponent<FollowCameraBehaviour>().setMap(new Vector2((mapWidth) * mapRenderer.cellDimensions, (mapHeight) * mapRenderer.cellDimensions), 
                                                                  new Vector2(mapRenderer.cellDimensions / 2, mapRenderer.cellDimensions / 2));
+
     }
 
 
