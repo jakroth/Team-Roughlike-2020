@@ -160,7 +160,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("collision");
-        // stop moving forward any more on collision,
+        // stop moving forward any more on collision
         isMoving = false;
 
         if (other.tag == "collection")

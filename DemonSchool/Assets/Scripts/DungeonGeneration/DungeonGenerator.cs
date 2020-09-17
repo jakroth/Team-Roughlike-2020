@@ -472,9 +472,6 @@ public class DungeonGenerator : MonoBehaviour
 
 
 
-    // 
-
-
 
     // ********** PRINTS out MAP COORDINATES and IDs *******************
     public void printRooms()
@@ -484,7 +481,10 @@ public class DungeonGenerator : MonoBehaviour
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                result += map[x, y];
+                if(map[x, y] > -1 )
+                    result += ("   " + map[x, y]);
+                else
+                    result += (" " + map[x, y]);
             }
             result += "\n";
         }
