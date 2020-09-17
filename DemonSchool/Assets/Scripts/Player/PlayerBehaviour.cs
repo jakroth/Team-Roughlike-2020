@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,6 +33,9 @@ public class PlayerBehaviour : MonoBehaviour
     //Animator Loading
     public Animator anim;
 
+    //Player health setting;
+    public int playerHealth;
+
   
 
 
@@ -41,8 +45,11 @@ public class PlayerBehaviour : MonoBehaviour
         isMoving = false;
         moveProgress = 0;
         moveAction = new Vector2Int();
+        playerHealth = 100;
 
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
+        
+        
     }
 
 
@@ -149,24 +156,29 @@ public class PlayerBehaviour : MonoBehaviour
         // stop moving forward any more on collision,
         isMoving = false;
 
-        if (other.GetComponent<DungeonTile>().isFinalDoor)
+        if (other.tag == "collection")
         {
-            // final door, so make a new dungeon
-            dungeonManager.makeDungeon();
+            Destroy(other.gameObject);
+            other.gameObject.name += 1;
         }
-        else if (other.GetComponent<ObjectBehaviour>().isObject)
+        else if (other.tag == "enemy")
         {
-            // is an object, so ...??
-
+            returnToOriginPos();
+            playerHealth -= 50;
+            if (playerHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (other.GetComponent<DungeonTile>().isFinalDoor)
+        {
+            dungeonManager.makeDungeon();
         }
         else
         {
-            // run the returnToOriginalPos() method
             returnToOriginPos();
         }
-
     }
-
 
     // when the character tries to walk through a wall, will them to their original position (gives a nice "bump" effect). 
     public void returnToOriginPos()
@@ -179,6 +191,8 @@ public class PlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         isMoving = true;
     }
-
-
 }
+
+
+   
+

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - collection
   - Textbox
+  - enemy
   layers:
   - Default
   - TransparentFX
