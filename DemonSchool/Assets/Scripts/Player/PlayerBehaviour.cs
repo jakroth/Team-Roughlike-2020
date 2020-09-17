@@ -36,6 +36,9 @@ public class PlayerBehaviour : MonoBehaviour
     //Player health setting;
     public int playerHealth;
 
+    //Player ammo;
+    public int playerAmmo;
+
   
 
 
@@ -46,6 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         moveAction = new Vector2Int();
         playerHealth = 100;
+        playerAmmo = 0;
 
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         
@@ -159,8 +163,10 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.tag == "collection")
         {
             Destroy(other.gameObject);
-            other.gameObject.name += 1;
-        }
+           
+            /*other.gameObject.name*/playerAmmo += 10;
+            playerHealth += 5;
+            }
         else if (other.tag == "enemy")
         {
             returnToOriginPos();

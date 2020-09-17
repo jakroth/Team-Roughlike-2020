@@ -15,7 +15,11 @@ public class weapon : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))//fire key setting
         {
-            Shoot();
+            if(GetComponent<PlayerBehaviour>().playerAmmo != 0)//Player will not allowed to shoot unless the ammo is > 0
+            {
+                Shoot();
+                GetComponent<PlayerBehaviour>().playerAmmo -= 1;//EveryTime Press shoot key it will makes ammo -1
+            }
         }
         
     }
