@@ -37,6 +37,11 @@ public class DungeonGenerator : MonoBehaviour
     // will hold the list of "rooms" (see nested calls below) in the map
     public List<Room> rooms;
 
+    // map coordinate names
+    private readonly int DOOR = -3;
+    private readonly int WALL = -2;
+    private readonly int CORRIDOR = -1;
+    private readonly int EMPTY = 0;
 
 
 
@@ -252,10 +257,10 @@ public class DungeonGenerator : MonoBehaviour
         {
             // check if the space is empty
             // this way corridoors aren't made over existing rooms, only the space between them
-            if (map[x, y] == 0)
+            if (map[x, y] == EMPTY)
             {
-                // set corridor mapID to -1
-                map[x, y] = -1;
+                // set mapID to -1
+                map[x, y] = CORRIDOR;
             }
         }
     }
@@ -269,10 +274,10 @@ public class DungeonGenerator : MonoBehaviour
 
         for (int y = startY; y <= endY; y++)
         {
-            if (map[x, y] == 0)
+            if (map[x, y] == EMPTY)
             {
-                // set corridor mapID to -1
-                map[x, y] = -1;
+                // set mapID to -1
+                map[x, y] = CORRIDOR;
             }
         }
     }
@@ -289,7 +294,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 if (testWallRequired(x, y))
                 {
-                    map[x, y] = -2;
+                    map[x, y] = WALL;
                 }
             }
         }
@@ -303,7 +308,7 @@ public class DungeonGenerator : MonoBehaviour
         // get the mapID for the given coordinates
         int v = map[x, y];
         //if v is already occupied (with wall (-2), corridor (-1) or room (>0)) exit method with false
-        if (v != 0) return false;
+        if (v != EMPTY) return false;
         // otherwise v must be equal to 0 (so empty)
         // for the 3 x 3 box around x,y...
         for (int ix = x - 1; ix <= x + 1; ix++)
@@ -311,7 +316,7 @@ public class DungeonGenerator : MonoBehaviour
             for (int iy = y - 1; iy <= y + 1; iy++)
             {
                 // if any of the x,y coordinates around the position being tested are a room (1+) or corridor (-1) but not already a wall (-2) return true (wall required)
-                if (map[ix, iy] != 0 && map[ix, iy] != -2)
+                if (map[ix, iy] != EMPTY && map[ix, iy] != WALL)
                 {
                     return true;
                 }
@@ -346,10 +351,10 @@ public class DungeonGenerator : MonoBehaviour
     {
         Room room = rooms[rmNum];
 
-        //check in case room is against bottom wall
+        // check in case room is against bottom wall
         int bottom = room.y <= 1 ? 1 : 2;
 
-        //check in case room is against top wall
+        // check in case room is against top wall
         int top = room.y2 >= (mapHeight - 1) ? 0 : 1;
 
         int count = 0;
@@ -359,10 +364,10 @@ public class DungeonGenerator : MonoBehaviour
             int wallX = UnityEngine.Random.Range(room.x, room.x2);
 
             // check if beneath the wall is unassigned (background) or is the border
-            if (map[wallX, room.y - bottom] == 0 || (room.y - 1) <= 0)
+            if (map[wallX, room.y - bottom] == EMPTY || (room.y - 1) <= 0)
             {
                 // set this coordinate to be a door
-                map[wallX, room.y - 1] = -3;
+                map[wallX, room.y - 1] = DOOR;
                 // change the door and doorMat variables in this room
                 room.door.x = wallX;
                 room.doorMat.x = wallX;
@@ -376,10 +381,10 @@ public class DungeonGenerator : MonoBehaviour
                 } break;
             }
             // check if above the wall is unassigned (background) or is the border
-            else if (room.y2 >= mapHeight || map[wallX, room.y2 + top] == 0)
+            else if (room.y2 >= mapHeight || map[wallX, room.y2 + top] == EMPTY)
             {
                 // set this coordinate to be a door
-                map[wallX, room.y2] = -3;
+                map[wallX, room.y2] = DOOR;
                 // change the door and doorMat variables in this room
                 room.door.x = wallX;
                 room.door.y = room.y2;
@@ -424,10 +429,10 @@ public class DungeonGenerator : MonoBehaviour
             int wallY = UnityEngine.Random.Range(room.y, room.y2);
 
             // check if left of the wall is unassigned (background)
-            if (map[room.x - lSide, wallY] == 0 || (room.x - 1) <= 0)
+            if (map[room.x - lSide, wallY] == EMPTY || (room.x - 1) <= 0)
             {
                 // set this coordinate to be a door
-                map[room.x - 1, wallY] = -3;
+                map[room.x - 1, wallY] = DOOR;
                 // change the door and doorMat variables in this room
                 room.door.y = wallY;
                 room.doorMat.y = wallY;
@@ -441,10 +446,10 @@ public class DungeonGenerator : MonoBehaviour
                 } break;
             }
             // check if right of the wall is unassigned (background)
-            else if (room.x >= mapWidth || map[room.x2 + rSide, wallY] == 0)
+            else if (room.x >= mapWidth || map[room.x2 + rSide, wallY] == EMPTY)
             {
                 // set this coordinate to be a door
-                map[room.x2, wallY] = -3;
+                map[room.x2, wallY] = DOOR;
                 // change the door and doorMat variables in this room
                 room.door.y = wallY;
                 room.door.x = room.x2;
