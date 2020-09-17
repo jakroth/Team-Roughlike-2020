@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class weapon : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class weapon : MonoBehaviour
     public Transform firePointLeft;//Setting up Left-firePoint
 
     public GameObject fireBallPrefeb;//Using fireball from Prefeb
+
+    
     
 
     // Update is called once per frame
@@ -19,6 +22,9 @@ public class weapon : MonoBehaviour
             {
                 Shoot();
                 GetComponent<PlayerBehaviour>().playerAmmo -= 1;//EveryTime Press shoot key it will makes ammo -1
+                GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
+
+
             }
         }
         

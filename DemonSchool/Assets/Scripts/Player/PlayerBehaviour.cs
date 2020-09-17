@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class PlayerBehaviour : MonoBehaviour
     //Player ammo;
     public int playerAmmo;
 
+    public Text playerHealthNum;
+    public Text playerAmmoNum;
   
 
 
@@ -165,12 +168,20 @@ public class PlayerBehaviour : MonoBehaviour
             Destroy(other.gameObject);
            
             /*other.gameObject.name*/playerAmmo += 10;
-            playerHealth += 5;
+            playerAmmoNum.text = playerAmmo.ToString();
+
+            if((playerHealth != 100) ||(playerHealth < 100)) {
+                
+                playerHealth += 5;
+                playerHealthNum.text = playerHealth.ToString();
+            }
+            
             }
         else if (other.tag == "enemy")
         {
             returnToOriginPos();
             playerHealth -= 50;
+            playerHealthNum.text = playerHealth.ToString();
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
