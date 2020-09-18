@@ -6,6 +6,9 @@ TagManager:
   tags:
   - collection
   - Textbox
+  - enemy
+  - bullet
+  - map
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,17 @@ public class fireBall : MonoBehaviour
         rb.velocity = transform.right * speed;//fireball fly status
     }
 
+    private void OnTriggerEnter2D(Collider2D hit)
+    {
+        if (hit.tag == "enemy")
+        {
+            Destroy(gameObject);
+        }
+        else if (hit.tag == "map") {
+            Destroy(gameObject);
+        }
+    }
+
 
 
 }

@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -32,6 +34,14 @@ public class PlayerBehaviour : MonoBehaviour
     //Animator Loading
     public Animator anim;
 
+    //Player health setting;
+    public int playerHealth;
+
+    //Player ammo;
+    public int playerAmmo;
+
+    public Text playerHealthNum;
+    public Text playerAmmoNum;
   
 
 
@@ -41,8 +51,12 @@ public class PlayerBehaviour : MonoBehaviour
         isMoving = false;
         moveProgress = 0;
         moveAction = new Vector2Int();
+        playerHealth = 100;
+        playerAmmo = 0;
 
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
+        
+        
     }
 
 
@@ -146,27 +160,42 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("collision");
-        // stop moving forward any more on collision,
+        // stop moving forward any more on collision
         isMoving = false;
 
-        if (other.GetComponent<DungeonTile>().isFinalDoor)
+        if (other.tag == "collection")
         {
-            // final door, so make a new dungeon
-            dungeonManager.makeDungeon();
-        }
-        else if (other.GetComponent<ObjectBehaviour>().isObject)
-        {
-            // is an object, so ...??
+            Destroy(other.gameObject);
+           
+            /*other.gameObject.name*/playerAmmo += 10;
+            playerAmmoNum.text = playerAmmo.ToString();
 
+            if((playerHealth != 100) ||(playerHealth < 100)) {
+                
+                playerHealth += 5;
+                playerHealthNum.text = playerHealth.ToString();
+            }
+            
+            }
+        else if (other.tag == "enemy")
+        {
+            returnToOriginPos();
+            playerHealth -= 50;
+            playerHealthNum.text = playerHealth.ToString();
+            if (playerHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (other.GetComponent<DungeonTile>().isFinalDoor)
+        {
+            dungeonManager.makeDungeon();
         }
         else
         {
-            // run the returnToOriginalPos() method
             returnToOriginPos();
         }
-
     }
-
 
     // when the character tries to walk through a wall, will them to their original position (gives a nice "bump" effect). 
     public void returnToOriginPos()
@@ -179,6 +208,8 @@ public class PlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         isMoving = true;
     }
-
-
 }
+
+
+   
+

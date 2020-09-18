@@ -17,8 +17,17 @@ public class DungeonRenderer : MonoBehaviour
     // used everywhere we need to deal with size and movement
     public float cellDimensions;
 
+    // choose which sprite list you need
+    public enum chooseSpriteList { HellBorder, HellWall, HellFill, HellFloor, SchoolBorder, SchoolWall, SchoolFill, SchoolFloor };
+
+    // textures for the hell walls around the border of the map
+    public List<Sprite> hellBorderTextures;
+
+    // textures for the floors of the map
+    public List<Sprite> hellFloorTextures;
+
     // links tile texture sprites to tileIDs, set in the Inspector
-    public List<Sprite> floorTileTextures;
+    public List<Sprite> floorTileTextures;    // links tile texture sprites to tileIDs, set in the Inspector
 
     // some IDs for the texture/sprite of rooms
     // set in the Inspector
@@ -50,8 +59,11 @@ public class DungeonRenderer : MonoBehaviour
     // used to randomly pick a room tileset from the Floor Tile Textures array if basicOnly is false
     public List<int> randomFloorIDs;
 
-
-
+    // map coordinate names, from DungeonGenerator
+    private readonly int DOOR = -3;
+    private readonly int WALL = -2;
+    private readonly int CORRIDOR = -1;
+    private readonly int ROOM = 1;
 
 
     // **************** ENTRY POINT for the DUNGEON RENDERER ****************
@@ -72,11 +84,11 @@ public class DungeonRenderer : MonoBehaviour
         // create dictionary to hold the mapping of mapIDs to tileIDs/textures
         roomTilePairs = new Dictionary<int, int>();
         // set all Corridors to have the CorridorTileID
-        roomTilePairs.Add(-1, corridorTileID);
+        roomTilePairs.Add(CORRIDOR, corridorTileID);
         // set all Walls to have the WallTileID
-        roomTilePairs.Add(-2, wallTileID);
+        roomTilePairs.Add(WALL, wallTileID);
         // set all Doors to have the DoorTileID
-        roomTilePairs.Add(-3, doorTileID);
+        roomTilePairs.Add(DOOR, doorTileID);
 
         // set all Floors to have BasicFloorTileIDs if ticked, otherwise random tile types for each room
         for (int i = 1; i <= dungeonGenerator._roomCount; i++)
@@ -141,31 +153,19 @@ public class DungeonRenderer : MonoBehaviour
     // fills the map with the basic fill tiles
     private void fillGridObject()
     {
-        // set grid as 1,1 to mapWidth-2,mapHeight-2
-        Vector2Int start = new Vector2Int(1, 1);
-        Vector2Int end = new Vector2Int(mapWidth - 2, mapHeight - 2);
-
-        // check if proposed grid is outside map dimensions
-        if (isPositionOutsideMap(start) || isPositionOutsideMap(end))
-        {
-            Debug.Log("Error fillGridObject. Grid outside map area. (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
-            return;
-        }
-
-        // in case end is less than start
-        int start_X = Mathf.Min(start.x, end.x);
-        int start_Y = Mathf.Min(start.y, end.y);
-        int end_X = Mathf.Max(start.x, end.x);
-        int end_Y = Mathf.Max(start.y, end.y);
-
+        // setup variables
+        int left_X = 1;
+        int bottom_Y = 1;
+        int right_X = mapWidth - 2;
+        int top_Y = mapHeight - 2;
 
         // main loop for this method
         // creates basic fill tiles across the whole map
-        for (int x = start_X; x <= end_X; x++)
+        for (int x = left_X; x <= right_X; x++)
         {
-            for (int y = start_Y; y <= end_Y; y++)
+            for (int y = bottom_Y; y <= top_Y; y++)
             {
-                createTile(backgroundTileID, new Vector2Int(x, y), false);
+                createTile2(1, new Vector2Int(x, y), chooseSpriteList.HellFloor);
             }
         }
     }
@@ -175,48 +175,54 @@ public class DungeonRenderer : MonoBehaviour
     // creates border tiles around the edges of the map
     private void fillBorderObject()
     {
-        // set border as 0,0 to mapWidth -1,mapHeight-1
-        Vector2Int start = new Vector2Int(0, 0);
-        Vector2Int end = new Vector2Int(mapWidth - 1, mapHeight - 1);
+        // setup variables
+        int left_X = 0;
+        int bottom_Y = 0;
+        int right_X = mapWidth - 1;
+        int top_Y = mapHeight - 1;
 
-        // check if proposed border is outside map dimensions
-        if (isPositionOutsideMap(start) || isPositionOutsideMap(end))
+        // a useful variable for the loops below
+        bool needsTJoin;
+
+        // make corners
+        createTile2(0, new Vector2Int(left_X, top_Y), chooseSpriteList.HellBorder);
+        createTile2(1, new Vector2Int(right_X, top_Y), chooseSpriteList.HellBorder);
+        createTile2(2, new Vector2Int(left_X, bottom_Y), chooseSpriteList.HellBorder);
+        createTile2(3, new Vector2Int(right_X, bottom_Y), chooseSpriteList.HellBorder);
+
+        // make borders
+        for (int x = left_X + 1; x < right_X; x++)
         {
-            Debug.Log("Error fillGridObject. Grid outside map area. (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
-            return;
+            // top border
+            // check if TJoin needed (if adjacent tile is a wall or door, and either side of adjacent is a room, corridor or door)
+            needsTJoin = (dungeonGenerator.map[x, top_Y - 1] == WALL || dungeonGenerator.map[x, top_Y - 1] == DOOR) &&
+                                (dungeonGenerator.map[x - 1, top_Y - 1] >= ROOM || dungeonGenerator.map[x + 1, top_Y - 1] >= ROOM ||
+                                dungeonGenerator.map[x - 1, top_Y - 1] == CORRIDOR || dungeonGenerator.map[x + 1, top_Y - 1] == CORRIDOR);
+            createTile2(needsTJoin ? 8 : 4, new Vector2Int(x, top_Y), chooseSpriteList.HellBorder);
+
+            // bottom border
+            needsTJoin = (dungeonGenerator.map[x, bottom_Y + 1] == WALL || dungeonGenerator.map[x, bottom_Y + 1] == DOOR) &&
+                                (dungeonGenerator.map[x - 1, bottom_Y + 1] >= ROOM || dungeonGenerator.map[x + 1, bottom_Y + 1] >= ROOM ||
+                                dungeonGenerator.map[x - 1, bottom_Y + 1] == CORRIDOR || dungeonGenerator.map[x + 1, bottom_Y + 1] == CORRIDOR);
+            createTile2(needsTJoin ? 9 : 5, new Vector2Int(x, bottom_Y), chooseSpriteList.HellBorder);
         }
 
-        // in case end is less than start
-        int start_X = Mathf.Min(start.x, end.x);
-        int start_Y = Mathf.Min(start.y, end.y);
-        int end_X = Mathf.Max(start.x, end.x);
-        int end_Y = Mathf.Max(start.y, end.y);
-
-
-        // main loop for this method
-        // creates border tiles around the edges
-        // top and bottom borders
-        for (int x = start_X; x <= end_X; x++)
+        for (int y = bottom_Y + 1; y < top_Y; y++)
         {
-            createTile(wallTileID, new Vector2Int(x, start_Y), true);
-            createTile(wallTileID, new Vector2Int(x, end_Y), true);
+            // left border
+            needsTJoin = (dungeonGenerator.map[left_X + 1, y] == WALL || dungeonGenerator.map[left_X + 1, y] == DOOR) &&
+                                (dungeonGenerator.map[left_X + 1, y - 1] >= ROOM || dungeonGenerator.map[left_X + 1, y + 1] >= ROOM ||
+                                dungeonGenerator.map[left_X + 1, y - 1] == CORRIDOR || dungeonGenerator.map[left_X + 1, y + 1] == CORRIDOR);
+            createTile2(needsTJoin ? 10 : 6, new Vector2Int(left_X, y), chooseSpriteList.HellBorder);
+
+            // right border
+            needsTJoin = (dungeonGenerator.map[right_X - 1, y] == WALL || dungeonGenerator.map[right_X - 1, y] == DOOR) &&
+                                (dungeonGenerator.map[right_X - 1, y - 1] >= ROOM || dungeonGenerator.map[right_X - 1, y + 1] >= ROOM ||
+                                dungeonGenerator.map[right_X - 1, y - 1] == CORRIDOR || dungeonGenerator.map[right_X - 1, y + 1] == CORRIDOR);
+            createTile2(needsTJoin ? 11 : 7, new Vector2Int(right_X, y), chooseSpriteList.HellBorder);
         }
-        // left and right borders
-        for (int y = start.y + 1; y < end_Y; y++)
-        {
-            createTile(wallTileID, new Vector2Int(start_X, y), true);
-            createTile(wallTileID, new Vector2Int(end_X, y), true);
-        }
+        // OLD CODE: new List<int> { wall, door }.Contains(dungeonGenerator.map[x, top_Y - 1]); 
     }
-
-
-    // used by the fill...Object() methods above, to check if any of the tile (x,y) variables are outside the map boundaries
-    private bool isPositionOutsideMap(Vector2Int pos)
-    {
-        return (pos.x > mapWidth - 1 || pos.x < 0 || pos.y > mapHeight - 1 || pos.y < 0);
-    }
-
-
 
 
     // CREATES TILES on MAP BASED on their IDs ******
@@ -229,16 +235,47 @@ public class DungeonRenderer : MonoBehaviour
             for (int y = 0; y < mapHeight; y++)
             {
                 // if mapID is a corridor or room, isWall = false
-                if (dungeonGenerator.map[x, y] == -1 || dungeonGenerator.map[x, y] > 0)
+                if (dungeonGenerator.map[x, y] == CORRIDOR || dungeonGenerator.map[x, y] >= ROOM)
                 {
                     // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
                     // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
                     createTile(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), false);
                 }
                 // else if mapID is a wall or door, isWall = true
-                else if (dungeonGenerator.map[x, y] < -1)
+                else if (dungeonGenerator.map[x, y] <= WALL)
                 {
                     createTile(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), true);
+                }
+            }
+        }
+        // set finalDoor variable in the assigned tile in the final room
+        int finalRoom = dungeonGenerator.rooms.Count - 1;
+        if (finalRoom > -1)
+            tileMap[dungeonGenerator.rooms[finalRoom].door.x, dungeonGenerator.rooms[finalRoom].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
+    }
+
+
+
+    // CREATES TILES on MAP BASED on their IDs ******
+    // called by the spawnMap() method above
+    private void populateMapWithTiles2()
+    {
+        // Render the associated tile type/texture for each map coordinate
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                // if mapID is a corridor or room, isWall = false
+                if (dungeonGenerator.map[x, y] == CORRIDOR || dungeonGenerator.map[x, y] >= ROOM)
+                {
+                    // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
+                    // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
+                    createTile2(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), chooseSpriteList.HellFloor);
+                }
+                // else if mapID is a wall or door, isWall = true
+                else if (dungeonGenerator.map[x, y] <= WALL)
+                {
+                    createTile2(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), chooseSpriteList.HellWall);
                 }
             }
         }
@@ -253,19 +290,37 @@ public class DungeonRenderer : MonoBehaviour
 
     // ************* TILE INSTANTIATION ************
     // actually instantiates the game objects/textures that are the map tiles
-    // called by createBaseMap method to setup the basic floor and border tiles    
-    // then called by ...? to make the room, inner wall, door and other special tiles
-    private void createTile(int tileID, Vector2Int pos, bool isDoorOrWall)
+    // called by createBaseMap and it's helper methods to setup the basic floor and border tiles    
+    // then called by populateMapWithTiles to make the room, inner wall, door and other special tiles
+    private void createTile(int spriteIndex, Vector2Int pos, bool isDoorOrWall)
     {
         // check if this tile has already been instantiated (e.g. by the fillGrid or fillBorder methods)
         if (tileMap[pos.x, pos.y] == null)
         {
-            // instantiate new tilePrefab game objects all over the map, where they don't already exists
+            // instantiate new tilePrefab game object on the map
             tileMap[pos.x, pos.y] = Instantiate(tilePrefab, new Vector3(pos.x * cellDimensions, pos.y * cellDimensions, 0), Quaternion.identity, dungeonManager._tileParent);
         }
         // set the tile ID, position and isWall to the one passed in
-        tileMap[pos.x, pos.y].GetComponent<DungeonTile>().setTile(tileID, pos, isDoorOrWall);
+        tileMap[pos.x, pos.y].GetComponent<DungeonTile>().setTile(spriteIndex, pos, isDoorOrWall);
+    }
 
+
+    // ************* TILE INSTANTIATION ************
+    // actually instantiates the game objects/textures that are the map tiles
+    // called by createBaseMap and it's helper methods to setup the basic floor and border tiles    
+    // then called by populateMapWithTiles to make the room, inner wall, door and other special tiles
+    private void createTile2(int spriteIndex, Vector2Int pos, chooseSpriteList choice)
+    {
+        // check if this tile has already been instantiated (e.g. by the fillGrid or fillBorder methods)
+        if (tileMap[pos.x, pos.y] == null)
+        {
+            // instantiate new tilePrefab game object on the map
+            tileMap[pos.x, pos.y] = Instantiate(tilePrefab, new Vector3(pos.x * cellDimensions, pos.y * cellDimensions, 0), Quaternion.identity, dungeonManager._tileParent);
+        }
+
+
+        // set the tile ID, position and isWall to the one passed in
+        tileMap[pos.x, pos.y].GetComponent<DungeonTile>().setTile2(spriteIndex, pos, (int)choice);
     }
 
 }

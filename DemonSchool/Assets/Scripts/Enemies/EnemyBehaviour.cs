@@ -14,6 +14,8 @@ public class EnemyBehaviour : MonoBehaviour
     // the location of this enemy on the map
     public Vector2Int pos;
 
+    public int enemyHealth;
+
 
 
     public void setEnemy(int spriteID, Vector2Int pos)
@@ -38,6 +40,20 @@ public class EnemyBehaviour : MonoBehaviour
         // give the enemy a name in the Hierarchy
         gameObject.name = "Enemy (" + pos.x + "," + pos.y + "): " + spriteID;
 
+        enemyHealth = 100;
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D hit)
+    {
+        if (hit.tag == "bullet")
+        {
+            enemyHealth -= 30;
+            if (enemyHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
 

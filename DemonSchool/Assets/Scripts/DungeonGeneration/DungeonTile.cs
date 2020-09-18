@@ -20,6 +20,9 @@ public class DungeonTile : MonoBehaviour
     // is this tile is the final door
     public bool isFinalDoor = false;
 
+    // choose which sprite list you need
+    public enum chooseSpriteList { HellBorder, HellWall, HellFill, HellFloor, SchoolBorder, SchoolWall, SchoolFill, SchoolFloor };
+
 
     // set up the tile
     public void setTile(int tileID, Vector2Int pos, bool isDoorOrWall)
@@ -62,5 +65,58 @@ public class DungeonTile : MonoBehaviour
         }
 
     }
+
+
+
+
+    // set up the tile
+    public void setTile2(int spriteIndex, Vector2Int pos, int listChoice)
+    {
+        // make sure these links exist
+        if (dungeonRenderer == null)
+        {
+            dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
+        }
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        if (collisionBox == null)
+        {
+            collisionBox = GetComponent<BoxCollider2D>();
+        }
+
+        // set up this tile with tileID and position
+        this.tileID = spriteIndex;
+        this.pos = pos;
+
+        // give the tile a name in the Hierarchy
+        gameObject.name = "Tile (" + pos.x + "," + pos.y + "): " + (isDoorOrWall ? "Wall, " : "Floor, ") + tileID;
+
+
+        // render the sprite with either a door/wall tile or floor tile
+        // and enable the collision mechanics for walls
+        if (listChoice == (int)chooseSpriteList.HellBorder)
+        {
+            spriteRenderer.sprite = dungeonRenderer.hellBorderTextures[spriteIndex];
+            collisionBox.enabled = true;
+            isDoorOrWall = true;
+        }
+        else if (listChoice == (int)chooseSpriteList.HellFloor)
+        {
+            spriteRenderer.sprite = dungeonRenderer.hellFloorTextures[spriteIndex];
+            collisionBox.enabled = true;
+            isDoorOrWall = true;
+        }
+        else
+        {
+            spriteRenderer.sprite = dungeonRenderer.floorTileTextures[spriteIndex];
+            collisionBox.enabled = false;
+            isDoorOrWall = false;
+        }
+
+    }
+
+
 
 }
