@@ -161,7 +161,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Debug.Log("collision");
         // stop moving forward any more on collision
-        isMoving = false;
 
         if (other.tag == "collection")
         {

@@ -105,8 +105,8 @@ public class DungeonTile : MonoBehaviour
         else if (listChoice == (int)chooseSpriteList.HellFloor)
         {
             spriteRenderer.sprite = dungeonRenderer.hellFloorTextures[spriteIndex];
-            collisionBox.enabled = true;
-            isDoorOrWall = true;
+            collisionBox.enabled = false;
+            isDoorOrWall = false;
         }
         else
         {

@@ -337,7 +337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -326.5, y: 204.1}
+  m_AnchoredPosition: {x: -211.5, y: 98.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &155564187
@@ -416,7 +416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -259, y: 236.5}
+  m_AnchoredPosition: {x: -144, y: 130.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &489487938
@@ -677,7 +677,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 4965464990215112315, guid: c9fbca263b31e614db15b3ae7a99172e,
     type: 3}
   objectSprites:
-  - {fileID: 21300000, guid: b6c734be250ac0d48ba59bd369a9d279, type: 3}
+  - {fileID: 21300000, guid: 56f5061eb4ab1fe4ba57d2c38e8e6de6, type: 3}
   - {fileID: 21300000, guid: 875e2ff6f3e5da24c9b31d366eea085b, type: 3}
   backpackID: 0
   otherID: 1
@@ -766,7 +766,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -325.5, y: 236.7}
+  m_AnchoredPosition: {x: -210.5, y: 131.09999}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &820081012
@@ -1322,7 +1322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -259, y: 203.6}
+  m_AnchoredPosition: {x: -144, y: 98}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1980998155

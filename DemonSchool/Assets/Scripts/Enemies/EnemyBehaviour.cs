@@ -56,6 +56,22 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    //check where player is
+        //if plyaer is inside these coordinates ( for enemy room)
+        //then chasingPlayer();
+        //otherwise, guardingRoom();
+
+
+    public void guardingRoom()
+    {
+        // randommly run around room
+    }
+
+    public void chasingPlayer()
+    {
+        // chase player
+
+    }
 
 
 }
