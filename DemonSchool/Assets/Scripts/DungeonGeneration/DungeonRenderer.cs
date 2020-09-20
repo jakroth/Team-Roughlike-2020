@@ -17,6 +17,7 @@ public class DungeonRenderer : MonoBehaviour
     // used everywhere we need to deal with size and movement
     public float cellDimensions;
 
+    private int[,] map;
 
     // 2D array of floor tiles (made from the tilePrefab)
     [HideInInspector] public GameObject[,] floorTileMap;
@@ -63,6 +64,8 @@ public class DungeonRenderer : MonoBehaviour
     public int doorwayFillTile;
     public int endWallFillTile;
     public int closedDoorFillTile;
+    public int fireTile;
+    public int halfFireTile;
 
 
     [Header("Sorting Layers")]
@@ -122,6 +125,8 @@ public class DungeonRenderer : MonoBehaviour
         // grab the Dungeon Generator object
         dungeonGenerator = GetComponent<DungeonGenerator>();
 
+        map = dungeonGenerator.map;
+
         // create the base map with background tiles and border (wall) tiles only
         createBaseMap();
 
@@ -141,13 +146,9 @@ public class DungeonRenderer : MonoBehaviour
         }
 
         // create all the special (ID'd) tiles
-        populateMapWithTiles();
+        createFeaturedMap();
 
 
-        // set finalDoor variable in the assigned tile in the final room
-        int finalRoom = dungeonGenerator.rooms.Count - 1;
-        if (finalRoom > -1)
-            wallTileMap[dungeonGenerator.rooms[finalRoom].door.x, dungeonGenerator.rooms[finalRoom].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
     }
 
 
@@ -163,6 +164,25 @@ public class DungeonRenderer : MonoBehaviour
         // fill the border with wall tiles
         createBorderWall();
     }
+
+
+
+    private void createFeaturedMap()
+    {
+        //creates the tiles for the rooms and corridors, at layer 2, not collidable
+        createRoomsAndCorridors();
+
+        // creates the tiles for the walls, at layer 2, generally collidable
+        createWalls();
+
+        // creates the tiles for the doors, at layer 2, generally collidable
+        //createDoors();
+
+        // creates the tiles for the shadows, at layer 3, sometimes collidable
+        createShadows();
+
+    }
+
 
 
     // called by the createBaseMap() method above
@@ -181,6 +201,7 @@ public class DungeonRenderer : MonoBehaviour
         wallTileMap = new GameObject[mapWidth, mapHeight];
         shadowTileMap = new GameObject[mapWidth, mapHeight];
     }
+
 
 
     // called by the setMapSize() method above, to clear the maps before making new maps 
@@ -224,7 +245,12 @@ public class DungeonRenderer : MonoBehaviour
         {
             for (int y = bottom_Y; y <= top_Y; y++)
             {
-                createTile(floorTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
+                if (map[x, y] != WALL) {
+                    if (Random.Range(0, 2) == 0)
+                        createTile(fireTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
+                    else
+                        createTile(halfFireTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
+                }
             }
         }
     }
@@ -244,70 +270,209 @@ public class DungeonRenderer : MonoBehaviour
         bool needsTJoin;
 
         // make corners
-        createTile(0, new Vector2Int(left_X, top_Y), wallTileMap, wallLayer, true, false);
-        createTile(1, new Vector2Int(right_X, top_Y), wallTileMap, wallLayer, true, false);
-        createTile(2, new Vector2Int(left_X, bottom_Y), wallTileMap, wallLayer, true, false);
-        createTile(3, new Vector2Int(right_X, bottom_Y), wallTileMap, wallLayer, true, false);
+        createTile(topLeftCornerTile, new Vector2Int(left_X, top_Y), wallTileMap, wallLayer, true, false);
+        createTile(topRightCornerTile, new Vector2Int(right_X, top_Y), wallTileMap, wallLayer, true, false);
+        createTile(bottomLeftCornerTile, new Vector2Int(left_X, bottom_Y), wallTileMap, wallLayer, true, false);
+        createTile(bottomRightCornerTile, new Vector2Int(right_X, bottom_Y), wallTileMap, wallLayer, true, false);
 
         // make borders
         for (int x = left_X + 1; x < right_X; x++)
         {
             // top border
             // check if TJoin needed (if adjacent tile is a wall or door, and either side of adjacent is a room, corridor or door)
-            needsTJoin = (dungeonGenerator.map[x, top_Y - 1] == WALL || dungeonGenerator.map[x, top_Y - 1] == DOOR) &&
-                                (dungeonGenerator.map[x - 1, top_Y - 1] >= ROOM || dungeonGenerator.map[x + 1, top_Y - 1] >= ROOM ||
-                                dungeonGenerator.map[x - 1, top_Y - 1] == CORRIDOR || dungeonGenerator.map[x + 1, top_Y - 1] == CORRIDOR);
+            needsTJoin = (map[x, top_Y - 1] == WALL || map[x, top_Y - 1] == DOOR) &&
+                                (map[x - 1, top_Y - 1] >= ROOM || map[x + 1, top_Y - 1] >= ROOM ||
+                                map[x - 1, top_Y - 1] == CORRIDOR || map[x + 1, top_Y - 1] == CORRIDOR);
             createTile(needsTJoin ? topTJoinTile : topStraightTile, new Vector2Int(x, top_Y), wallTileMap, wallLayer, true, false);
 
             // bottom border
-            needsTJoin = (dungeonGenerator.map[x, bottom_Y + 1] == WALL || dungeonGenerator.map[x, bottom_Y + 1] == DOOR) &&
-                                (dungeonGenerator.map[x - 1, bottom_Y + 1] >= ROOM || dungeonGenerator.map[x + 1, bottom_Y + 1] >= ROOM ||
-                                dungeonGenerator.map[x - 1, bottom_Y + 1] == CORRIDOR || dungeonGenerator.map[x + 1, bottom_Y + 1] == CORRIDOR);
+            needsTJoin = (map[x, bottom_Y + 1] == WALL || map[x, bottom_Y + 1] == DOOR) &&
+                                (map[x - 1, bottom_Y + 1] >= ROOM || map[x + 1, bottom_Y + 1] >= ROOM ||
+                                map[x - 1, bottom_Y + 1] == CORRIDOR || map[x + 1, bottom_Y + 1] == CORRIDOR);
             createTile(needsTJoin ? bottomTJoinTile : bottomStraightTile, new Vector2Int(x, bottom_Y), wallTileMap, wallLayer, true, false);
         }
 
         for (int y = bottom_Y + 1; y < top_Y; y++)
         {
             // left border
-            needsTJoin = (dungeonGenerator.map[left_X + 1, y] == WALL || dungeonGenerator.map[left_X + 1, y] == DOOR) &&
-                                (dungeonGenerator.map[left_X + 1, y - 1] >= ROOM || dungeonGenerator.map[left_X + 1, y + 1] >= ROOM ||
-                                dungeonGenerator.map[left_X + 1, y - 1] == CORRIDOR || dungeonGenerator.map[left_X + 1, y + 1] == CORRIDOR);
+            needsTJoin = (map[left_X + 1, y] == WALL || map[left_X + 1, y] == DOOR) &&
+                                (map[left_X + 1, y - 1] >= ROOM || map[left_X + 1, y + 1] >= ROOM ||
+                                map[left_X + 1, y - 1] == CORRIDOR || map[left_X + 1, y + 1] == CORRIDOR);
             createTile(needsTJoin ? leftTJoinTile : leftStraightTile, new Vector2Int(left_X, y), wallTileMap, wallLayer, true, false);
 
             // right border
-            needsTJoin = (dungeonGenerator.map[right_X - 1, y] == WALL || dungeonGenerator.map[right_X - 1, y] == DOOR) &&
-                                (dungeonGenerator.map[right_X - 1, y - 1] >= ROOM || dungeonGenerator.map[right_X - 1, y + 1] >= ROOM ||
-                                dungeonGenerator.map[right_X - 1, y - 1] == CORRIDOR || dungeonGenerator.map[right_X - 1, y + 1] == CORRIDOR);
+            needsTJoin = (map[right_X - 1, y] == WALL || map[right_X - 1, y] == DOOR) &&
+                                (map[right_X - 1, y - 1] >= ROOM || map[right_X - 1, y + 1] >= ROOM ||
+                                map[right_X - 1, y - 1] == CORRIDOR || map[right_X - 1, y + 1] == CORRIDOR);
             createTile(needsTJoin ? rightTJoinTile : rightStraightTile, new Vector2Int(right_X, y), wallTileMap, wallLayer, true, false);
         }
     }
 
 
-    // CREATES TILES on MAP BASED on their IDs ******
+    // create room and corridor tiles
     // called by the spawnMap() method above
-    private void populateMapWithTiles()
+    private void createRoomsAndCorridors()
+    {
+        // Render the associated tile type/texture for each map coordinate
+        for (int x = 1; x <= mapWidth - 2; x++)
+        {
+            for (int y = 1; y <= mapHeight - 2; y++)
+            {
+                // if mapID is a corridor or room, isCollision = false;
+                if (map[x, y] == CORRIDOR || map[x, y] >= ROOM)
+                {
+                    // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
+                    // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
+                    createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), wallTileMap, wallLayer, false, true);
+                }
+                // else if mapID is a wall or door, isWall = true
+                else if (map[x, y] <= WALL)
+                {
+                    createTile(roomTilePairs[map[x, y]], new Vector2Int(x, y), wallTileMap, wallLayer, true, true);
+                }
+            }
+        }
+    }
+
+
+    // creates all the interior walls of the map at layer 2
+    // these are generally collidable
+    private void createWalls()
+    {
+        // create the associated tile type/texture for each map coordinate
+        for (int x = 1; x <= mapWidth - 2; x++)
+        {
+            for (int y = 1; y <= mapHeight - 2; y++)
+            {
+                // CORNER WALLS x4
+                // top left corner
+                if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR) && (map[x - 1, y] != WALL || x - 1 <= 0) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
+                    createTile(topLeftCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+
+                // top right corner
+                else if (map[x, y] == WALL && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
+                    createTile(topRightCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+
+                // bottom left corner
+                else if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR) && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR) && (map[x - 1, y] != WALL || x - 1 <= 0) && (map[x, y - 1] != WALL || y - 1 <= 0))
+                    createTile(bottomLeftCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+
+                // bottom right corner
+                else if (map[x, y] == WALL && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR) && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x, y - 1] != WALL || y - 1 <= 0))
+                    createTile(bottomRightCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+
+
+                // STRAIGHT WALLS and T-JOINS (HORIZONTAL)
+                else if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR || x + 1 >= mapWidth - 1) && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR || x - 1 <= 0))
+                {
+                    // horizontal straight
+                    if ((map[x, y + 1] != WALL || y + 1 >= mapHeight - 1) && (map[x, y - 1] != WALL || y - 1 <= 0))
+                        createTile(topStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    // top TJoin
+                    else if ((map[x, y - 1] == WALL || map[x, y - 1] == DOOR || y - 1 <= 0) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
+                        createTile(topTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    // bottom TJoin
+                    else if (map[x, y + 1] == WALL || map[x, y + 1] == DOOR || y + 1 >= mapHeight - 1)
+                        createTile(bottomTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                }
+
+
+                // STRAIGHT WALLS and T-JOINS (VERTICAL)
+                else if (map[x, y] == WALL && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR || y + 1 >= mapHeight - 1) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR || y - 1 <= 0))
+                {
+                    // vertical straight
+                    if ((map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x - 1, y] != WALL || x - 1 <= 0))
+                        createTile(leftStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    // left TJoin
+                    else if ((map[x + 1, y] == WALL || map[x + 1, y] == DOOR || x + 1 >= mapWidth - 1) && (map[x - 1, y] != WALL || x - 1 <= 0))
+                        createTile(leftTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    // right TJoin
+                    else if ((map[x - 1, y] == WALL || map[x - 1, y] == DOOR || x - 1 <= 0) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1))
+                        createTile(rightTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                }
+
+
+                // ENDINGS
+                else if (map[x, y] == WALL)
+                {
+                    int count = 0;
+                    if (map[x - 1, y] == WALL) count += 1;
+                    if (map[x + 1, y] == WALL) count += 3;
+                    if (map[x, y - 1] == WALL) count += 5;
+                    if (map[x, y + 1] == WALL) count += 7;
+                    if (count == 0 || count == 1 || count == 3)
+                        createTile(topStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if (count == 5 || count == 7)
+                        createTile(leftStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);                           
+                }
+
+
+                    // door ways?? 
+
+                    // anything else? 
+                                    
+            }
+        }
+    }
+
+
+    private void createDoors()
+    {
+        // set finalDoor variable in the assigned tile in the final room
+        int finalRoom = dungeonGenerator.rooms.Count - 1;
+        if (finalRoom > -1)
+        {
+            Vector2Int finalDoor = dungeonGenerator.rooms[finalRoom].door;
+            Vector2Int firstDoor = dungeonGenerator.rooms[0].door;
+
+            //horizontal door
+            if (finalDoor.y <= 0 || finalDoor.y >= mapHeight - 1)
+                createTile(doorTile, new Vector2Int(finalDoor.x, finalDoor.x), wallTileMap, wallLayer, true, false);
+            else if (map[finalDoor.x-1, finalDoor.y] == WALL || map[finalDoor.x-1, finalDoor.y] == WALL)
+                createTile(doorTile, new Vector2Int(finalDoor.x, finalDoor.x), wallTileMap, wallLayer, true, false);
+
+            //vertical door
+            if (finalDoor.x <=0 || finalDoor.x >= mapWidth -1)
+                createTile(closedDoorFillTile, new Vector2Int(finalDoor.x, finalDoor.x), wallTileMap, wallLayer, true, false);
+            else if (map[finalDoor.x, finalDoor.y-1] == WALL || map[finalDoor.x, finalDoor.y-1] == WALL)
+                createTile(closedDoorFillTile, new Vector2Int(finalDoor.x, finalDoor.x), wallTileMap, wallLayer, true, false);
+
+            //horizontal door
+            if (firstDoor.y <= 0 || firstDoor.y >= mapHeight - 1)
+                createTile(doorTile, new Vector2Int(firstDoor.x, firstDoor.x), wallTileMap, wallLayer, true, false);
+            else if (map[firstDoor.x - 1, firstDoor.y] == WALL || map[firstDoor.x - 1, firstDoor.y] == WALL)
+                createTile(doorTile, new Vector2Int(firstDoor.x, firstDoor.x), wallTileMap, wallLayer, true, false);
+
+            //vertical door
+            if (firstDoor.x <= 0 || firstDoor.x >= mapWidth - 1)
+                createTile(closedDoorFillTile, new Vector2Int(firstDoor.x, firstDoor.x), wallTileMap, wallLayer, true, false);
+            else if (map[firstDoor.x, firstDoor.y - 1] == WALL || map[firstDoor.x, firstDoor.y - 1] == WALL)
+                createTile(closedDoorFillTile, new Vector2Int(firstDoor.x, firstDoor.x), wallTileMap, wallLayer, true, false);
+
+
+            wallTileMap[dungeonGenerator.rooms[finalRoom].door.x, dungeonGenerator.rooms[finalRoom].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
+        }
+
+    }
+
+
+    // creates all the wall shadows on top of the wall layer. 
+    // these are generally not collidable
+    private void createShadows()
     {
         // Render the associated tile type/texture for each map coordinate
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
-                // if mapID is a corridor or room, isCollision = false;
-                if (dungeonGenerator.map[x, y] == CORRIDOR || dungeonGenerator.map[x, y] >= ROOM)
-                {
-                    // grab the mapID from map[x,y] and check what tileID it's associated with in roomTilePairs
-                    // send the (x,y) coordinates as a Vector2Int, along with the tileID, to the createTile method in the DungeonManager
-                    createTile(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), wallTileMap, wallLayer, false, true);
-                }
-                // else if mapID is a wall or door, isWall = true
-                else if (dungeonGenerator.map[x, y] <= WALL)
-                {
-                    createTile(roomTilePairs[dungeonGenerator.map[x, y]], new Vector2Int(x, y), wallTileMap, wallLayer, true, true);
-                }
+
+
+
+
             }
         }
-    }
 
+    }
 
 
     // ************* TILE INSTANTIATION ************

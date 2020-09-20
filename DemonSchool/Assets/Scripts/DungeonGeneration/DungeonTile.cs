@@ -6,6 +6,7 @@ public class DungeonTile : MonoBehaviour
 {
     // for grabbing these components from this object or the DungeonManager instance
     private DungeonManager dungeonManager;
+    private DungeonGenerator dungeonGenerator;
     private DungeonRenderer dungeonRenderer;
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D collisionBox;
@@ -28,6 +29,10 @@ public class DungeonTile : MonoBehaviour
         {
             dungeonManager = DungeonManager.Instance;
         }
+        if (dungeonGenerator == null)
+        {
+            dungeonGenerator = GameObject.Find("DungeonManager").GetComponent<DungeonGenerator>();
+        }
         if (dungeonRenderer == null)
         {
             dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
@@ -48,7 +53,7 @@ public class DungeonTile : MonoBehaviour
         collisionBox.enabled = isCollision;
 
         // give the tile a name in the Hierarchy
-        gameObject.name = "Pos (" + pos.x + "," + pos.y + "): " + (isCollision ? "Wall, " : "Other, ") + spriteID + ": Layer, " + layer;
+        gameObject.name = "Pos (" + pos.x + "," + pos.y + "); mapID: " + dungeonGenerator.map[pos.x,pos.y] + (isCollision ? ", Coll; " : ", NColl; ") + "spriteID: " + spriteID + "; L: " + layer;
 
      
         // render the tile with the correct sprite, and check if Hell tile or Normal tile
