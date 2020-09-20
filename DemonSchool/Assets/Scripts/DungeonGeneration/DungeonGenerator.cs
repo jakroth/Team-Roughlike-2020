@@ -377,7 +377,6 @@ public class DungeonGenerator : MonoBehaviour
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
                     dungeonManager.needsRegen = true;
-                    //dungeonManager.makeDungeon();
                 } break;
             }
             // check if above the wall is unassigned (background) or is the border
@@ -396,7 +395,6 @@ public class DungeonGenerator : MonoBehaviour
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
                     dungeonManager.needsRegen = true;
-                    //dungeonManager.makeDungeon();
                 } break;
             }
 
@@ -404,7 +402,6 @@ public class DungeonGenerator : MonoBehaviour
             if (count >= 50)
             {
                 dungeonManager.needsRegen = true;
-                //dungeonManager.makeDungeon();
                 break;
             }
         }
@@ -442,7 +439,6 @@ public class DungeonGenerator : MonoBehaviour
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
                     dungeonManager.needsRegen = true;
-                    //dungeonManager.makeDungeon();
                 } break;
             }
             // check if right of the wall is unassigned (background)
@@ -461,7 +457,6 @@ public class DungeonGenerator : MonoBehaviour
                 } catch (ArgumentOutOfRangeException e) {
                     Debug.Log(e.Message);
                     dungeonManager.needsRegen = true;
-                    //dungeonManager.makeDungeon();
                 } break;
             }
             
@@ -469,7 +464,6 @@ public class DungeonGenerator : MonoBehaviour
             if (count >= 50)
             {
                 dungeonManager.needsRegen = true;
-                //dungeonManager.makeDungeon();
                 break;
             }
         }

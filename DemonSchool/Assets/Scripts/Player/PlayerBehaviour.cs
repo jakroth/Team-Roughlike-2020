@@ -72,10 +72,11 @@ public class PlayerBehaviour : MonoBehaviour
 
         // check if the player is moving towards a target destination already
         // if player is already moving, don't accept new command until finished
-        if(isMoving)
+        if(isMoving && !dungeonManager.makingDungeon)
         {
             updateMovement();
-        } else
+        } 
+        else if(!dungeonManager.makingDungeon)
         {
             updateMoveInput();
         }
@@ -188,6 +189,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (other.GetComponent<DungeonTile>().isFinalDoor)
         {
+            isMoving = false;
             dungeonManager.makeDungeon();
         }
         else

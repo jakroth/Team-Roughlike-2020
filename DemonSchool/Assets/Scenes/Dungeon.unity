@@ -220,12 +220,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90616875}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 553746544}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127620244
 GameObject:
@@ -382,6 +382,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155564185}
   m_CullTransparentMesh: 0
+--- !u!1 &300359594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300359595}
+  m_Layer: 0
+  m_Name: Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300359595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300359594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 553746544}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489487936
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,10 +635,12 @@ MonoBehaviour:
   mapWidth: 30
   mapHeight: 30
   maxRooms: 50
+  hellTiles: 1
   _tileParent: {fileID: 0}
   _objectParent: {fileID: 0}
   _enemyParent: {fileID: 0}
   needsRegen: 0
+  makingDungeon: 0
 --- !u!4 &553746544
 Transform:
   m_ObjectHideFlags: 0
@@ -621,7 +653,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2061573053}
-  - {fileID: 90616876}
+  - {fileID: 300359595}
   - {fileID: 77802049}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -696,7 +728,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
     type: 3}
   cellDimensions: 2
-  hellBorderTextures:
+  hellTiles:
   - {fileID: 21300000, guid: e6579ea6d92126d4d8ed3f0b287937a0, type: 3}
   - {fileID: 21300000, guid: 7e2dff662ff3f8940b88d411b1708306, type: 3}
   - {fileID: 21300000, guid: 0060e1fd5af9e03429fb0e31ab45ca68, type: 3}
@@ -709,12 +741,46 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4f5e9944461c3aa4799deeffa32da18d, type: 3}
   - {fileID: 21300000, guid: d3f049af7837e1542880483ea5e4fa57, type: 3}
   - {fileID: 21300000, guid: 9bb9e90a59d4d5644b63128b16eda51c, type: 3}
+  - {fileID: 21300000, guid: 77f36000c952c9948b409e5b136e8228, type: 3}
+  - {fileID: 21300000, guid: 14faef367ac4aa0439b7de7ee3d2213c, type: 3}
+  - {fileID: 21300000, guid: 595a12df17012f847b5e8fd6172d9fe2, type: 3}
+  - {fileID: 21300000, guid: 3f3c29a67cc07c244959427b970eaadb, type: 3}
+  - {fileID: 21300000, guid: ebe8a30dea13b024a8fe016e9213827e, type: 3}
+  - {fileID: 21300000, guid: 0b56062cb2e512a4385f7532b7f15f43, type: 3}
   - {fileID: 21300000, guid: 5bf3404c34ebff3439f5d5acdec38979, type: 3}
   - {fileID: 21300000, guid: 68340496f849cde40ace43b6f3998d43, type: 3}
-  hellFloorTextures:
-  - {fileID: 21300000, guid: bf6ae85875c80bd42b36460600f251f1, type: 3}
-  - {fileID: 21300000, guid: 980ddb3a1d74dce4b876ea993cc86eba, type: 3}
-  - {fileID: 21300000, guid: 4a4a178dc74c55a418a63b5a7516aa70, type: 3}
+  - {fileID: 21300000, guid: 29022403a14085041a3b54b154677ad5, type: 3}
+  - {fileID: 21300000, guid: 2e6fde39709091742b4a3d49dbf8125c, type: 3}
+  - {fileID: 21300000, guid: bb4e64d1ae75ed7469cc8d964707278a, type: 3}
+  - {fileID: 21300000, guid: 91df0760de39ed74ea0d9054a622cb6d, type: 3}
+  normalTiles: []
+  topLeftCornerTile: 0
+  topRightCornerTile: 1
+  bottomLeftCornerTile: 2
+  bottomRightCornerTile: 3
+  topStraightTile: 4
+  bottomStraightTile: 5
+  leftStraightTile: 6
+  rightStraightTile: 7
+  topTJoinTile: 8
+  bottomTJoinTile: 9
+  leftTJoinTile: 10
+  rightTJoinTile: 11
+  fourWayTile: 12
+  doorTile: 13
+  doorwayTile: 14
+  floorTile: 15
+  fullWallFillTile: 16
+  dividedWallFillTile: 17
+  leftWallFillTile: 18
+  rightWallFillTile: 19
+  doorFillTile: 20
+  doorwayFillTile: 21
+  endWallFillTile: 22
+  closedDoorFillTile: 23
+  floorLayer: Tile (Floor)
+  wallLayer: Tile (Wall)
+  shadowLayer: Tile (Shadow)
   floorTileTextures:
   - {fileID: 21300000, guid: aee5aad5d966e7b499f2f18bff800091, type: 3}
   - {fileID: 21300000, guid: a2252eed243ee874fae34e22c94e7ddc, type: 3}
@@ -1166,12 +1232,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750677828}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0.45, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2064411074}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1914403112
 GameObject:
@@ -1505,7 +1571,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1546000078}
-  - {fileID: 1750677829}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
