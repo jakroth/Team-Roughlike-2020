@@ -755,6 +755,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 91df0760de39ed74ea0d9054a622cb6d, type: 3}
   - {fileID: 21300000, guid: bb862c0f8bdee764784e98e1f0338001, type: 3}
   - {fileID: 21300000, guid: 3feeb1e4881107a4ba625e6b1b91bdde, type: 3}
+  - {fileID: 21300000, guid: 031fa71f5540d9e4a99310be202bb7d6, type: 3}
+  - {fileID: 21300000, guid: f3797440efb3e6e4c922d0b17e3bb382, type: 3}
   normalTiles: []
   topLeftCornerTile: 0
   topRightCornerTile: 1
@@ -782,7 +784,10 @@ MonoBehaviour:
   closedDoorFillTile: 23
   fireTile: 24
   halfFireTile: 25
+  leftCornerFillTile: 26
+  rightCornerFillTile: 27
   floorLayer: Tile (Floor)
+  betweenLayer: Tile (Between)
   wallLayer: Tile (Wall)
   shadowLayer: Tile (Shadow)
   floorTileTextures:

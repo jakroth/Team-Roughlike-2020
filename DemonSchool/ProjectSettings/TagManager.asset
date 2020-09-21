@@ -52,6 +52,9 @@ TagManager:
   - name: Tile (Floor)
     uniqueID: 2768825371
     locked: 0
+  - name: Tile (Between)
+    uniqueID: 542503575
+    locked: 0
   - name: Tile (Wall)
     uniqueID: 804610173
     locked: 0

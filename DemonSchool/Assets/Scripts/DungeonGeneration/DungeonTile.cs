@@ -69,4 +69,11 @@ public class DungeonTile : MonoBehaviour
         spriteRenderer.sortingLayerName = layer;
     }
 
+    // set up the tile
+    public void setLayer(string layer)
+    {
+        spriteRenderer.sortingLayerName = layer;
+    }
+
+
 }
