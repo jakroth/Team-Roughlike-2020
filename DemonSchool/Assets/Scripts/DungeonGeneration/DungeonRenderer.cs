@@ -38,36 +38,37 @@ public class DungeonRenderer : MonoBehaviour
     public List<Sprite> normalTiles;
 
     [Header("Wall Sprite Indexes")]
-    public int topLeftCornerTile;
-    public int topRightCornerTile;
-    public int bottomLeftCornerTile;
-    public int bottomRightCornerTile;
-    public int topStraightTile;
-    public int bottomStraightTile;
-    public int leftStraightTile;
-    public int rightStraightTile;
-    public int topTJoinTile;
-    public int bottomTJoinTile;
-    public int leftTJoinTile;
-    public int rightTJoinTile;
-    public int fourWayTile;
-    public int doorTile;
-    public int doorwayTile;
+    public int wallTopLeftTile;
+    public int wallTopRightTile;
+    public int wallBottomLeftTile;
+    public int wallBottomRightTile;
+    public int wallHorizontalTile;
+    public int wallVerticalTile;
+    public int wallVerticalEndTile; 
+    public int wallTopTJoinTile;
+    public int wallBottomTJoinTile;
+    public int wallLeftTJoinTile;
+    public int wallRightTJoinTile;
+    public int wallFourWayJoinTile;
+
+    [Header("Door Sprite Indexes")]
+    public int doorTopClosedTile;
+    public int doorTopOpenTile;
+    public int doorVerticalClosedTile;
+    public int doorBottomClosedTile; 
+    public int doorBottomOpenTile;
 
     [Header("Shadow/Fill Sprite Indexes")]
+    public int shadowWallHorizontalTile; 
+    public int shadowWallLeftTile;
+    public int shadowWallRightTile;
+    public int shadowWallVerticalBottomTile; 
+
+    [Header("Other Sprite Indexes")]
     public int floorTile;
-    public int fullWallFillTile;
-    public int dividedWallFillTile;
-    public int leftWallFillTile;
-    public int rightWallFillTile;
-    public int doorFillTile;
-    public int doorwayFillTile;
-    public int endWallFillTile;
-    public int closedDoorFillTile;
     public int fireTile;
     public int halfFireTile;
-    public int leftCornerFillTile;
-    public int rightCornerFillTile;
+    public int quarterFireTile;
 
 
     [Header("Sorting Layers")]
@@ -75,6 +76,7 @@ public class DungeonRenderer : MonoBehaviour
     public string betweenLayer;
     public string wallLayer;
     public string shadowLayer;
+    public string topLayer;
 
 
     // links tile texture sprites to tileIDs, set in the Inspector
@@ -110,10 +112,13 @@ public class DungeonRenderer : MonoBehaviour
     public List<int> randomFloorIDs;
 
     // map coordinate names, from DungeonGenerator
+    private readonly int BORDER = -4;
     private readonly int DOOR = -3;
     private readonly int WALL = -2;
     private readonly int CORRIDOR = -1;
+    private readonly int EMPTY = 0;
     private readonly int ROOM = 1;
+
 
 
     // **************** ENTRY POINT for the DUNGEON RENDERER ****************
@@ -248,15 +253,18 @@ public class DungeonRenderer : MonoBehaviour
         {
             for (int y = bottom_Y; y <= top_Y; y++)
             {
-                if (map[x, y] == WALL || map[x,y] == DOOR)
+                if (map[x, y] == WALL || map[x,y] == DOOR || x == 0 || y == 0)
                 {
                     createTile(floorTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
                 }
                 else {
-                    if (Random.Range(0, 2) == 0)
-                        createTile(fireTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
+                    int random = Random.Range(0, 3);
+                    if (random == 0)
+                        createTile(fireTile, new Vector2Int(x, y), floorTileMap, topLayer, false, false);
+                    else if (random == 1)
+                        createTile(halfFireTile, new Vector2Int(x, y), floorTileMap, topLayer, false, false);
                     else
-                        createTile(halfFireTile, new Vector2Int(x, y), floorTileMap, floorLayer, false, false);
+                        createTile(quarterFireTile, new Vector2Int(x, y), floorTileMap, topLayer, false, false);
                 }
             }
         }
@@ -277,41 +285,37 @@ public class DungeonRenderer : MonoBehaviour
         bool needsTJoin;
 
         // make corners
-        createTile(topLeftCornerTile, new Vector2Int(left_X, top_Y), wallTileMap, wallLayer, true, false);
-        createTile(topRightCornerTile, new Vector2Int(right_X, top_Y), wallTileMap, wallLayer, true, false);
-        createTile(bottomLeftCornerTile, new Vector2Int(left_X, bottom_Y), wallTileMap, wallLayer, true, false);
-        createTile(bottomRightCornerTile, new Vector2Int(right_X, bottom_Y), wallTileMap, wallLayer, true, false);
+        createTile(wallTopLeftTile, new Vector2Int(left_X, top_Y), wallTileMap, wallLayer, true, false);
+        createTile(wallTopRightTile, new Vector2Int(right_X, top_Y), wallTileMap, wallLayer, true, false);
+        createTile(wallBottomLeftTile, new Vector2Int(left_X, bottom_Y), wallTileMap, wallLayer, true, false);
+        createTile(wallBottomRightTile, new Vector2Int(right_X, bottom_Y), wallTileMap, wallLayer, true, false); ;
 
         // make borders
         for (int x = left_X + 1; x < right_X; x++)
         {
             // top border
-            // check if TJoin needed (if adjacent tile is a wall or door, and either side of adjacent is a room, corridor or door)
+            // check if TJoin needed (if adjacent tile is a wall or door, and either side of adjacent is a room, corridor or empty)
             needsTJoin = (map[x, top_Y - 1] == WALL || map[x, top_Y - 1] == DOOR) &&
-                                (map[x - 1, top_Y - 1] >= ROOM || map[x + 1, top_Y - 1] >= ROOM ||
-                                map[x - 1, top_Y - 1] == CORRIDOR || map[x + 1, top_Y - 1] == CORRIDOR);
-            createTile(needsTJoin ? topTJoinTile : topStraightTile, new Vector2Int(x, top_Y), wallTileMap, wallLayer, true, false);
+                                (map[x - 1, top_Y - 1] >= CORRIDOR || map[x + 1, top_Y - 1] >= CORRIDOR);
+            createTile(needsTJoin ? wallTopTJoinTile : wallHorizontalTile, new Vector2Int(x, top_Y), wallTileMap, wallLayer, true, false);
 
             // bottom border
             needsTJoin = (map[x, bottom_Y + 1] == WALL || map[x, bottom_Y + 1] == DOOR) &&
-                                (map[x - 1, bottom_Y + 1] >= ROOM || map[x + 1, bottom_Y + 1] >= ROOM ||
-                                map[x - 1, bottom_Y + 1] == CORRIDOR || map[x + 1, bottom_Y + 1] == CORRIDOR);
-            createTile(needsTJoin ? bottomTJoinTile : bottomStraightTile, new Vector2Int(x, bottom_Y), wallTileMap, wallLayer, true, false);
+                                (map[x - 1, bottom_Y + 1] >= CORRIDOR || map[x + 1, bottom_Y + 1] >= CORRIDOR);
+            createTile(needsTJoin ? wallBottomTJoinTile : wallHorizontalTile, new Vector2Int(x, bottom_Y), wallTileMap, wallLayer, true, false);
         }
 
         for (int y = bottom_Y + 1; y < top_Y; y++)
         {
             // left border
             needsTJoin = (map[left_X + 1, y] == WALL || map[left_X + 1, y] == DOOR) &&
-                                (map[left_X + 1, y - 1] >= ROOM || map[left_X + 1, y + 1] >= ROOM ||
-                                map[left_X + 1, y - 1] == CORRIDOR || map[left_X + 1, y + 1] == CORRIDOR);
-            createTile(needsTJoin ? leftTJoinTile : leftStraightTile, new Vector2Int(left_X, y), wallTileMap, wallLayer, true, false);
+                                (map[left_X + 1, y - 1] >= CORRIDOR || map[left_X + 1, y + 1] >= CORRIDOR);
+            createTile(needsTJoin ? wallLeftTJoinTile : wallVerticalTile, new Vector2Int(left_X, y), wallTileMap, wallLayer, true, false);
 
             // right border
             needsTJoin = (map[right_X - 1, y] == WALL || map[right_X - 1, y] == DOOR) &&
-                                (map[right_X - 1, y - 1] >= ROOM || map[right_X - 1, y + 1] >= ROOM ||
-                                map[right_X - 1, y - 1] == CORRIDOR || map[right_X - 1, y + 1] == CORRIDOR);
-            createTile(needsTJoin ? rightTJoinTile : rightStraightTile, new Vector2Int(right_X, y), wallTileMap, wallLayer, true, false);
+                                (map[right_X - 1, y - 1] >= CORRIDOR || map[right_X - 1, y + 1] >= CORRIDOR);
+            createTile(needsTJoin ? wallRightTJoinTile : wallVerticalTile, new Vector2Int(right_X, y), wallTileMap, wallLayer, true, false);
         }
     }
 
@@ -346,64 +350,69 @@ public class DungeonRenderer : MonoBehaviour
             {
                 // CORNER WALLS x4
                 // top left corner
-                if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR) && (map[x - 1, y] != WALL || x - 1 <= 0) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
-                    createTile(topLeftCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                if (map[x, y] == WALL && (map[x + 1, y] <= WALL) && (map[x, y - 1] <= WALL) && !(map[x - 1, y] <= WALL) && !(map[x, y + 1] <= WALL))
+                    createTile(wallTopLeftTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
 
                 // top right corner
-                else if (map[x, y] == WALL && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
-                    createTile(topRightCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                else if (map[x, y] == WALL && (map[x - 1, y] <= WALL) && (map[x, y - 1] <= WALL) && !(map[x + 1, y] <= WALL) && !(map[x, y + 1] <= WALL))
+                    createTile(wallTopRightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
 
                 // bottom left corner
-                else if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR) && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR) && (map[x - 1, y] != WALL || x - 1 <= 0) && (map[x, y - 1] != WALL || y - 1 <= 0))
-                    createTile(bottomLeftCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                else if (map[x, y] == WALL && (map[x + 1, y] <= WALL) && (map[x, y + 1] <= WALL) && !(map[x - 1, y] <= WALL) && !(map[x, y - 1] <= WALL))
+                    createTile(wallBottomLeftTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
 
                 // bottom right corner
-                else if (map[x, y] == WALL && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR) && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x, y - 1] != WALL || y - 1 <= 0))
-                    createTile(bottomRightCornerTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                else if (map[x, y] == WALL && (map[x - 1, y] <= WALL) && (map[x, y + 1] <= WALL) && !(map[x + 1, y] <= WALL) && !(map[x, y - 1] <= WALL))
+                    createTile(wallBottomRightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
 
 
                 // STRAIGHT WALLS and T-JOINS (HORIZONTAL)
-                else if (map[x, y] == WALL && (map[x + 1, y] == WALL || map[x + 1, y] == DOOR || x + 1 >= mapWidth - 1) && (map[x - 1, y] == WALL || map[x - 1, y] == DOOR || x - 1 <= 0))
+                else if (map[x, y] == WALL && (map[x + 1, y] <= WALL) && (map[x - 1, y] <= WALL))
                 {
                     // horizontal straight
-                    if ((map[x, y + 1] != WALL || y + 1 >= mapHeight - 1) && (map[x, y - 1] != WALL || y - 1 <= 0))
-                        createTile(topStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    if (!(map[x, y + 1] == WALL || map[x, y + 1] == DOOR) && !(map[x, y - 1] == WALL || map[x, y - 1] == DOOR))
+                        createTile(wallHorizontalTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                     // top TJoin
-                    else if ((map[x, y - 1] == WALL || map[x, y - 1] == DOOR || y - 1 <= 0) && (map[x, y + 1] != WALL || y + 1 >= mapHeight - 1))
-                        createTile(topTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if ((map[x, y - 1] <= WALL) && !(map[x, y + 1] == WALL || map[x, y + 1] == DOOR))
+                        createTile(wallTopTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                     // bottom TJoin
-                    else if (map[x, y + 1] == WALL || map[x, y + 1] == DOOR || y + 1 >= mapHeight - 1)
-                        createTile(bottomTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if ((map[x, y + 1] <= WALL) && !(map[x, y - 1] == WALL || map[x, y - 1] == DOOR))
+                        createTile(wallBottomTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    // four way join
+                    else if ((map[x, y + 1] <= WALL) && (map[x, y - 1] <= WALL))
+                        createTile(wallFourWayJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                 }
 
 
                 // STRAIGHT WALLS and T-JOINS (VERTICAL)
-                else if (map[x, y] == WALL && (map[x, y + 1] == WALL || map[x, y + 1] == DOOR || y + 1 >= mapHeight - 1) && (map[x, y - 1] == WALL || map[x, y - 1] == DOOR || y - 1 <= 0))
+                else if (map[x, y] == WALL && (map[x, y + 1] <= WALL) && (map[x, y - 1] <= WALL))
                 {
                     // vertical straight
-                    if ((map[x + 1, y] != WALL || x + 1 >= mapWidth - 1) && (map[x - 1, y] != WALL || x - 1 <= 0))
-                        createTile(leftStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    if (!(map[x + 1, y] == WALL || map[x + 1, y] == DOOR) && !(map[x - 1, y] == WALL || map[x - 1, y] == DOOR))
+                        createTile(wallVerticalTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                     // left TJoin
-                    else if ((map[x + 1, y] == WALL || map[x + 1, y] == DOOR || x + 1 >= mapWidth - 1) && (map[x - 1, y] != WALL || x - 1 <= 0))
-                        createTile(leftTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if ((map[x + 1, y] <= WALL) && !(map[x - 1, y] == WALL || map[x - 1, y] == DOOR))
+                        createTile(wallLeftTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                     // right TJoin
-                    else if ((map[x - 1, y] == WALL || map[x - 1, y] == DOOR || x - 1 <= 0) && (map[x + 1, y] != WALL || x + 1 >= mapWidth - 1))
-                        createTile(rightTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if ((map[x - 1, y] <= WALL) && !(map[x + 1, y] == WALL || map[x + 1, y] == DOOR))
+                        createTile(wallRightTJoinTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                 }
-
+                                
 
                 // ENDINGS
-                else if (map[x, y] == WALL)
-                {
+                else if (map[x, y] == WALL) 
+                { 
                     int count = 0;
                     if (map[x - 1, y] == WALL) count += 1;
                     if (map[x + 1, y] == WALL) count += 3;
                     if (map[x, y - 1] == WALL) count += 5;
                     if (map[x, y + 1] == WALL) count += 7;
                     if (count == 0 || count == 1 || count == 3)
-                        createTile(topStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
-                    else if (count == 5 || count == 7)
-                        createTile(leftStraightTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);                           
+                        createTile(wallHorizontalTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if (count == 5)
+                        createTile(wallVerticalTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
+                    else if (count == 7)
+                        createTile(wallVerticalEndTile, new Vector2Int(x, y), wallTileMap, wallLayer, true, false);
                 }
 
 
@@ -427,15 +436,15 @@ public class DungeonRenderer : MonoBehaviour
             {
                 // doors on the border
                 if (door.y <= 0 || door.y >= mapHeight - 1)
-                    createTile(doorTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
+                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
                 else if (door.x <= 0 || door.x >= mapWidth - 1)
-                    createTile(closedDoorFillTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
+                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
 
                 // doors on interior walls
                 else if (map[door.x - 1, door.y] == WALL || map[door.x + 1, door.y] == WALL)
-                    createTile(doorTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
+                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
                 else if (map[door.x, door.y - 1] == WALL || map[door.x, door.y + 1] == WALL)
-                    createTile(closedDoorFillTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
+                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, wallLayer, true, false);
 
                 door = dungeonGenerator.rooms[0].door;
                 twice++;
@@ -447,74 +456,71 @@ public class DungeonRenderer : MonoBehaviour
     }
 
 
-    // creates all the wall shadows on top of the wall layer. 
+    // creates all the wall shadows underneath the wall layer. 
     // these are generally not collidable
     // shadows generally only needed for horizontal walls, or vertical wall endings
     private void createShadows()
     {
-        for (int x = 1; x <= mapWidth -2; x++)
+        for (int x = 0; x <= mapWidth - 1; x++)
         {
-            for (int y = 1; y <= mapHeight - 2; y++)
+            for (int y = 1; y <= mapHeight - 1; y++)
             {
                 
                 if (wallTileMap[x, y] != null)
                 {
                     DungeonTile current = wallTileMap[x, y].GetComponent<DungeonTile>();
 
-                    // straight wall shadows
-                    if (current.spriteID == topStraightTile && map[x, y - 1] != WALL)
-                        createTile(fullWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    // horizontal wall shadows
+                    if (current.spriteID == wallHorizontalTile)
+                        createTile(shadowWallHorizontalTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+
+                    // vertical wall shadows
+                    else if (current.spriteID == wallVerticalEndTile)
+                        createTile(shadowWallVerticalBottomTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // door shadows
-                    else if (current.spriteID == doorTile && map[x, y - 1] != WALL)
-                        createTile(doorFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == doorTopClosedTile)
+                        createTile(doorBottomClosedTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // top left corner wall shadows
-                    else if (current.spriteID == topLeftCornerTile && map[x + 1, y - 1] != WALL)
-                        createTile(leftWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallTopLeftTile)
+                        createTile(shadowWallRightTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // top right corner wall shadows
-                    else if (current.spriteID == topRightCornerTile && map[x - 1, y - 1] != WALL)
-                        createTile(rightWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallTopRightTile)
+                        createTile(shadowWallLeftTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // bottom left corner wall shadows
-                    else if (current.spriteID == bottomLeftCornerTile && map[x, y - 1] != WALL)
-                        createTile(leftCornerFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallBottomLeftTile)
+                        createTile(shadowWallRightTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // bottom right corner wall shadows
-                    else if (current.spriteID == bottomRightCornerTile && map[x, y - 1] != WALL)
-                        createTile(rightCornerFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallBottomRightTile)
+                        createTile(shadowWallLeftTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // top t-junction wall shadows
-                    else if (current.spriteID == topTJoinTile)
-                    {
-                        if (map[x - 1, y - 1] != WALL && map[x + 1, y + 1] != WALL)
-                            createTile(dividedWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
-                        else if (map[x - 1, y - 1] != WALL)
-                            createTile(leftWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
-                        else if (map[x + 1, y + 1] != WALL)
-                            createTile(rightWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
-                    }
+                    else if (current.spriteID == wallTopTJoinTile)
+                        createTile(shadowWallHorizontalTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // bottom t-junction wall shadows
-                    else if (current.spriteID == bottomTJoinTile && map[x, y - 1] != WALL)
-                        createTile(fullWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallBottomTJoinTile)
+                        createTile(shadowWallHorizontalTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // left t-junction wall shadows
-                    else if (current.spriteID == leftTJoinTile && map[x + 1, y - 1] != WALL)
-                        createTile(leftWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallLeftTJoinTile)
+                        createTile(shadowWallRightTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                     // right t-junction wall shadows
-                    else if (current.spriteID == rightTJoinTile && map[x - 1, y - 1] != WALL)
-                        createTile(rightWallFillTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+                    else if (current.spriteID == wallRightTJoinTile)
+                        createTile(shadowWallLeftTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
+
+                    // fourway junction wall shadows
+                    else if (current.spriteID == wallFourWayJoinTile)
+                        createTile(shadowWallHorizontalTile, new Vector2Int(x, y - 1), shadowTileMap, betweenLayer, false, false);
 
                 }
-
-
-
             }
         }
-
     }
 
 

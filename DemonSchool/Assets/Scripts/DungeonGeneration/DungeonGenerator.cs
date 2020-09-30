@@ -38,6 +38,7 @@ public class DungeonGenerator : MonoBehaviour
     public List<Room> rooms;
 
     // map coordinate names
+    private readonly int BORDER = -4;
     private readonly int DOOR = -3;
     private readonly int WALL = -2;
     private readonly int CORRIDOR = -1;
@@ -174,7 +175,7 @@ public class DungeonGenerator : MonoBehaviour
         }
         print("Rooms created.");
 
-        // work out where walls should be and set all the coordinates to the wallID
+        // work out where walls, doors and borders should be and set all the coordinates to the appropriate ID, 
         // if any rooms have been created
         if (_roomCount > 0)
         {
@@ -184,6 +185,9 @@ public class DungeonGenerator : MonoBehaviour
             print("Creating Doors...");
             createDoors();
             print("Doors Created.");
+            print("Creating Borders...");
+            createBorders();
+            print("Borders Created.");
         }
     }
 
@@ -300,6 +304,23 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+
+    // creates BORDERS wherever required    
+    // runs through every coordinate on the map
+    // sets the ID of all the borders on the map to the BorderID (-4)
+    private void createBorders()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            map[x, 0] = BORDER;
+            map[x, mapHeight - 1] = BORDER;
+        }
+        for (int y = 1; y < mapHeight - 1; y++)
+        {
+            map[0, y] = BORDER;
+            map[mapWidth - 1, y] = BORDER;
+        }
+    }
 
 
     // returns true if the (x,y) coordinate is currently empty and has an adjacent (or diagonal) wall or corridor

@@ -729,67 +729,63 @@ MonoBehaviour:
     type: 3}
   cellDimensions: 2
   hellTiles:
-  - {fileID: 21300000, guid: e6579ea6d92126d4d8ed3f0b287937a0, type: 3}
-  - {fileID: 21300000, guid: 7e2dff662ff3f8940b88d411b1708306, type: 3}
-  - {fileID: 21300000, guid: 0060e1fd5af9e03429fb0e31ab45ca68, type: 3}
-  - {fileID: 21300000, guid: 51324faf7965c6c4da8d1d22862d7236, type: 3}
-  - {fileID: 21300000, guid: 5d4453df4b51d5642b8788fa82147544, type: 3}
-  - {fileID: 21300000, guid: 42fea66ad5c618e4eb27f33bbf06d24e, type: 3}
-  - {fileID: 21300000, guid: 41e37967606e7524199d1c18c98ab813, type: 3}
-  - {fileID: 21300000, guid: 3a4a5d0eefab9b5419001d53af01cdec, type: 3}
-  - {fileID: 21300000, guid: fc213c52c682ea042a7c2fc945b54d90, type: 3}
-  - {fileID: 21300000, guid: 4f5e9944461c3aa4799deeffa32da18d, type: 3}
-  - {fileID: 21300000, guid: d3f049af7837e1542880483ea5e4fa57, type: 3}
-  - {fileID: 21300000, guid: 9bb9e90a59d4d5644b63128b16eda51c, type: 3}
-  - {fileID: 21300000, guid: 77f36000c952c9948b409e5b136e8228, type: 3}
-  - {fileID: 21300000, guid: 14faef367ac4aa0439b7de7ee3d2213c, type: 3}
-  - {fileID: 21300000, guid: 595a12df17012f847b5e8fd6172d9fe2, type: 3}
-  - {fileID: 21300000, guid: 3f3c29a67cc07c244959427b970eaadb, type: 3}
-  - {fileID: 21300000, guid: ebe8a30dea13b024a8fe016e9213827e, type: 3}
-  - {fileID: 21300000, guid: 0b56062cb2e512a4385f7532b7f15f43, type: 3}
-  - {fileID: 21300000, guid: 5bf3404c34ebff3439f5d5acdec38979, type: 3}
-  - {fileID: 21300000, guid: 68340496f849cde40ace43b6f3998d43, type: 3}
-  - {fileID: 21300000, guid: 29022403a14085041a3b54b154677ad5, type: 3}
-  - {fileID: 21300000, guid: 2e6fde39709091742b4a3d49dbf8125c, type: 3}
-  - {fileID: 21300000, guid: bb4e64d1ae75ed7469cc8d964707278a, type: 3}
-  - {fileID: 21300000, guid: 91df0760de39ed74ea0d9054a622cb6d, type: 3}
-  - {fileID: 21300000, guid: bb862c0f8bdee764784e98e1f0338001, type: 3}
-  - {fileID: 21300000, guid: 3feeb1e4881107a4ba625e6b1b91bdde, type: 3}
-  - {fileID: 21300000, guid: 031fa71f5540d9e4a99310be202bb7d6, type: 3}
-  - {fileID: 21300000, guid: f3797440efb3e6e4c922d0b17e3bb382, type: 3}
+  - {fileID: 21300000, guid: d256c90736fbd6c4fbaa634c62600348, type: 3}
+  - {fileID: 21300000, guid: fdd51454353c86c4b8095c8ea2bdecb0, type: 3}
+  - {fileID: 21300000, guid: 03447370e6ce89d4dade4163f44a4dd8, type: 3}
+  - {fileID: 21300000, guid: efc692eb6c4a0fa47bc2e87046978435, type: 3}
+  - {fileID: 21300000, guid: da520a41da74f0440bc7b1bbca46f21b, type: 3}
+  - {fileID: 21300000, guid: deb89f5d629bb2844b78e20e2b3f8b55, type: 3}
+  - {fileID: 21300000, guid: d8977290c8529bc459c9f5c9ddf9af61, type: 3}
+  - {fileID: 21300000, guid: 805c25a62a08fcf4bae8cedd54eef01a, type: 3}
+  - {fileID: 21300000, guid: d6a6fd0981aa1ae4ba4457aeea996e4c, type: 3}
+  - {fileID: 21300000, guid: fe88fdfb711545648bed35dd617a66a0, type: 3}
+  - {fileID: 21300000, guid: 6f74531a1ebf8eb408dc3b1eaf9557e9, type: 3}
+  - {fileID: 21300000, guid: 1419ba709ebb24e4d8d337b3a2744858, type: 3}
+  - {fileID: 21300000, guid: 2da5eb9b4db8b0942b8429acf3aad1d6, type: 3}
+  - {fileID: 21300000, guid: 2f8a1c8c67c6e4c468d548db624b1749, type: 3}
+  - {fileID: 21300000, guid: 74cfa612e9788744b8d7664cd892b483, type: 3}
+  - {fileID: 21300000, guid: a9582375d54b6214b9b1727b6302f08a, type: 3}
+  - {fileID: 21300000, guid: dc2a3fd9c0c75784390a26257e8c4c23, type: 3}
+  - {fileID: 21300000, guid: d04860303583faf4ea0424870a5dbac8, type: 3}
+  - {fileID: 21300000, guid: bd207f5ec6c71994aa0870fe8c47594d, type: 3}
+  - {fileID: 21300000, guid: 4a8863fa4d4e63844956296d37a42659, type: 3}
+  - {fileID: 21300000, guid: 78ac2577c94363444b27d047be2ce7c6, type: 3}
+  - {fileID: 21300000, guid: fff4efd676930c449a19afa39accd64b, type: 3}
+  - {fileID: 21300000, guid: de71d211de839c746a47ec7ac29c474a, type: 3}
+  - {fileID: 21300000, guid: 808434abf4af6a24192b41f4359d45eb, type: 3}
+  - {fileID: 21300000, guid: c56c3bd4f78d97b43bce3c76fb32479a, type: 3}
+  - {fileID: 21300000, guid: 3707ff14f2a5ab240bbbc4065f8ae381, type: 3}
   normalTiles: []
-  topLeftCornerTile: 0
-  topRightCornerTile: 1
-  bottomLeftCornerTile: 2
-  bottomRightCornerTile: 3
-  topStraightTile: 4
-  bottomStraightTile: 5
-  leftStraightTile: 6
-  rightStraightTile: 7
-  topTJoinTile: 8
-  bottomTJoinTile: 9
-  leftTJoinTile: 10
-  rightTJoinTile: 11
-  fourWayTile: 12
-  doorTile: 13
-  doorwayTile: 14
-  floorTile: 15
-  fullWallFillTile: 16
-  dividedWallFillTile: 17
-  leftWallFillTile: 18
-  rightWallFillTile: 19
-  doorFillTile: 20
-  doorwayFillTile: 21
-  endWallFillTile: 22
-  closedDoorFillTile: 23
-  fireTile: 24
-  halfFireTile: 25
-  leftCornerFillTile: 26
-  rightCornerFillTile: 27
+  wallTopLeftTile: 0
+  wallTopRightTile: 1
+  wallBottomLeftTile: 2
+  wallBottomRightTile: 3
+  wallHorizontalTile: 4
+  wallVerticalTile: 5
+  wallVerticalEndTile: 20
+  wallTopTJoinTile: 6
+  wallBottomTJoinTile: 7
+  wallLeftTJoinTile: 8
+  wallRightTJoinTile: 9
+  wallFourWayJoinTile: 10
+  doorTopClosedTile: 11
+  doorTopOpenTile: 12
+  doorVerticalClosedTile: 13
+  doorBottomClosedTile: 15
+  doorBottomOpenTile: 16
+  shadowWallHorizontalTile: 17
+  shadowWallLeftTile: 18
+  shadowWallRightTile: 19
+  shadowWallVerticalBottomTile: 21
+  floorTile: 22
+  fireTile: 23
+  halfFireTile: 24
+  quarterFireTile: 25
   floorLayer: Tile (Floor)
   betweenLayer: Tile (Between)
   wallLayer: Tile (Wall)
   shadowLayer: Tile (Shadow)
+  topLayer: Tile (Top)
   floorTileTextures:
   - {fileID: 21300000, guid: 3f3c29a67cc07c244959427b970eaadb, type: 3}
   - {fileID: 21300000, guid: 3f3c29a67cc07c244959427b970eaadb, type: 3}

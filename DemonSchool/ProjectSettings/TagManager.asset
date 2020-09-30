@@ -61,6 +61,9 @@ TagManager:
   - name: Tile (Shadow)
     uniqueID: 1206599483
     locked: 0
+  - name: Tile (Top)
+    uniqueID: 323490417
+    locked: 0
   - name: Object
     uniqueID: 3066348981
     locked: 0
