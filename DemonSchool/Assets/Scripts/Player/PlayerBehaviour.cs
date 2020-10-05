@@ -42,6 +42,17 @@ public class PlayerBehaviour : MonoBehaviour
 
     public Text playerHealthNum;
     public Text playerAmmoNum;
+
+    public Sprite frontFace;
+    public Sprite backFace;
+    public Sprite sideFace;
+    public bool sideMove;
+    public bool faceMove;
+    public bool backMove;
+
+    public int HealthItemID = 0;
+    public int AmmoItemID = 1;
+    
   
 
 
@@ -49,6 +60,10 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         isMoving = false;
+        sideMove = false;
+        faceMove = false;
+        backMove = false;
+
         moveProgress = 0;
         moveAction = new Vector2Int();
         playerHealth = 100;
@@ -80,8 +95,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             updateMoveInput();
         }
-        //Animation Function Calling
-        anim.SetBool("isMoving", isMoving);
+        //Animator Parameter Calling
+        anim.SetBool("sideMove", sideMove);
+        anim.SetBool("faceMove", faceMove);
+        anim.SetBool("backMove", backMove);
+            
+        
     }
 
 
@@ -92,20 +111,29 @@ public class PlayerBehaviour : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             move(new Vector2Int(0, 1));
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = backFace;
+            backMove = true;
+
         }
         else if(Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-                move(new Vector2Int(-1, 0));
-                transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
+            move(new Vector2Int(-1, 0));
+            transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
+            sideMove = true;
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             move(new Vector2Int(0, -1));
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = frontFace;
+            faceMove = true;
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             move(new Vector2Int(1, 0));
             transform.localScale = new Vector3(1, 1, 1);//Flip when move to right
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
+            sideMove = true;
         }
     }
 
@@ -148,6 +176,9 @@ public class PlayerBehaviour : MonoBehaviour
         {
             moveProgress = 1;
             isMoving = false;
+            sideMove = false;
+            faceMove = false;
+            backMove = false;
         }
         // moves the character towards the destination target, based on the percent of timeToMove time passed since the move action commenced.
         transform.position = new Vector3(Mathf.Lerp(start.x, target.x, moveProgress),
@@ -166,25 +197,42 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.tag == "collection")
         {
             Destroy(other.gameObject);
-           
-            /*other.gameObject.name*/playerAmmo += 10;
-            playerAmmoNum.text = playerAmmo.ToString();
+            if (other.GetComponent<ObjectBehaviour>().spriteID == 0)
+            {
+                if ((playerHealth != 100) || (playerHealth < 100))
+                {
 
-            if((playerHealth != 100) ||(playerHealth < 100)) {
-                
-                playerHealth += 5;
-                playerHealthNum.text = playerHealth.ToString();
+                    playerHealth += 10;
+                    playerHealthNum.text = playerHealth.ToString();
+                }
             }
-            
+            else
+            {
+                playerAmmo += 10;
+                playerAmmoNum.text = playerAmmo.ToString();
             }
+
+        }
         else if (other.tag == "enemy")
         {
             returnToOriginPos();
-            playerHealth -= 50;
-            playerHealthNum.text = playerHealth.ToString();
-            if (playerHealth <= 0)
+            if(other.GetComponent<EnemyBehaviour>().spriteID == 1)
             {
-                Destroy(gameObject);
+                playerHealth -= 70;
+                playerHealthNum.text = playerHealth.ToString();
+                if (playerHealth <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else 
+            {
+                playerHealth -= 45;
+                playerHealthNum.text = playerHealth.ToString();
+                if (playerHealth <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
         else if (other.GetComponent<DungeonTile>().isFinalDoor)
@@ -195,6 +243,24 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             returnToOriginPos();
+        }
+    }
+
+    public void objectFunction()
+    {
+        if (GetComponent<ObjectBehaviour>().spriteID == 0)
+        {
+            if ((playerHealth != 100) || (playerHealth < 100))
+            {
+
+                playerHealth += 5;
+                playerHealthNum.text = playerHealth.ToString();
+            }
+        }
+        else
+        {
+            playerAmmo += 10;
+            playerAmmoNum.text = playerAmmo.ToString();
         }
     }
 

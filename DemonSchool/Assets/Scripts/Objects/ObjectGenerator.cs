@@ -27,6 +27,7 @@ public class ObjectGenerator : MonoBehaviour
     // the map dimensions, grabbed from DungeonManager
     private int mapWidth = 0, mapHeight = 0;
 
+    public int itemTypeID;
 
 
     // ******** ENTRY POINT for this SCRIPT ********
@@ -83,9 +84,9 @@ public class ObjectGenerator : MonoBehaviour
                     {
                         // randomise object type
                         int randomObjectID = Random.Range(0, objectSprites.Count);
-                        objectMap[x, y] = Instantiate(objectPrefab, new Vector3(x * cellDim, y * cellDim, 0),
-                                                            Quaternion.identity, dungeonManager._objectParent);
+                        objectMap[x, y] = Instantiate(objectPrefab, new Vector3(x * cellDim, y * cellDim, 0), Quaternion.identity, dungeonManager._objectParent);
                         objectMap[x, y].GetComponent<ObjectBehaviour>().setObject(randomObjectID, new Vector2Int(x, y));
+                        randomObjectID = itemTypeID;
                     }
                 }
             }

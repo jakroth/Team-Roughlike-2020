@@ -34,6 +34,7 @@ public class weapon : MonoBehaviour
     {
         //Define which firePoint should be used(left/right) based on the Player facing
         if(transform.localScale == new Vector3(1, 1, 1)) {
+     
             Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
         }
         if (transform.localScale == new Vector3(-1, 1, 1))
