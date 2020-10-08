@@ -108,7 +108,7 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         print("Populating Rooms");
         mapGenerator.populateRooms(); 
-        doorMat = mapGenerator.rooms[0].doorMat;
+        doorMat = mapGenerator.rooms[mapGenerator.rooms.Count - 1].doorMat;
         print("Rooms Populated");
 
 

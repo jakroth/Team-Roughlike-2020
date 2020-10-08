@@ -128,6 +128,9 @@ public class DungeonGenerator : MonoBehaviour
         Vector2Int newCentre = Vector2Int.zero;
 
         print("Creating Rooms...");
+
+        bool firstRoomisBossRoom = true;
+
         // main loop to populate rooms
         for (int i = 0; i < maxRooms; i++)
         {
@@ -138,8 +141,18 @@ public class DungeonGenerator : MonoBehaviour
             int x = UnityEngine.Random.Range(1, mapWidth - w);
             int y = UnityEngine.Random.Range(1, mapHeight - h);
 
-            // create newRoom with randomized values
-            Room newRoom = new Room(x, y, w, h);
+            Room newRoom;
+
+            if (firstRoomisBossRoom)
+            {
+                newRoom = new Room(x, y, maxRoomWidth + 1, maxRoomHeight + 1);
+                firstRoomisBossRoom = false;
+            }
+            else
+            {
+                // create newRoom with randomized values
+                newRoom = new Room(x, y, w, h);
+            }
 
             // check for intersection with an existing room (there will be no rooms to test against initially)
             bool failed = false;

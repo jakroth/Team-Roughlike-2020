@@ -90,7 +90,7 @@ public class EnemyGenerator : MonoBehaviour
     private void spawnFinalBoss()
     {
         // generate a final boss in the final room
-        DungeonGenerator.Room r = dungeonGenerator.rooms[dungeonGenerator.rooms.Count - 1];
+        DungeonGenerator.Room r = dungeonGenerator.rooms[0];
         enemyMap[r.centre.x, r.centre.y] = Instantiate(EnemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
                                                 Quaternion.identity, dungeonManager._enemyParent);
         enemyMap[r.centre.x, r.centre.y].GetComponent<EnemyBehaviour>().setEnemy(bossID, new Vector2Int(r.centre.x, r.centre.y));

@@ -449,8 +449,8 @@ public class DungeonRenderer : MonoBehaviour
                 door = dungeonGenerator.rooms[0].door;
                 twice++;
             }
-            // set finalDoor variable in the assigned tile in the final room
-            wallTileMap[dungeonGenerator.rooms[finalRoom].door.x, dungeonGenerator.rooms[finalRoom].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
+            // set finalDoor variable in the assigned tile in the first/Boss room
+            wallTileMap[dungeonGenerator.rooms[0].door.x, dungeonGenerator.rooms[0].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
         }
 
     }
