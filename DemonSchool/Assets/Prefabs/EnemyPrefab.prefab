@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1145993030362832771
+--- !u!1 &1397960194438301506
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1145993030362832780}
-  - component: {fileID: 1145993030362832783}
-  - component: {fileID: 1145993030362832782}
-  - component: {fileID: 1145993030362832781}
-  - component: {fileID: 7525868820654058207}
+  - component: {fileID: 5576512613293792699}
+  - component: {fileID: 4572849439894281581}
+  - component: {fileID: 4578998565359500768}
+  - component: {fileID: 5480114837076111089}
+  - component: {fileID: 6995784953507241196}
+  - component: {fileID: 3591953512445394134}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: enemy
@@ -20,13 +21,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1145993030362832780
+--- !u!4 &5576512613293792699
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145993030362832771}
+  m_GameObject: {fileID: 1397960194438301506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,13 +35,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1145993030362832783
+--- !u!212 &4572849439894281581
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145993030362832771}
+  m_GameObject: {fileID: 1397960194438301506}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -85,13 +86,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1145993030362832782
+--- !u!114 &4578998565359500768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145993030362832771}
+  m_GameObject: {fileID: 1397960194438301506}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e556f876c166d554db0313d1f026fb93, type: 3}
@@ -100,13 +101,20 @@ MonoBehaviour:
   spriteID: 0
   pos: {x: 0, y: 0}
   enemyHealth: 0
---- !u!61 &1145993030362832781
+  speed: 3
+  lineOfSite: 4.8
+  eneAnim: {fileID: 6995784953507241196}
+  eneUpMove: 0
+  eneRightMove: 0
+  eneLeftMove: 0
+  eneDownMove: 0
+--- !u!61 &5480114837076111089
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145993030362832771}
+  m_GameObject: {fileID: 1397960194438301506}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -126,14 +134,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.2619207, y: 1.9655507}
   m_EdgeRadius: 0
---- !u!50 &7525868820654058207
+--- !u!95 &6995784953507241196
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397960194438301506}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 040def3522419bc4d975e25ce8d06dc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &3591953512445394134
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145993030362832771}
+  m_GameObject: {fileID: 1397960194438301506}
   m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0

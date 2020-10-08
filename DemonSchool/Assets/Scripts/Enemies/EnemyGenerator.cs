@@ -8,7 +8,7 @@ public class EnemyGenerator : MonoBehaviour
     public GameObject[,] enemyMap;
 
     // the prefab for all the Enemies, set in the Inspector
-    public GameObject enemyPrefab;
+    public GameObject EnemyPrefab;
 
     // links enemy sprites to enemyIDs, set in the Inspector
     public List<Sprite> enemySprites;
@@ -78,7 +78,7 @@ public class EnemyGenerator : MonoBehaviour
             if (Random.Range(0, 3) > 0)
             {
                 r = dungeonGenerator.rooms[i];
-                enemyMap[r.centre.x, r.centre.y] = Instantiate(enemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
+                enemyMap[r.centre.x, r.centre.y] = Instantiate(EnemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
                                                     Quaternion.identity, dungeonManager._enemyParent);
                 enemyMap[r.centre.x, r.centre.y].GetComponent<EnemyBehaviour>().setEnemy(spiderID, new Vector2Int(r.centre.x, r.centre.y));
             }
@@ -91,7 +91,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         // generate a final boss in the final room
         DungeonGenerator.Room r = dungeonGenerator.rooms[dungeonGenerator.rooms.Count - 1];
-        enemyMap[r.centre.x, r.centre.y] = Instantiate(enemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
+        enemyMap[r.centre.x, r.centre.y] = Instantiate(EnemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
                                                 Quaternion.identity, dungeonManager._enemyParent);
         enemyMap[r.centre.x, r.centre.y].GetComponent<EnemyBehaviour>().setEnemy(bossID, new Vector2Int(r.centre.x, r.centre.y));
 
