@@ -31,6 +31,9 @@ public class PlayerBehaviour : MonoBehaviour
     // will need to access the DungeonRenderer to see how big cell dimensions are to move the correct distance
     private DungeonRenderer dungeonRenderer;
 
+    //needs access to the PlayerSoundManager to play audio
+    private PlayerSoundManager playerSoundManager;
+
     //Animator Loading
     public Animator anim;
 
@@ -71,7 +74,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         
-        
+        playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
     }
 
 
@@ -142,6 +145,7 @@ public class PlayerBehaviour : MonoBehaviour
     // this starts a move action. Sets start and destination positions. called once per player key press. 
     public void move(Vector2Int moveAction)
     {
+        playerSoundManager.PlayFootsteps();
         // set the current moveAction to whatever key the player just pressed
         this.moveAction = moveAction;
 
@@ -179,6 +183,7 @@ public class PlayerBehaviour : MonoBehaviour
             sideMove = false;
             faceMove = false;
             backMove = false;
+            playerSoundManager.EndFootsteps();
         }
         // moves the character towards the destination target, based on the percent of timeToMove time passed since the move action commenced.
         transform.position = new Vector3(Mathf.Lerp(start.x, target.x, moveProgress),
