@@ -36,7 +36,7 @@ public class FadeController : MonoBehaviour
     public void FadeIn() 
     {
         StartCoroutine(FadeTo(true, fadeSpeed));
-        TextboxController.UpdateText("Yo what are you looking at???? Mind your own business buddy.");
+        //TextboxController.UpdateText("Yo what are you looking at???? Mind your own business buddy.");
     }
 
     public void FadeOut()

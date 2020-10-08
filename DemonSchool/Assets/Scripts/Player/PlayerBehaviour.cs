@@ -34,6 +34,9 @@ public class PlayerBehaviour : MonoBehaviour
     //needs access to the PlayerSoundManager to play audio
     private PlayerSoundManager playerSoundManager;
 
+    //needs access to the FadeController to fade the notes in and out
+    private FadeController fadeController;
+
     //Animator Loading
     public Animator anim;
 
@@ -75,6 +78,7 @@ public class PlayerBehaviour : MonoBehaviour
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
+        fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
     }
 
 
@@ -202,20 +206,41 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.tag == "collection")
         {
             Destroy(other.gameObject);
-            if (other.GetComponent<ObjectBehaviour>().spriteID == 0)
+            switch(other.GetComponent<ObjectBehaviour>().spriteID)
             {
-                if ((playerHealth != 100) || (playerHealth < 100))
-                {
+                case 0:
+                    if ((playerHealth != 100) || (playerHealth < 100)){                        
+                        playerHealth += 10;
+                        playerHealthNum.text = playerHealth.ToString();
+                        }
+                break;
 
-                    playerHealth += 10;
-                    playerHealthNum.text = playerHealth.ToString();
-                }
+                case 1:
+                    playerAmmo += 10;
+                    playerAmmoNum.text = playerAmmo.ToString();
+                break;
+
+                case 2:
+                    TextboxController.UpdateText(NoteDictionary.RandomNote());
+                    fadeController.FadeInAndOut();
+                break;
+                default:
+                break;
             }
-            else
-            {
-                playerAmmo += 10;
-                playerAmmoNum.text = playerAmmo.ToString();
-            }
+            //if (other.GetComponent<ObjectBehaviour>().spriteID == 0)
+            //{
+            //    if ((playerHealth != 100) || (playerHealth < 100))
+            //    {
+//
+            //        playerHealth += 10;
+            //        playerHealthNum.text = playerHealth.ToString();
+            //    }
+            //}
+            //else
+            //{
+            //    playerAmmo += 10;
+            //    playerAmmoNum.text = playerAmmo.ToString();
+            //}
 
         }
         else if (other.tag == "enemy")
