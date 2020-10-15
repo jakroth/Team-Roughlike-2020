@@ -10,6 +10,7 @@ public class FadeController : MonoBehaviour
     public bool isFading = false;
 
     IEnumerator popupRoutine;
+    
 
     void Start() 
     {

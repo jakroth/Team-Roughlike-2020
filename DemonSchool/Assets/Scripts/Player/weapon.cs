@@ -7,6 +7,8 @@ public class weapon : MonoBehaviour
 {
     public Transform firePointRight;//Setting up Right-firePoint
     public Transform firePointLeft;//Setting up Left-firePoint
+    public Transform firePointUp;
+    public Transform firePointDown;
 
     public GameObject fireBallPrefeb;//Using fireball from Prefeb
 
@@ -33,15 +35,33 @@ public class weapon : MonoBehaviour
     void Shoot()//Shoot Logic
     {
         //Define which firePoint should be used(left/right) based on the Player facing
-        if(transform.localScale == new Vector3(1, 1, 1)) {
+        /*if(transform.localScale == new Vector3(1, 1, 1)) {
      
             Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
         }
-        if (transform.localScale == new Vector3(-1, 1, 1))
+        else if (transform.localScale == new Vector3(-1, 1, 1))
+        {
+            Instantiate(fireBallPrefeb, firePointLeft.position, firePointLeft.rotation);
+        }*/
+
+        if (GetComponent<PlayerBehaviour>().faceRight == true)
+        {
+
+            Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
+        }
+        else if (GetComponent<PlayerBehaviour>().faceLeft == true)
         {
             Instantiate(fireBallPrefeb, firePointLeft.position, firePointLeft.rotation);
         }
+        else if(GetComponent<PlayerBehaviour>().faceUp == true)
+        {
+            Instantiate(fireBallPrefeb, firePointUp.position, firePointUp.rotation);
+        }
+        else if (GetComponent<PlayerBehaviour>().faceDown == true)
+        {
+            Instantiate(fireBallPrefeb, firePointDown.position, firePointDown.rotation);
+        }
 
-        
+
     }
 }

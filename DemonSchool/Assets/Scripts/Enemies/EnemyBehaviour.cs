@@ -80,6 +80,10 @@ public class EnemyBehaviour : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        else if(hit.tag == "Player")
+        {
+            transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+        }
     }
 
     //check where player is

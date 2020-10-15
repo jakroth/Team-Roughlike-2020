@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,9 +59,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     public int HealthItemID = 0;
     public int AmmoItemID = 1;
-    
-  
 
+    public bool faceDown;
+    public bool faceUp;
+    public bool faceRight;
+    public bool faceLeft;
+
+  
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +83,7 @@ public class PlayerBehaviour : MonoBehaviour
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
-        fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
+        //fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>(); ???
     }
 
 
@@ -120,6 +125,8 @@ public class PlayerBehaviour : MonoBehaviour
             move(new Vector2Int(0, 1));
             this.gameObject.GetComponent<SpriteRenderer>().sprite = backFace;
             backMove = true;
+            faceUp = true;
+            faceLeft = faceRight = faceDown = false;
 
         }
         else if(Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -128,12 +135,16 @@ public class PlayerBehaviour : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
             this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
             sideMove = true;
+            faceLeft = true;
+            faceUp = faceRight = faceDown = false;
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             move(new Vector2Int(0, -1));
             this.gameObject.GetComponent<SpriteRenderer>().sprite = frontFace;
             faceMove = true;
+            faceDown = true;
+            faceLeft = faceRight = faceUp = false;
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
@@ -141,6 +152,8 @@ public class PlayerBehaviour : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);//Flip when move to right
             this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
             sideMove = true;
+            faceRight = true;
+            faceLeft = faceUp = faceDown = false;
         }
     }
 
@@ -246,6 +259,8 @@ public class PlayerBehaviour : MonoBehaviour
         else if (other.tag == "enemy")
         {
             returnToOriginPos();
+            
+
             if(other.GetComponent<EnemyBehaviour>().spriteID == 1)
             {
                 playerHealth -= 70;
@@ -257,7 +272,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else 
             {
-                playerHealth -= 45;
+                //playerHealth -= 45;
                 playerHealthNum.text = playerHealth.ToString();
                 if (playerHealth <= 0)
                 {
@@ -305,6 +320,10 @@ public class PlayerBehaviour : MonoBehaviour
         moveProgress = 0;
         isMoving = true;
     }
+
+   
+
+
 }
 
 
