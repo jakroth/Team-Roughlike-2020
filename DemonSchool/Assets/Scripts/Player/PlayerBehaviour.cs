@@ -83,7 +83,7 @@ public class PlayerBehaviour : MonoBehaviour
         dungeonRenderer = GameObject.Find("DungeonManager").GetComponent<DungeonRenderer>();
         
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
-        //fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>(); ???
+        fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>(); 
     }
 
 
