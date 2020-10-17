@@ -112,11 +112,11 @@ public class DungeonRenderer : MonoBehaviour
     public List<int> randomFloorIDs;
 
     // map coordinate names, from DungeonGenerator
-    private readonly int BORDER = -4;
+    //private readonly int BORDER = -4;
     private readonly int DOOR = -3;
     private readonly int WALL = -2;
     private readonly int CORRIDOR = -1;
-    private readonly int EMPTY = 0;
+    //private readonly int EMPTY = 0;
     private readonly int ROOM = 1;
 
 

@@ -10,6 +10,8 @@ TagManager:
   - bullet
   - map
   - UI
+  - wall
+  - horoWall
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Wall
   - 
   - 
   - 
@@ -70,4 +72,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TopLayer
+    uniqueID: 1738072759
     locked: 0

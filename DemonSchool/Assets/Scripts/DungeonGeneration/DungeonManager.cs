@@ -147,7 +147,7 @@ public class DungeonManager : Singleton<DungeonManager>
 
 
 
-    // Place pyaer and Camera on the DoorMat of the First Room
+    // Place player and Camera on the DoorMat of the First Room
     private void placePlayerAndCamera()
     {
         // put player outside door of first room created (or 1,1 in empty map)

@@ -53,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Sprite frontFace;
     public Sprite backFace;
     public Sprite sideFace;
+
     public bool sideMove;
     public bool faceMove;
     public bool backMove;
