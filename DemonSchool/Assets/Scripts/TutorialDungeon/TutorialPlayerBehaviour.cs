@@ -111,6 +111,8 @@ public class TutorialPlayerBehaviour : MonoBehaviour
                     Debug.Log("finalDoor");
                     GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
                 }
+                else
+                    moveAway(closestHit);
             }
             else
                 moveAway(closestHit);

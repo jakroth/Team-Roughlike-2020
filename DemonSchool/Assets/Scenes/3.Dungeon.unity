@@ -812,6 +812,8 @@ MonoBehaviour:
   wallGameLayer: 8
   mapTag: map
   horoWallTag: horoWall
+  vertWallTag: vertWall
+  doorTag: door
 --- !u!1 &562989680
 GameObject:
   m_ObjectHideFlags: 0

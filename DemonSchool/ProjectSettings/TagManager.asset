@@ -11,8 +11,8 @@ TagManager:
   - map
   - UI
   - horoWall
-  - wall
   - door
+  - vertWall
   layers:
   - Default
   - TransparentFX
