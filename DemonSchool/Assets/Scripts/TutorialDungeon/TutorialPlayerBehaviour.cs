@@ -103,7 +103,18 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         }
         //Debug.Log(shortestDistance);
         if (closestHit.collider != null)
-            moveAway(closestHit);
+        {
+            if (closestHit.collider.gameObject.tag == "door")
+            {
+                if (closestHit.collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
+                {
+                    Debug.Log("finalDoor");
+                    GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                }
+            }
+            else
+                moveAway(closestHit);
+        }
     }
 
 
@@ -258,8 +269,12 @@ public class TutorialPlayerBehaviour : MonoBehaviour
             if(other.transform.position.y < transform.position.y)
             {
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
-            }           
+            }
         }
+   /*     else if (other.GetComponent<DungeonTile>().isFinalDoor)
+        {
+            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+        }*/
         else
         {
             //

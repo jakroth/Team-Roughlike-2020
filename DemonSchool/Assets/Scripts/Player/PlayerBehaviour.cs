@@ -241,20 +241,6 @@ public class PlayerBehaviour : MonoBehaviour
                 default:
                 break;
             }
-            //if (other.GetComponent<ObjectBehaviour>().spriteID == 0)
-            //{
-            //    if ((playerHealth != 100) || (playerHealth < 100))
-            //    {
-//
-            //        playerHealth += 10;
-            //        playerHealthNum.text = playerHealth.ToString();
-            //    }
-            //}
-            //else
-            //{
-            //    playerAmmo += 10;
-            //    playerAmmoNum.text = playerAmmo.ToString();
-            //}
 
         }
         else if (other.tag == "enemy")
@@ -268,7 +254,7 @@ public class PlayerBehaviour : MonoBehaviour
                 playerHealthNum.text = playerHealth.ToString();
                 if (playerHealth <= 0)
                 {
-                    Destroy(gameObject);
+                    GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
                 }
             }
             else 

@@ -71,12 +71,18 @@ public class DungeonManager : Singleton<DungeonManager>
             makeDungeon();
         }
 
-        // or if the user presses 'G' (this is probably only during testing)
+        // or if the user presses 'H' (this is probably only during testing)
         if (Input.GetKeyDown(KeyCode.H) && !makingDungeon)
         {
             GameObject.Find("Player").GetComponent<PlayerBehaviour>().isMoving = false;
             hellTiles = false;
             makeDungeon();
+        }
+
+        // or if the user presses 'Esc'
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadStartScene();
         }
 
     }

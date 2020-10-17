@@ -5652,6 +5652,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TilePrefab (209)
       objectReference: {fileID: 0}
+    - target: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_TagString
+      value: door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7668032848208302304, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5717,6 +5727,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7933969498465473935, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7933969498465473935, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7933969498465473935, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7933969498465473935, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 8087304925766940751, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
       propertyPath: m_Sprite
@@ -5775,10 +5805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a446543c29c2d249874c5ba003bbfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
-    type: 3}
-  hellTiles: []
-  normalTiles: []
 --- !u!4 &553746544
 Transform:
   m_ObjectHideFlags: 0
@@ -6502,7 +6528,7 @@ PrefabInstance:
     - target: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
       propertyPath: m_TagString
-      value: horoWall
+      value: door
       objectReference: {fileID: 0}
     - target: {fileID: 4309116603337255825, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
@@ -6614,6 +6640,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8273580395080637346, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: isFinalDoor
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679d11c362506ef42b74b48bf7b5f442, type: 3}
@@ -12068,6 +12099,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TilePrefab (221)
       objectReference: {fileID: 0}
+    - target: {fileID: 1940533280205077822, guid: 679d11c362506ef42b74b48bf7b5f442,
+        type: 3}
+      propertyPath: m_TagString
+      value: door
+      objectReference: {fileID: 0}
     - target: {fileID: 7668032848208302304, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17048,6 +17084,49 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1507693804}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1513527659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1513527661}
+  - component: {fileID: 1513527660}
+  m_Layer: 0
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1513527660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513527659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977ca4dd9ce129f4d9923daa7ed2d4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1513527661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513527659}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 199.88193, y: 127.98842, z: -541.6657}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1522807070
 PrefabInstance:
   m_ObjectHideFlags: 0
