@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-
-    // will need to access the instance of the DungeonManager to remake the Dungeon when colliding with an exit door
-    private DungeonManager dungeonManager;
-
     //needs access to the PlayerSoundManager to play audio
     private PlayerSoundManager playerSoundManager;
 
@@ -18,18 +14,20 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Attributes")]
     // this is the speed pf the player
     public float speed;
+    public float bounce;
 
-    // Player health setting;
+    // Player health, ammo and score settings;
     public int playerHealth;
-
-    // Player ammo;
     public int playerAmmo;
+    public int playerScore;
 
     public Text playerHealthNum;
     public Text playerAmmoNum;
+    public Text playerScoreNum;
 
     public int HealthItemID = 0;
     public int AmmoItemID = 1;
+    public int ScoreItemID = 2;
 
     [Header("Player Animation Sprites")]
     // tile set for the Normal Tiles
@@ -56,9 +54,12 @@ public class PlayerBehaviour : MonoBehaviour
     {        
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
-
         coll = GetComponent<CircleCollider2D>();
 
+        // set up player stats
+        playerAmmoNum.text = playerAmmo.ToString();
+        playerHealthNum.text = playerHealth.ToString();
+        playerScoreNum.text = playerScore.ToString();
     }
 
 
@@ -66,13 +67,11 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         updateAnimation();
         if (!stopped)
             playerSoundManager.PlayFootsteps();
         else
             playerSoundManager.EndFootsteps();
-
     }
 
 
@@ -136,7 +135,7 @@ public class PlayerBehaviour : MonoBehaviour
         float deltaX = r.point.x - coll.bounds.center.x;
         float deltaY = r.point.y - coll.bounds.center.y;
 
-        transform.position = new Vector2(transform.position.x - deltaX / 3, transform.position.y - deltaY / 3);
+        transform.position = new Vector2(transform.position.x - deltaX / bounce, transform.position.y - deltaY / bounce);
     }
 
 
@@ -221,76 +220,6 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-    /*
-        // check for player input
-        public void updateMoveInput()
-        {
-            if(Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            {
-                move(new Vector2Int(0, 1));
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = backFace;
-                backMove = true;
-                faceUp = true;
-                faceLeft = faceRight = faceDown = false;
-
-            }
-            else if(Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                move(new Vector2Int(-1, 0));
-                transform.localScale = new Vector3(-1, 1, 1);//Flip when move to left
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
-                sideMove = true;
-                faceLeft = true;
-                faceUp = faceRight = faceDown = false;
-            }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-                move(new Vector2Int(0, -1));
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = frontFace;
-                faceMove = true;
-                faceDown = true;
-                faceLeft = faceRight = faceUp = false;
-            }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                move(new Vector2Int(1, 0));
-                transform.localScale = new Vector3(1, 1, 1);//Flip when move to right
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = sideFace;
-                sideMove = true;
-                faceRight = true;
-                faceLeft = faceUp = faceDown = false;
-            }
-        }*/
-
-
-
-    /*    // this starts a move action. Sets start and destination positions. called once per player key press. 
-        public void move(Vector2Int moveAction)
-        {
-            playerSoundManager.PlayFootsteps();
-            // set the current moveAction to whatever key the player just pressed
-            this.moveAction = moveAction;
-
-            // check to make sure at least one of the dimensions is non-zero (will they ever both be zero?)
-            if(moveAction.x != 0 || moveAction.y != 0)
-            {
-                // resets move progress (this will go from 0 to 1)
-                moveProgress = 0;
-
-                // tells the update function there is movement to be done
-                isMoving = true;
-
-                // sets the starting location and the target destination
-                start = new Vector2(transform.position.x, transform.position.y);
-                target = new Vector2(transform.position.x + moveAction.x * dungeonRenderer.cellDimensions, 
-                                     transform.position.y + moveAction.y * dungeonRenderer.cellDimensions);
-            }
-        }*/
-
-
-
-
-
     // controls collision with objects and enemies
     // also makes player go behind lower walls
     private void OnTriggerEnter2D(Collider2D other)
@@ -303,25 +232,37 @@ public class PlayerBehaviour : MonoBehaviour
             switch (other.GetComponent<ObjectBehaviour>().spriteID)
             {
                 case 0:
+                    TextboxController.UpdateText(NoteDictionary.RandomNote());
+                    fadeController.FadeInAndOut();
+                    break;
+
+                case 1:
+                case 2:
+                case 3:
+                    playerAmmo += 10;
+                    playerAmmoNum.text = playerAmmo.ToString();
+                    break;
+
+                case 4:
+                case 5:
+                case 6:
                     if ((playerHealth != 100) || (playerHealth < 100))
                     {
                         playerHealth += 10;
                         playerHealthNum.text = playerHealth.ToString();
                     }
                     break;
-
-                case 1:
-                    playerAmmo += 10;
-                    playerAmmoNum.text = playerAmmo.ToString();
-                    break;
-
-                case 2:
-                    TextboxController.UpdateText(NoteDictionary.RandomNote());
-                    fadeController.FadeInAndOut();
-                    break;
                 default:
                     break;
             }
+        }
+        else if (other.tag == "student")
+        {
+            Destroy(other.gameObject);
+            TextboxController.UpdateText(NoteDictionary.StudentRescue());
+            fadeController.FadeInAndOut();
+            playerScore += 10;
+            playerScoreNum.text = playerScore.ToString();
         }
         else if (other.tag == "enemy")
         {
@@ -351,10 +292,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
-        }
-        else
-        {
-            //
         }
     }
 

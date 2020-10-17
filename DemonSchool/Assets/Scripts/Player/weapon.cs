@@ -16,8 +16,6 @@ public class Weapon : MonoBehaviour
     // Start is called once at the beginning
     void Start()
     {
-        GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
-        GetComponent<PlayerBehaviour>().playerHealthNum.text = GetComponent<PlayerBehaviour>().playerHealth.ToString();
     }
 
 

@@ -18,7 +18,7 @@ public class ObjectBehaviour : MonoBehaviour
     // temp variable used to pass collision test in PlayerBehaviour
     public bool isObject = true;
 
-    public void setObject(int spriteID, Vector2Int pos)
+    public void setObject(int spriteID, Vector2Int pos, int type)
     {
         // make sure these links exist
         if (objectGenerator == null)
@@ -35,10 +35,20 @@ public class ObjectBehaviour : MonoBehaviour
         this.pos = pos;
 
         // update sprite on object
-        spriteRenderer.sprite = objectGenerator.objectSprites[spriteID];
+        if (type == 0)
+        {
+            spriteRenderer.sprite = objectGenerator.objectSprites[spriteID];
 
-        // give the object a name in the Hierarchy
-        gameObject.name = "Object (" + pos.x + "," + pos.y + "): " + spriteID;
+            // give the object a name in the Hierarchy
+            gameObject.name = "Object (" + pos.x + "," + pos.y + "): " + spriteID;
+        }
+        else if(type == 1)
+        {
+            spriteRenderer.sprite = objectGenerator.studentSprites[spriteID];
+
+            // give the student a name in the Hierarchy
+            gameObject.name = "Student (" + pos.x + "," + pos.y + "): " + spriteID;
+        }
 
     }
 

@@ -15,19 +15,20 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     [Header("Player Attributes")]
     // this is the speed pf the player
     public float speed;
+    public float bounce;
 
-    // Player health setting;
+    // Player health, ammo and score settings;
     public int playerHealth;
-
-    // Player ammo;
     public int playerAmmo;
+    public int playerScore;
 
     public Text playerHealthNum;
     public Text playerAmmoNum;
+    public Text playerScoreNum;
 
     public int HealthItemID = 0;
     public int AmmoItemID = 1;
-
+    public int ScoreItemID = 2;
 
     [Header("Player Animation Sprites")]
     // tile set for the Normal Tiles
@@ -41,25 +42,37 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     private bool directionChangeX = false;
     private bool directionChangeY = false;
 
+
     // for collisions
     private RaycastHit2D[] rayArray = new RaycastHit2D[4];
     private float laserLength = 0.4f;
     private CircleCollider2D coll;
 
 
+
     // Start is called before the first frame update
     void Start()
-    {       
+    {
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
         coll = GetComponent<CircleCollider2D>();
+
+        // set up player stats
+        playerAmmoNum.text = playerAmmo.ToString();
+        playerHealthNum.text = playerHealth.ToString();
+        playerScoreNum.text = playerScore.ToString();
     }
+
 
 
     // Update is called once per frame
     void Update()
-    { 
-        updateAnimation();            
+    {
+        updateAnimation();
+        if (!stopped)
+            playerSoundManager.PlayFootsteps();
+        else
+            playerSoundManager.EndFootsteps();
     }
 
 
@@ -70,6 +83,8 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         move();
     }
 
+
+
     // checks for collisions around the player, and bounces the player away if they get too close
     private void rayCollisionChecking()
     {
@@ -77,15 +92,15 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         RaycastHit2D closestHit = new RaycastHit2D();
 
         //Get the closest object hit by the rays
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             // work out directions (0,1 or -1,0, etc)
-            Vector2 direction = new Vector2(i % 2 * Mathf.Pow(-1,i%3), (i + 1) % 2 * Mathf.Pow(-1, (i+1)%3));
+            Vector2 direction = new Vector2(i % 2 * Mathf.Pow(-1, i % 3), (i + 1) % 2 * Mathf.Pow(-1, (i + 1) % 3));
             //Debug.Log(direction);
             Debug.DrawRay(coll.bounds.center, direction * laserLength, Color.red);
 
             // send out the ray
-            rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength,LayerMask.GetMask("Wall"));
+            rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength, LayerMask.GetMask("Wall"));
             if (rayArray[i].collider != null)
             {
                 float distance = Vector2.Distance(rayArray[i].collider.transform.position, transform.position);
@@ -115,6 +130,18 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     }
 
 
+    // the bounce function
+    public void moveAway(RaycastHit2D r)
+    {
+        float deltaX = r.point.x - coll.bounds.center.x;
+        float deltaY = r.point.y - coll.bounds.center.y;
+
+        transform.position = new Vector2(transform.position.x - deltaX / bounce, transform.position.y - deltaY / bounce);
+    }
+
+
+
+    // checks player move input
     public void move()
     {
 
@@ -132,7 +159,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
             }
         }
         // move right
-        else if(newXPos > transform.position.x)
+        else if (newXPos > transform.position.x)
         {
             stopped = false;
             jockDirection = 6;
@@ -172,16 +199,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     }
 
 
-    public void moveAway(RaycastHit2D r)
-    {
-        float deltaX = r.point.x - coll.bounds.center.x;
-        float deltaY = r.point.y - coll.bounds.center.y;
-
-        transform.position = new Vector2(transform.position.x - deltaX/3, transform.position.y - deltaY/3);
-    }
-
-
-
+    // makes the players legs move and the player change direction
     public void updateAnimation()
     {
         if (!stopped)
@@ -215,6 +233,13 @@ public class TutorialPlayerBehaviour : MonoBehaviour
             switch (other.GetComponent<ObjectBehaviour>().spriteID)
             {
                 case 0:
+                    TextboxController.UpdateText(NoteDictionary.RandomNote());
+                    fadeController.FadeInAndOut();
+                    break;
+
+                case 1:
+                case 2:
+                case 3:
                     if ((playerHealth != 100) || (playerHealth < 100))
                     {
                         playerHealth += 10;
@@ -222,19 +247,23 @@ public class TutorialPlayerBehaviour : MonoBehaviour
                     }
                     break;
 
-                case 1:
+                case 4:
+                case 5:
+                case 6:
                     playerAmmo += 10;
                     playerAmmoNum.text = playerAmmo.ToString();
-                    break;
-
-                case 2:
-                    TextboxController.UpdateText(NoteDictionary.RandomNote());
-                    fadeController.FadeInAndOut();
                     break;
                 default:
                     break;
             }
-
+        }
+        else if (other.tag == "student")
+        {
+            Destroy(other.gameObject);
+            TextboxController.UpdateText(NoteDictionary.StudentRescue());
+            fadeController.FadeInAndOut();
+            playerScore += 10;
+            playerScoreNum.text = playerScore.ToString();
         }
         else if (other.tag == "enemy")
         {
@@ -260,16 +289,13 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         else if (other.tag == "horoWall")
         {
             Debug.Log("horoWall");
-            if(other.transform.position.y < transform.position.y)
+            if (other.transform.position.y < transform.position.y)
             {
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
         }
-        else
-        {
-            //
-        }
     }
+
 
     public void objectFunction()
     {
@@ -289,7 +315,6 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         }
     }
 
-  
 
 
 }

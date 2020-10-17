@@ -16,8 +16,7 @@ public class TutorialWeapon : MonoBehaviour
     // Start is called once at the beginning
     void Start()
     {
-        GetComponent<TutorialPlayerBehaviour>().playerAmmoNum.text = GetComponent<TutorialPlayerBehaviour>().playerAmmo.ToString();
-        GetComponent<TutorialPlayerBehaviour>().playerHealthNum.text = GetComponent<TutorialPlayerBehaviour>().playerHealth.ToString();
+
     }
 
     // Update is called once per frame

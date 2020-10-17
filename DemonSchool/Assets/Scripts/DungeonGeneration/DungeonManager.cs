@@ -24,6 +24,7 @@ public class DungeonManager : Singleton<DungeonManager>
     [HideInInspector] public Transform _tileParent;
     [HideInInspector] public Transform _objectParent;
     [HideInInspector] public Transform _enemyParent;
+    [HideInInspector] public Transform _studentParent;
 
     // flag that can be set at any time during dungeon creation, if anything goes wrong. Dungeon will be rebuilt at the end if it's checked. 
     [HideInInspector] public bool needsRegen = false;
@@ -46,6 +47,7 @@ public class DungeonManager : Singleton<DungeonManager>
         _tileParent = transform.GetChild(0);
         _objectParent = transform.GetChild(1);
         _enemyParent = transform.GetChild(2);
+        _studentParent = transform.GetChild(2);
 
         //get the DungeonGenerator and DungeonRenderer
         mapGenerator = GetComponent<DungeonGenerator>();
@@ -143,7 +145,7 @@ public class DungeonManager : Singleton<DungeonManager>
     private void applyObjectGen()
     {
         ObjectGenerator objGen = GetComponent<ObjectGenerator>();
-        objGen.makeObjects();
+        objGen.makeObjectsAndStudents();
     }
 
 
