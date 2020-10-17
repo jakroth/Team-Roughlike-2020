@@ -145,7 +145,9 @@ public class DungeonGenerator : MonoBehaviour
 
             if (firstRoomisBossRoom)
             {
-                newRoom = new Room(x, y, maxRoomWidth + 1, maxRoomHeight + 1);
+                int bossX = UnityEngine.Random.Range(1, mapWidth - (maxRoomWidth + 1));
+                int bossY = UnityEngine.Random.Range(1, mapWidth - (maxRoomHeight + 1));
+                newRoom = new Room(bossX, bossY, maxRoomWidth + 1, maxRoomHeight + 1);
                 firstRoomisBossRoom = false;
             }
             else
@@ -171,9 +173,9 @@ public class DungeonGenerator : MonoBehaviour
             {
                 // no overlap, so good to go; increment our room count
                 _roomCount++;
+                Debug.Log(_roomCount);
 
                 // adds the coordinates of this room and the roomID (based on roomCount) to the map array
-                
                 createRoom(newRoom, _roomCount);
 
                 // make a CORRIDOR only if a room already exists

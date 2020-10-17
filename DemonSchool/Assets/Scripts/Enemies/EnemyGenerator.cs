@@ -32,9 +32,6 @@ public class EnemyGenerator : MonoBehaviour
     // ******** ENTRY POINT for this SCRIPT ********
     public void makeEnemies()
     {
-        // clear map of enemies to start
-        deleteEnemies();
-
         // grab the instance of the Dungeon Manager
         if (dungeonManager == null)
         {
@@ -43,18 +40,24 @@ public class EnemyGenerator : MonoBehaviour
         dungeonGenerator = GetComponent<DungeonGenerator>();
         dungeonRenderer = GetComponent<DungeonRenderer>();
 
-        // make new enemyMap
-        enemyMap = new GameObject[dungeonManager.mapWidth, dungeonManager.mapHeight];
+        // clear map of enemies to start
+        deleteEnemies();
 
-        // grab cellDimensions and map size
-        cellDim = dungeonRenderer.cellDimensions;
-        mapWidth = dungeonManager.mapWidth;
-        mapHeight = dungeonManager.mapHeight;
+        if (dungeonManager.hellTiles)
+        {
+            // make new enemyMap
+            enemyMap = new GameObject[dungeonManager.mapWidth, dungeonManager.mapHeight];
 
-        // generate and spawn Enemies
-        generateEnemyCoordinates();
-        spawnRandomEnemies();
-        spawnFinalBoss();
+            // grab cellDimensions and map size
+            cellDim = dungeonRenderer.cellDimensions;
+            mapWidth = dungeonManager.mapWidth;
+            mapHeight = dungeonManager.mapHeight;
+
+            // generate and spawn Enemies
+            generateEnemyCoordinates();
+            spawnRandomEnemies();
+            spawnFinalBoss();
+        }
     }
 
 

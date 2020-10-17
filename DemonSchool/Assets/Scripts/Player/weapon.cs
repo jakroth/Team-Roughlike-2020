@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class weapon : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     public Transform firePointRight;//Setting up Right-firePoint
     public Transform firePointLeft;//Setting up Left-firePoint

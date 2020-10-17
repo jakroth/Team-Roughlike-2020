@@ -284,6 +284,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (other.GetComponent<DungeonTile>().isFinalDoor)
         {
             isMoving = false;
+            dungeonManager.hellTiles = true;
             dungeonManager.makeDungeon();
         }
         else

@@ -67,6 +67,15 @@ public class DungeonManager : Singleton<DungeonManager>
         if (Input.GetKeyDown(KeyCode.G) && !makingDungeon)
         {
             GameObject.Find("Player").GetComponent<PlayerBehaviour>().isMoving = false;
+            hellTiles = true;
+            makeDungeon();
+        }
+
+        // or if the user presses 'G' (this is probably only during testing)
+        if (Input.GetKeyDown(KeyCode.H) && !makingDungeon)
+        {
+            GameObject.Find("Player").GetComponent<PlayerBehaviour>().isMoving = false;
+            hellTiles = false;
             makeDungeon();
         }
 
@@ -83,7 +92,7 @@ public class DungeonManager : Singleton<DungeonManager>
         applyMapGen();
         applyObjectGen();
         applyEnemyGen();
-
+        
         // check to see if the doorMat is not in a room (any ID < 1)
         if (mapGenerator._roomCount > 0)
             if (mapGenerator.map[doorMat.x, doorMat.y] < 1 || needsRegen)

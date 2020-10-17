@@ -10,7 +10,6 @@ TagManager:
   - bullet
   - map
   - UI
-  - wall
   - horoWall
   layers:
   - Default

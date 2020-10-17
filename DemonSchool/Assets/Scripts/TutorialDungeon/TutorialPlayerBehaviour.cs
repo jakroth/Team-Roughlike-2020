@@ -68,6 +68,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     }
 
 
+    // FixedUpdate is called in line with the physics engine. Can be set in the project settings. 
     void FixedUpdate()
     {
         rayCollisionChecking();
@@ -100,7 +101,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
                 }
             }
         }
-        Debug.Log(shortestDistance);
+        //Debug.Log(shortestDistance);
         if (closestHit.collider != null)
             moveAway(closestHit);
     }

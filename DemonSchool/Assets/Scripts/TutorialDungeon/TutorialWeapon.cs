@@ -35,7 +35,7 @@ public class TutorialWeapon : MonoBehaviour
         
     }
 
-    void Shoot()//Shoot Logic
+    void Shoot() //Shoot Logic
     {
 
         if (GetComponent<TutorialPlayerBehaviour>().jockDirection == 6)

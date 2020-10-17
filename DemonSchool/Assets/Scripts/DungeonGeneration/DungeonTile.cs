@@ -22,7 +22,7 @@ public class DungeonTile : MonoBehaviour
 
 
     // set up the tile
-    public void setTile(int spriteID, Vector2Int pos, string layer, bool isCollision, bool oldTiles)
+    public void setTile(int spriteID, Vector2Int pos, string sortingLayer, bool isCollision, int gameLayer, string tag)
     {
         // make sure these links exist
         if (dungeonManager == null)
@@ -53,26 +53,20 @@ public class DungeonTile : MonoBehaviour
         collisionBox.enabled = isCollision;
 
         // give the tile a name in the Hierarchy
-        gameObject.name = "Pos (" + pos.x + "," + pos.y + "); mapID: " + dungeonGenerator.map[pos.x,pos.y] + (isCollision ? ", Coll; " : ", NColl; ") + "spriteID: " + spriteID + "; L: " + layer;
+        gameObject.name = "Pos (" + pos.x + "," + pos.y + "); mapID: " + dungeonGenerator.map[pos.x,pos.y] + (isCollision ? ", Coll; " : ", NColl; ") + "spriteID: " + spriteID + "; L: " + sortingLayer;
 
      
         // render the tile with the correct sprite, and check if Hell tile or Normal tile
         if (dungeonManager.hellTiles)
-        {
-            if (oldTiles && isCollision)
-                spriteRenderer.sprite = dungeonRenderer.wallTileTextures[spriteID];
-            else if (oldTiles)
-                spriteRenderer.sprite = dungeonRenderer.floorTileTextures[spriteID];
-            else
-                spriteRenderer.sprite = dungeonRenderer.hellTiles[spriteID];
-        }
-        spriteRenderer.sortingLayerName = layer;
-    }
+            spriteRenderer.sprite = dungeonRenderer.hellTiles[spriteID];
+        else
+            spriteRenderer.sprite = dungeonRenderer.normalTiles[spriteID];
 
-    // set up the tile
-    public void setLayer(string layer)
-    {
-        spriteRenderer.sortingLayerName = layer;
+
+        // set the layers and tags
+        gameObject.layer = gameLayer;
+        gameObject.tag = tag;
+        spriteRenderer.sortingLayerName = sortingLayer;
     }
 
 

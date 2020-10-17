@@ -33,9 +33,6 @@ public class ObjectGenerator : MonoBehaviour
     // ******** ENTRY POINT for this SCRIPT ********
     public void makeObjects()
     {
-        // clear map of objects to start
-        deleteObjects();
-
         // grab the instance of the Dungeon Manager
         if (dungeonManager == null)
         {
@@ -44,17 +41,23 @@ public class ObjectGenerator : MonoBehaviour
         dungeonGenerator = GetComponent<DungeonGenerator>();
         dungeonRenderer = GetComponent<DungeonRenderer>();
 
-        // make new enemyMap
-        objectMap = new GameObject[dungeonManager.mapWidth, dungeonManager.mapHeight];
+        // clear map of objects to start
+        deleteObjects();
 
-        // grab cellDimensions and map size
-        cellDim = dungeonRenderer.cellDimensions;
-        mapWidth = dungeonManager.mapWidth;
-        mapHeight = dungeonManager.mapHeight;
+        if (dungeonManager.hellTiles)
+        {
+            // make new enemyMap
+            objectMap = new GameObject[dungeonManager.mapWidth, dungeonManager.mapHeight];
 
-        // generate and spawn Objects
-        generateObjectCoordinates();
-        spawnObjects();
+            // grab cellDimensions and map size
+            cellDim = dungeonRenderer.cellDimensions;
+            mapWidth = dungeonManager.mapWidth;
+            mapHeight = dungeonManager.mapHeight;
+
+            // generate and spawn Objects
+            generateObjectCoordinates();
+            spawnObjects();
+        }
     }
 
 
