@@ -66,7 +66,6 @@ public class DungeonManager : Singleton<DungeonManager>
         // or if the user presses 'G' (this is probably only during testing)
         if (Input.GetKeyDown(KeyCode.G) && !makingDungeon)
         {
-            GameObject.Find("Player").GetComponent<PlayerBehaviour>().isMoving = false;
             hellTiles = true;
             makeDungeon();
         }
@@ -74,7 +73,6 @@ public class DungeonManager : Singleton<DungeonManager>
         // or if the user presses 'H' (this is probably only during testing)
         if (Input.GetKeyDown(KeyCode.H) && !makingDungeon)
         {
-            GameObject.Find("Player").GetComponent<PlayerBehaviour>().isMoving = false;
             hellTiles = false;
             makeDungeon();
         }

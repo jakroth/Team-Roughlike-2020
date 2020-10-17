@@ -12,8 +12,14 @@ public class Weapon : MonoBehaviour
 
     public GameObject fireBallPrefeb;//Using fireball from Prefeb
 
-    
-    
+
+    // Start is called once at the beginning
+    void Start()
+    {
+        GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
+        GetComponent<PlayerBehaviour>().playerHealthNum.text = GetComponent<PlayerBehaviour>().playerHealth.ToString();
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -25,8 +31,6 @@ public class Weapon : MonoBehaviour
                 Shoot();
                 GetComponent<PlayerBehaviour>().playerAmmo -= 1;//EveryTime Press shoot key it will makes ammo -1
                 GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
-
-
             }
         }
         
@@ -34,30 +38,20 @@ public class Weapon : MonoBehaviour
 
     void Shoot()//Shoot Logic
     {
-        //Define which firePoint should be used(left/right) based on the Player facing
-        /*if(transform.localScale == new Vector3(1, 1, 1)) {
-     
+
+        if (GetComponent<PlayerBehaviour>().jockDirection == 6)
+        {
             Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
         }
-        else if (transform.localScale == new Vector3(-1, 1, 1))
-        {
-            Instantiate(fireBallPrefeb, firePointLeft.position, firePointLeft.rotation);
-        }*/
-
-        if (GetComponent<PlayerBehaviour>().faceRight == true)
-        {
-
-            Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
-        }
-        else if (GetComponent<PlayerBehaviour>().faceLeft == true)
+        else if (GetComponent<PlayerBehaviour>().jockDirection == 9)
         {
             Instantiate(fireBallPrefeb, firePointLeft.position, firePointLeft.rotation);
         }
-        else if(GetComponent<PlayerBehaviour>().faceUp == true)
+        else if (GetComponent<PlayerBehaviour>().jockDirection == 3)
         {
             Instantiate(fireBallPrefeb, firePointUp.position, firePointUp.rotation);
         }
-        else if (GetComponent<PlayerBehaviour>().faceDown == true)
+        else if (GetComponent<PlayerBehaviour>().jockDirection == 0)
         {
             Instantiate(fireBallPrefeb, firePointDown.position, firePointDown.rotation);
         }

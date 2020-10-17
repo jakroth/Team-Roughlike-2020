@@ -1,17 +1,10 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TutorialPlayerBehaviour : MonoBehaviour
 {
-
-    // this is the time we want the player to take to move 1 tile. 
-    // it is set in the Unity Inspector
-    public float speed;
 
     //needs access to the PlayerSoundManager to play audio
     private PlayerSoundManager playerSoundManager;
@@ -19,10 +12,14 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     //needs access to the FadeController to fade the notes in and out
     private FadeController fadeController;
 
-    //Player health setting;
+    [Header("Player Attributes")]
+    // this is the speed pf the player
+    public float speed;
+
+    // Player health setting;
     public int playerHealth;
 
-    //Player ammo;
+    // Player ammo;
     public int playerAmmo;
 
     public Text playerHealthNum;
@@ -46,10 +43,8 @@ public class TutorialPlayerBehaviour : MonoBehaviour
 
     // for collisions
     private RaycastHit2D[] rayArray = new RaycastHit2D[4];
-    float laserLength = 0.4f;
+    private float laserLength = 0.4f;
     private CircleCollider2D coll;
-
-    //Collider2D nearestWall;
 
 
     // Start is called before the first frame update
@@ -75,7 +70,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         move();
     }
 
-
+    // checks for collisions around the player, and bounces the player away if they get too close
     private void rayCollisionChecking()
     {
         float shortestDistance = 100;
@@ -208,12 +203,11 @@ public class TutorialPlayerBehaviour : MonoBehaviour
     }
 
 
-    // stop the character from walking through walls
-    // loads a new map if collision is with the final door
+    // controls collision with objects and enemies
+    // also makes player go behind lower walls
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("collision");
-        // stop moving forward any more on collision
+        Debug.Log("collision");
 
         if (other.tag == "collection")
         {
@@ -244,8 +238,6 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         }
         else if (other.tag == "enemy")
         {
-            //
-
             if (other.GetComponent<EnemyBehaviour>().spriteID == 1)
             {
                 playerHealth -= 70;
@@ -273,10 +265,6 @@ public class TutorialPlayerBehaviour : MonoBehaviour
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
         }
-   /*     else if (other.GetComponent<DungeonTile>().isFinalDoor)
-        {
-            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
-        }*/
         else
         {
             //

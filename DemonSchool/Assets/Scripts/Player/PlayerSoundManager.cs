@@ -38,7 +38,7 @@ public class PlayerSoundManager : MonoBehaviour
     {
         int footstep = UnityEngine.Random.Range(0, 5);
         audioSource.PlayOneShot(soundsList[footstep].audioClip);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         playNewFootstep = true;
     }
 
