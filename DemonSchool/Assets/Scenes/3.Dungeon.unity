@@ -977,12 +977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2393a0a9075493a4cb2362bc5d0a2c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notes:
-  - this is note 1 - good job!
-  - this is note 2 - keep it up!
-  - this is note 3 - on a roll!
-  - this is note 4 - almost there!
-  - this is note 5 - congrats, you did it!
   backpackNotes:
   - this is note 1 - good job!
   - this is note 2 - keep it up!
