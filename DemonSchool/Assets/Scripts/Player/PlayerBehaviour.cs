@@ -271,25 +271,25 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (other.tag == "enemy")
         {
-            if (other.GetComponent<EnemyBehaviour>().spriteID == 1)
+            playerHealth -= 45;
+            playerHealthNum.text = playerHealth.ToString();
+
+            if (playerHealth <= 0)
             {
-                playerHealth -= 70;
-                playerHealthNum.text = playerHealth.ToString();
-                if (playerHealth <= 0)
-                {
-                    Destroy(gameObject);
-                }
-            }
-            else
-            {
-                //playerHealth -= 45;
-                playerHealthNum.text = playerHealth.ToString();
-                if (playerHealth <= 0)
-                {
-                    Destroy(gameObject);
-                }
+                Destroy(gameObject);
             }
         }
+        else if(other.tag == "boss")
+            {
+            playerHealth -= 1;
+            playerHealthNum.text = playerHealth.ToString();
+
+            if (playerHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }    
+        
         else if (other.tag == "horoWall")
         {
             Debug.Log("horoWall");

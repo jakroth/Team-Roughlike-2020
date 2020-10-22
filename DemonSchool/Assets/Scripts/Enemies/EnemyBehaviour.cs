@@ -19,25 +19,38 @@ public class EnemyBehaviour : MonoBehaviour
 
     public float speed;
     public float lineOfSite;
+    public float lineOfSite1;
     private Transform joke;
 
     public Animator eneAnim;
 
     public GameObject keyPrefeb;
 
-
+    public bool isBoss;
+    public bool isAttack;
 
     void Start()
     {
         guardingRoom();
-       
+        
+
     }
 
     void Update()
     {
         chasingPlayer();
-        eneAnim.SetFloat("isMove", speed);
         
+        if (this.gameObject.tag == "boss")
+        {
+            isBoss = true;
+            eneAnim.SetBool("isBoss", isBoss);
+            eneAnim.SetBool("isAttack", isAttack);
+        }
+       else if(this.gameObject.tag == "enemy")
+        {
+            eneAnim.SetFloat("speed", speed);
+        }
+
     }
 
 
@@ -55,6 +68,19 @@ public class EnemyBehaviour : MonoBehaviour
 
         //set sprite and position
         this.spriteID = spriteID;
+
+        if (this.spriteID == 1)
+        {
+            this.lineOfSite = 8f;
+            this.lineOfSite1 = 4.5f;
+            this.gameObject.tag = "boss";
+            isBoss = true;
+        }
+        else if (this.spriteID == 0)
+        {
+            this.gameObject.tag = "enemy";
+        }
+
         this.pos = pos;
 
         // update sprite on enemy
@@ -85,7 +111,23 @@ public class EnemyBehaviour : MonoBehaviour
                 transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
             }
         }
-        
+        else if (this.gameObject.tag == "boss")
+        {
+
+            if (hit.tag == "bullet")
+            {
+                enemyHealth -= 10;
+                if (enemyHealth <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else if (hit.tag == "Player")
+            {
+                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+            }
+        }
+
     }
 
     //check where player is
@@ -105,15 +147,41 @@ public class EnemyBehaviour : MonoBehaviour
         
         if(distanceFromPlayer < lineOfSite)
         {
-            transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
-            if (joke.transform.localPosition.x < this.transform.localPosition.x)
+            if(this.gameObject.tag == "enemy")
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+                if (joke.transform.localPosition.x < this.transform.localPosition.x)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
             }
-            else {
-                transform.localScale = new Vector3(1, 1, 1);
+
+            else if (this.gameObject.tag == "boss")
+            {
+                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+
+                if(distanceFromPlayer < lineOfSite1)
+                {
+                    isAttack = true;
+                }
+                else
+                {
+                    isAttack = false;
+                }
+
+                if (joke.transform.localPosition.x < this.transform.localPosition.x)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
             }
-           
         }
 
 
@@ -124,6 +192,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lineOfSite);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, lineOfSite1);
     }
 
 

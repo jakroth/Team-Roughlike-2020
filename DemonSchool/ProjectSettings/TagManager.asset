@@ -15,6 +15,7 @@ TagManager:
   - vertWall
   - student
   - key
+  - boss
   layers:
   - Default
   - TransparentFX
