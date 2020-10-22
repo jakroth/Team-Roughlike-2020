@@ -233,7 +233,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 case 0:
                     TextboxController.UpdateText(NoteDictionary.RandomNote());
-                    fadeController.FadeInAndOut();
+                    fadeController.FadeInAndOut(5f);
                     break;
 
                 case 1:
@@ -265,7 +265,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Destroy(other.gameObject);
             TextboxController.UpdateText(NoteDictionary.StudentRescue());
-            fadeController.FadeInAndOut();
+            fadeController.FadeInAndOut(1f);
             playerScore += 10;
             playerScoreNum.text = playerScore.ToString();
         }

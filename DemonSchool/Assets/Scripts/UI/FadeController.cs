@@ -45,9 +45,9 @@ public class FadeController : MonoBehaviour
         StartCoroutine(FadeTo(false, fadeSpeed));
     }
 
-    public void FadeInAndOut()
+    public void FadeInAndOut(float time)
     {
-        StartCoroutine(FadeInAndOut(fadeSpeed, 2f));
+        StartCoroutine(FadeInAndOut(fadeSpeed, time));
     }
 
     private IEnumerator FadeTo(bool fadeIn, float aTime)

@@ -15,7 +15,7 @@ public class PlayerSoundManager : MonoBehaviour
     public List<Sounds> soundsList = new List<Sounds>();
 
     private bool isWalking = false;
-    private bool playNewFootstep = false;
+    private bool playNewFootstep = true;
     private AudioSource audioSource;
 
     // Start is called before the first frame update
@@ -36,16 +36,17 @@ public class PlayerSoundManager : MonoBehaviour
 
     private IEnumerator LoopFootstepSounds()
     {
+
         int footstep = UnityEngine.Random.Range(0, 5);
         audioSource.PlayOneShot(soundsList[footstep].audioClip);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f, 0.5f));
         playNewFootstep = true;
     }
 
     public void PlayFootsteps()
     {
         isWalking = true;
-        StartCoroutine(LoopFootstepSounds());
+        //StartCoroutine(LoopFootstepSounds());
     }
 
     public void EndFootsteps()
