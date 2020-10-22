@@ -12,7 +12,7 @@ public class FadeController : MonoBehaviour
     IEnumerator popupRoutine;
     
 
-    void Start() 
+    void Awake() 
     {
         imageToFade.color = SetAlpha(imageToFade.color, 0);
         imageToFade.gameObject.SetActive(false);
@@ -21,28 +21,31 @@ public class FadeController : MonoBehaviour
     //The update void is only for testing purposes
     void Update()
     {
-        if(Input.GetKey(KeyCode.I) && !isFading)
-        {
-            isFading = true;
-            FadeIn();
-        }
-
-        if(Input.GetKey(KeyCode.O) && !isFading)
-        {
-            isFading = true;
-            FadeOut();
-        }
+        //if(Input.GetKey(KeyCode.I) && !isFading)
+        //{
+        //    isFading = true;
+        //    FadeIn();
+        //}
+//
+        //if(Input.GetKey(KeyCode.O) && !isFading)
+        //{
+        //    isFading = true;
+        //    FadeOut();
+        //}
     }
 
     public void FadeIn() 
     {
-        StartCoroutine(FadeTo(true, fadeSpeed));
+        if(!isFading)
+            StartCoroutine(FadeTo(true, fadeSpeed));
+
         //TextboxController.UpdateText("Yo what are you looking at???? Mind your own business buddy.");
     }
 
     public void FadeOut()
     {
-        StartCoroutine(FadeTo(false, fadeSpeed));
+        if(!isFading)
+            StartCoroutine(FadeTo(false, fadeSpeed));
     }
 
     public void FadeInAndOut(float time)
@@ -52,6 +55,7 @@ public class FadeController : MonoBehaviour
 
     private IEnumerator FadeTo(bool fadeIn, float aTime)
     {
+        isFading = true;
         imageToFade.gameObject.SetActive(true);
         float alpha = fadeIn == true ? 0f : 1f;
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / (fadeIn == true ? aTime : aTime / 2f))

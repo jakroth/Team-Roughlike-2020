@@ -13,15 +13,10 @@ public class NoteDictionary : MonoBehaviour
     void Awake()
     {
         foreach(string str in backpackNotes)
-        {
             staticNotes.Add(str);
-        }
-        foreach (string str in studentRescues)
-        {
+        foreach(string str in studentRescues)
             staticRescues.Add(str);
-        }
     }
-
     // Update is called once per frame
     public static string RandomNote()
     {

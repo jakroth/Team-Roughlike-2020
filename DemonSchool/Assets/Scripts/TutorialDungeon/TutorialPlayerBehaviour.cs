@@ -60,7 +60,7 @@ public class TutorialPlayerBehaviour : MonoBehaviour
         // set up player stats
         playerAmmoNum.text = playerAmmo.ToString();
         playerHealthNum.text = playerHealth.ToString();
-        playerScoreNum.text = playerScore.ToString();
+        //playerScoreNum.text = playerScore.ToString();
     }
 
 

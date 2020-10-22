@@ -16,6 +16,8 @@ TagManager:
   - student
   - key
   - boss
+  - button
+  - CharImg
   layers:
   - Default
   - TransparentFX
