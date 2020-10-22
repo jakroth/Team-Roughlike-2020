@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4965464990215112261}
   - component: {fileID: 4965464990215112263}
   - component: {fileID: 4965464990215112260}
+  - component: {fileID: 8889589014775349263}
   m_Layer: 0
   m_Name: StudentPrefab
   m_TagString: student
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -1228618315
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5e8c5ba9cb79a0f44b4f5c9694f11430, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,3 +126,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7034602, y: 0.91134524}
   m_EdgeRadius: 0
+--- !u!95 &8889589014775349263
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965464990215112315}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 459bb3424a3ba5a4eb915e4e28a3b73b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
