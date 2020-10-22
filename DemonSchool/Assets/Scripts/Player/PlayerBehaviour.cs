@@ -47,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float laserLength = 0.4f;
     private CircleCollider2D coll;
 
-
+    public int keyPart = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -255,6 +255,11 @@ public class PlayerBehaviour : MonoBehaviour
                 default:
                     break;
             }
+        }
+        else if (other.tag == "key")
+        {
+            Destroy(other.gameObject);
+            keyPart += 1;
         }
         else if (other.tag == "student")
         {

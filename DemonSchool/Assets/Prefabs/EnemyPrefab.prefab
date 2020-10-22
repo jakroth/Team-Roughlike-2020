@@ -104,6 +104,8 @@ MonoBehaviour:
   speed: 3
   lineOfSite: 4.8
   eneAnim: {fileID: 6995784953507241196}
+  keyPrefeb: {fileID: 7626257983786648771, guid: dbb6f6105bd928a42a800c3f18fc0b02,
+    type: 3}
 --- !u!61 &5480114837076111089
 BoxCollider2D:
   m_ObjectHideFlags: 0

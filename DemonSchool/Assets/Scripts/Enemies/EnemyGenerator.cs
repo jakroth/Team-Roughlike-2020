@@ -26,6 +26,7 @@ public class EnemyGenerator : MonoBehaviour
 
     // the map dimensions, grabbed from DungeonManager
     private int mapWidth = 0, mapHeight = 0;
+    public int keyCount = 0;
 
 
 
@@ -84,6 +85,7 @@ public class EnemyGenerator : MonoBehaviour
                 enemyMap[r.centre.x, r.centre.y] = Instantiate(EnemyPrefab, new Vector3(r.centre.x * cellDim, r.centre.y * cellDim, 0),
                                                     Quaternion.identity, dungeonManager._enemyParent);
                 enemyMap[r.centre.x, r.centre.y].GetComponent<EnemyBehaviour>().setEnemy(spiderID, new Vector2Int(r.centre.x, r.centre.y));
+                keyCount += 1;
             }
         }
     }

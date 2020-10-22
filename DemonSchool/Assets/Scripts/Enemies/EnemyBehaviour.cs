@@ -22,25 +22,22 @@ public class EnemyBehaviour : MonoBehaviour
     private Transform joke;
 
     public Animator eneAnim;
-    //public bool eneUpMove, eneRightMove, eneLeftMove, eneDownMove;
 
+    public GameObject keyPrefeb;
 
 
 
     void Start()
     {
         guardingRoom();
-        //eneUpMove = eneRightMove = eneLeftMove = eneDownMove = false;
+       
     }
 
     void Update()
     {
         chasingPlayer();
         eneAnim.SetFloat("isMove", speed);
-        /*eneAnim.SetBool("eneLeftMove", eneLeftMove);
-        eneAnim.SetBool("eneRightMove", eneRightMove);
-        eneAnim.SetBool("eneDownMove", eneDownMove);
-        eneAnim.SetBool("eneUpMove", eneUpMove);*/
+        
     }
 
 
@@ -72,18 +69,23 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
-        if (hit.tag == "bullet")
+        if(this.gameObject.tag == "enemy")
         {
-            enemyHealth -= 30;
-            if (enemyHealth <= 0)
+            if (hit.tag == "bullet")
             {
-                Destroy(gameObject);
+                enemyHealth -= 30;
+                if (enemyHealth <= 0)
+                {
+                    Destroy(gameObject);
+                    Instantiate(keyPrefeb, this.gameObject.transform.position, new Quaternion(0, 0, 0, 0));
+                }
+            }
+            else if (hit.tag == "Player")
+            {
+                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
             }
         }
-        else if(hit.tag == "Player")
-        {
-            transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
-        }
+        
     }
 
     //check where player is
@@ -111,30 +113,7 @@ public class EnemyBehaviour : MonoBehaviour
             else {
                 transform.localScale = new Vector3(1, 1, 1);
             }
-            /*if (joke.transform.localPosition.x < this.transform.localPosition.x)
-            {
-                eneLeftMove = true;
-
-            }
-            else if (joke.transform.localPosition.x > this.transform.localPosition.x)
-            {
-                eneRightMove = true;
-
-            }
-            else if (joke.transform.localPosition.y < this.transform.localPosition.y)
-            {
-                eneDownMove = true;
-
-            }
-            else if (joke.transform.localPosition.y > this.transform.localPosition.y)
-            {
-                eneUpMove = true;
-
-            }
-            else
-            {
-                eneUpMove = eneRightMove = eneLeftMove = eneDownMove = false;
-            }*/
+           
         }
 
 
