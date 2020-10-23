@@ -146,6 +146,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         var newXPos = transform.position.x + Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
         var newYPos = transform.position.y + Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+
         // move left
         if (newXPos < transform.position.x)
         {

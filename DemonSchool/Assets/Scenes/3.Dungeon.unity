@@ -878,7 +878,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4a8863fa4d4e63844956296d37a42659, type: 3}
   - {fileID: 21300000, guid: 78ac2577c94363444b27d047be2ce7c6, type: 3}
   - {fileID: 21300000, guid: fff4efd676930c449a19afa39accd64b, type: 3}
-  - {fileID: 21300000, guid: de71d211de839c746a47ec7ac29c474a, type: 3}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 808434abf4af6a24192b41f4359d45eb, type: 3}
   - {fileID: 21300000, guid: c56c3bd4f78d97b43bce3c76fb32479a, type: 3}
   - {fileID: 21300000, guid: 3707ff14f2a5ab240bbbc4065f8ae381, type: 3}
@@ -2066,6 +2066,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ca9c1bf3b744b489b96bbeeb6a4fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePointRight: {fileID: 3333427572355829031}
+  firePointLeft: {fileID: 3333427571482960556}
+  firePointUp: {fileID: 3333427573213165642}
+  firePointDown: {fileID: 3333427572328894125}
+  fireBallPrefeb: {fileID: 1836834978605129794, guid: 4ae2d03bb53906f47966dbb74c7b1586,
+    type: 3}
 --- !u!114 &3333427571737588312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,10 +2103,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f7d79b810fac8fe47a307b26105f46f1, type: 3}
   - {fileID: 21300000, guid: d7a532508eeafa8458d0dbe4f1f4af4a, type: 3}
   - {fileID: 21300000, guid: 6d3f6d147de3bde4ba52f7e2f5702810, type: 3}
-  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
+  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
   - {fileID: 21300000, guid: 054d2c08a09bf124788a6d9a6984efd3, type: 3}
   - {fileID: 21300000, guid: d8a5e5dc456597f47a1665b89a74a4b9, type: 3}
-  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
+  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
   - {fileID: 21300000, guid: ed373031e4aac284fb9af8cdbf483731, type: 3}
   jockDirection: 0
   jockForm: 0
