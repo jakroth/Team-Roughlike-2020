@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
+        GameController.instance.UpdatePauseState(true);
         currentText = "S: ugh… what happened?";
         TextboxController.UpdateTextAndImage("ugh… what happened?", staticCharacters[0]);
         StartCoroutine(BeginTutorial());
@@ -34,6 +35,14 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         fadeController.FadeIn();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Space) && GameController.instance.GetPauseState() == true)
+        {
+            NextDialogue();
+        }
     }
 
     public void NextDialogue()
@@ -50,27 +59,29 @@ public class TutorialManager : MonoBehaviour
                 break;
             }
         }
-        Debug.Log(nextText);
+        //Debug.Log(nextText);
 
         if(nextText != null)
         {
             currentText = nextText;
             //set next dialogue and image based on dialogue
             string str = nextText.Substring(0, 2);
+            string removed = "";
             if(str == "S:")
             {
-                nextText.Replace(str, string.Empty);
-                TextboxController.UpdateTextAndImage(nextText, staticCharacters[0]);
+                removed = nextText.Replace(str, string.Empty);
+                TextboxController.UpdateTextAndImage(removed, staticCharacters[0]);
             }
             else if(str == "N:")
             {
-                nextText.Replace(str, string.Empty);
-                TextboxController.UpdateTextAndImage(nextText, staticCharacters[1]);
+                removed = nextText.Replace(str, string.Empty);
+                TextboxController.UpdateTextAndImage(removed, staticCharacters[1]);
             }
         }
         else
         {
             currentText = nextText;
+            GameController.instance.UpdatePauseState(false);
             fadeController.FadeOut();
         }
 

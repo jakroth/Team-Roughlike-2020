@@ -38,6 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float animSpeed;
     public float animTime;
     public bool stopped;
+    public bool pauseState = false;
     private bool directionChangeX = false;
     private bool directionChangeY = false;
 
@@ -51,15 +52,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {       
+        pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
         coll = GetComponent<CircleCollider2D>();
 
         // set up player stats
-        playerAmmoNum.text = playerAmmo.ToString();
-        playerHealthNum.text = playerHealth.ToString();
-        playerScoreNum.text = playerScore.ToString();
+        if(!pauseState)
+        {
+            playerAmmoNum.text = playerAmmo.ToString();
+            playerHealthNum.text = playerHealth.ToString();
+            playerScoreNum.text = playerScore.ToString();
+        }
     }
 
 
@@ -67,8 +72,10 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateAnimation();
-        if (!stopped)
+        pauseState = GameController.instance.GetPauseState();
+        if(!pauseState)
+            updateAnimation();
+        if (!stopped && !pauseState)
             playerSoundManager.PlayFootsteps();
         else
             playerSoundManager.EndFootsteps();
@@ -78,8 +85,11 @@ public class PlayerBehaviour : MonoBehaviour
     // FixedUpdate is called in line with the physics engine. Can be set in the project settings. 
     void FixedUpdate()
     {
-        rayCollisionChecking();
-        move();
+        if(!pauseState)
+        {
+            rayCollisionChecking();
+            move();
+        }
     }
 
 

@@ -13,16 +13,13 @@ public class Weapon : MonoBehaviour
     public GameObject fireBallPrefeb;//Using fireball from Prefeb
 
 
-    // Start is called once at the beginning
-    void Start()
-    {
-    }
+    private bool isPaused = false;
 
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))//fire key setting
+        isPaused = GameController.instance.GetPauseState();
+        
+        if (Input.GetKeyDown(KeyCode.Space) && !isPaused)//fire key setting
         {
             if(GetComponent<PlayerBehaviour>().playerAmmo != 0)//Player will not allowed to shoot unless the ammo is > 0
             {
