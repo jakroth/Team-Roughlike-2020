@@ -137,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rb: {fileID: 1836834978605129793}
+  touch: {fileID: 21300000, guid: 5ddff1163c3bd2840b909ca66224b077, type: 3}
 --- !u!95 &6268364170536427830
 Animator:
   serializedVersion: 3

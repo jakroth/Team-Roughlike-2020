@@ -829,12 +829,12 @@ MonoBehaviour:
     type: 3}
   objectSprites:
   - {fileID: 21300000, guid: 8fd3c3c1135a9f249a99455bdbf54bdd, type: 3}
-  - {fileID: 21300000, guid: 875e2ff6f3e5da24c9b31d366eea085b, type: 3}
-  - {fileID: 21300000, guid: 875e2ff6f3e5da24c9b31d366eea085b, type: 3}
-  - {fileID: 21300000, guid: 875e2ff6f3e5da24c9b31d366eea085b, type: 3}
-  - {fileID: 21300000, guid: 56f5061eb4ab1fe4ba57d2c38e8e6de6, type: 3}
-  - {fileID: 21300000, guid: 56f5061eb4ab1fe4ba57d2c38e8e6de6, type: 3}
-  - {fileID: 21300000, guid: 56f5061eb4ab1fe4ba57d2c38e8e6de6, type: 3}
+  - {fileID: 21300000, guid: 8da6c1d5d8412f8438dbc713ae7e574b, type: 3}
+  - {fileID: 21300000, guid: 8da6c1d5d8412f8438dbc713ae7e574b, type: 3}
+  - {fileID: 21300000, guid: 8da6c1d5d8412f8438dbc713ae7e574b, type: 3}
+  - {fileID: 21300000, guid: bb17ee9dc18f4fe43a9305c910011a19, type: 3}
+  - {fileID: 21300000, guid: bb17ee9dc18f4fe43a9305c910011a19, type: 3}
+  - {fileID: 21300000, guid: bb17ee9dc18f4fe43a9305c910011a19, type: 3}
   studentSprites:
   - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
   - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
@@ -2049,7 +2049,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3333427571737588310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 12, z: 0}
+  m_LocalPosition: {x: 7.784, y: 11.462, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3333427572355829031}
@@ -2136,6 +2136,7 @@ GameObject:
   - component: {fileID: 3333427571737588269}
   - component: {fileID: 3333427571737588270}
   - component: {fileID: 3333427571737588257}
+  - component: {fileID: 3333427571737588313}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2205,6 +2206,25 @@ MonoBehaviour:
   stopped: 0
   pauseState: 0
   keyPart: 0
+--- !u!95 &3333427571737588313
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3333427571737588310}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c861a3d1d29ce841a2788d6395d2419, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3333427572328894122
 GameObject:
   m_ObjectHideFlags: 0
