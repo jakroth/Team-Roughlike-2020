@@ -11,6 +11,12 @@ public class fireBall : MonoBehaviour
     void Start()
     {
         rb.velocity = transform.right * speed;//fireball fly status
+
+        while (speed != 0)
+        {
+         
+        }
+
         Destroy(gameObject, 1);
     }
 

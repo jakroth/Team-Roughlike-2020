@@ -26,8 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public GameObject keyPrefeb;
 
-    public bool isBoss;
-    public bool isAttack;
+    public bool isBoss, isAttack, BossDie, SpiderDie,SpiderLeft,SpiderRight;
 
     void Start()
     {
@@ -45,10 +44,14 @@ public class EnemyBehaviour : MonoBehaviour
             isBoss = true;
             eneAnim.SetBool("isBoss", isBoss);
             eneAnim.SetBool("isAttack", isAttack);
+            eneAnim.SetBool("BossDie", BossDie);
         }
        else if(this.gameObject.tag == "enemy")
         {
             eneAnim.SetFloat("speed", speed);
+            eneAnim.SetBool("SpiderDie", SpiderDie);
+            eneAnim.SetBool("SpiderLeft", SpiderLeft);
+            eneAnim.SetBool("SpiderRight", SpiderRight);
         }
 
     }
@@ -102,7 +105,9 @@ public class EnemyBehaviour : MonoBehaviour
                 enemyHealth -= 30;
                 if (enemyHealth <= 0)
                 {
-                    Destroy(gameObject);
+                    SpiderDie = true;
+                    speed = 0;
+                    Destroy(gameObject,2);
                     Instantiate(keyPrefeb, this.gameObject.transform.position, new Quaternion(0, 0, 0, 0));
                 }
             }
@@ -119,7 +124,9 @@ public class EnemyBehaviour : MonoBehaviour
                 enemyHealth -= 10;
                 if (enemyHealth <= 0)
                 {
-                    Destroy(gameObject);
+                    BossDie = true;
+                    speed = 0;
+                    Destroy(gameObject,2);
                 }
             }
             else if (hit.tag == "Player")
@@ -144,12 +151,22 @@ public class EnemyBehaviour : MonoBehaviour
     public void chasingPlayer()// chase player
     {
         float distanceFromPlayer = Vector2.Distance(joke.position, transform.position);
-        
+
         if(distanceFromPlayer < lineOfSite)
         {
             if(this.gameObject.tag == "enemy")
             {
                 transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+
+                if (joke.transform.position.x > this.transform.position.x)
+                {
+                    SpiderRight = true;
+                }
+                else if(joke.transform.position.x > this.transform.position.x)
+                {
+                    SpiderLeft = true;
+                }
+
                 if (joke.transform.localPosition.x < this.transform.localPosition.x)
                 {
                     transform.localScale = new Vector3(-1, 1, 1);

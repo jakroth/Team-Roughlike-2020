@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -281,10 +282,13 @@ public class PlayerBehaviour : MonoBehaviour
             playerScoreNum.text = playerScore.ToString();
         }
         else if (other.tag == "enemy")
-        {
-            playerHealth -= 45;
-            playerHealthNum.text = playerHealth.ToString();
-
+        {   
+            if(other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            {
+                playerHealth -= 45;
+                playerHealthNum.text = playerHealth.ToString();
+            }
+           
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
@@ -292,9 +296,12 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if(other.tag == "boss")
             {
-            playerHealth -= 1;
-            playerHealthNum.text = playerHealth.ToString();
-
+            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            {
+                playerHealth -= 1;
+                playerHealthNum.text = playerHealth.ToString();
+            }
+           
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
