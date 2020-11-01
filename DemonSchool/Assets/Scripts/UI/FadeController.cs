@@ -15,9 +15,11 @@ public class FadeController : MonoBehaviour
 
     void Awake() 
     {
-        imageToFade.color = SetAlpha(imageToFade.color, 0);
         if(beginFade)
+        {
+            imageToFade.color = SetAlpha(imageToFade.color, 0);
             imageToFade.gameObject.SetActive(false);
+        }
     }
 
     //The update void is only for testing purposes

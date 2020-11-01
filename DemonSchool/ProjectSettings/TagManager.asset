@@ -18,6 +18,7 @@ TagManager:
   - boss
   - button
   - CharImg
+  - FakePlayer
   layers:
   - Default
   - TransparentFX

@@ -22,9 +22,11 @@ public class TutorialManager : MonoBehaviour
     public int part = 0;
 
     [SerializeField] private bool isDoorDialogue = false;
+    [SerializeField] private bool endDialogue = false;
     [SerializeField] private GameObject doorRef = null;
     [SerializeField] private GameObject baseScene = null;
     [SerializeField] private GameObject fallingScene = null;
+    [SerializeField] private GameObject fakePlayer = null;
 
     private void Awake()
     {
@@ -96,6 +98,7 @@ public class TutorialManager : MonoBehaviour
 
     public void StartFinalTransition()
     {
+        endDialogue = true;
         GameController.instance.UpdatePauseState(true);
         TextboxController.UpdateTextAndImage("... \n AAAAAAA!!!", staticCharacters[0]);
         StartCoroutine(BeginFinalDialogue());
@@ -109,6 +112,8 @@ public class TutorialManager : MonoBehaviour
         baseScene.SetActive(false);
         fallingScene.SetActive(true);
         fallingScene.GetComponentInChildren<TutorialCamera>().ShakeCamera(0.01f, 100000f);
+        GameObject.FindGameObjectWithTag("Player").SetActive(false);
+        fakePlayer.SetActive(true);
         yield return new WaitForSeconds(2f);
         fadeController.FadeOut();
     }
@@ -128,7 +133,7 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Space) && GameController.instance.GetPauseState() == true)
+        if(Input.GetKeyUp(KeyCode.Space) && GameController.instance.GetPauseState() == true && !endDialogue)
         {
             NextDialogue();
         }
