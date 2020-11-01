@@ -22,6 +22,7 @@ public class PlayerBehaviour : MonoBehaviour
     public int playerHealth;
     public int playerAmmo;
     public int playerScore;
+    public int playerLevel;
 
     public Text playerHealthNum;
     public Text playerAmmoNum;
@@ -75,6 +76,16 @@ public class PlayerBehaviour : MonoBehaviour
         coll = GetComponent<CircleCollider2D>();
         srP = GetComponent<SpriteRenderer>();//11
         originalColor = srP.color;//11
+
+        // load player stats from tutorial, if not tutorial
+        if (!isTutorial)
+        {
+            playerHealth = PlayerStats.health;
+            playerAmmo = PlayerStats.ammo;
+            playerScore = PlayerStats.score;
+            playerLevel = PlayerStats.level;
+        }
+
 
         // set up player stats
         playerAmmoNum.text = playerAmmo.ToString();
@@ -136,6 +147,13 @@ public class PlayerBehaviour : MonoBehaviour
                     // if it's the final door, load the next scene
                     if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
                     {
+                        // update static player stats
+                        PlayerStats.health = playerHealth;
+                        PlayerStats.ammo = playerAmmo;
+                        PlayerStats.score = playerScore;
+                        PlayerStats.level = playerLevel;
+
+                        // handle any transitions needed
                         if (!isTutorial)
                         {
                             Debug.Log("finalDoor");
