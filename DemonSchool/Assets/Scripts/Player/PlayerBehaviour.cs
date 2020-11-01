@@ -67,11 +67,12 @@ public class PlayerBehaviour : MonoBehaviour
     {       
         if(isTutorial)
             tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
+
         pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
-        coll = GetComponent<CircleCollider2D>();
 
+        coll = GetComponent<CircleCollider2D>();
         srP = GetComponent<SpriteRenderer>();//11
         originalColor = srP.color;//11
 
@@ -117,7 +118,7 @@ public class PlayerBehaviour : MonoBehaviour
         float shortestDistance = 100;
         RaycastHit2D closestHit = new RaycastHit2D();
 
-        //Get the closest object hit by the rays
+        // Get the closest object hit by the rays
         for (int i = 0; i < 4; i++)
         {
             // work out directions (0,1 or -1,0, etc)
@@ -129,36 +130,29 @@ public class PlayerBehaviour : MonoBehaviour
             rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength, LayerMask.GetMask("Wall"));
             if (rayArray[i].collider != null)
             {
-                float distance = Vector2.Distance(rayArray[i].collider.transform.position, transform.position);
-                if (distance < shortestDistance)
+                // check if the ray hits a door
+                if (rayArray[i].collider.gameObject.tag == "door")
                 {
-                    shortestDistance = distance;
-                    closestHit = rayArray[i];
-                }
-            }
-        }
-        //Debug.Log(shortestDistance);
-        if (closestHit.collider != null)
-        {
-            if (closestHit.collider.gameObject.tag == "door")
-            {
-                if (closestHit.collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
-                {
-                    if(!isTutorial)
+                    // if it's the final door, load the next scene
+                    if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
                     {
-                        Debug.Log("finalDoor");
-                        GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                        if (!isTutorial)
+                        {
+                            Debug.Log("finalDoor");
+                            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                        }
+                        else
+                        {
+                            tutorialManager.StartFinalTransition();
+                        }
                     }
                     else
-                    {
-                        tutorialManager.StartFinalTransition();
-                    }
+                        moveAway(rayArray[i]);
                 }
+                // otherwise move away from wall
                 else
-                    moveAway(closestHit);
+                    moveAway(rayArray[i]);
             }
-            else
-                moveAway(closestHit);
         }
     }
 
@@ -354,7 +348,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         }
 
-        else if (other.tag == "horoWall")
+        else if (other.tag == "horoWall" || other.tag == "door")
         {
             Debug.Log("horoWall");
             if (other.transform.position.y < transform.position.y)
