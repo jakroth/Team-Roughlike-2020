@@ -18,7 +18,6 @@ public class TutorialCollectable : MonoBehaviour
                     if(tutorialManager.part == 1)
                     {
                         tutorialManager.StartAttackDialogue();
-                        Destroy(this.gameObject);
                     }
                 break;
                 case "door":

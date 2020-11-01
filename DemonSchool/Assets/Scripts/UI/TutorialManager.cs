@@ -23,6 +23,8 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] private bool isDoorDialogue = false;
     [SerializeField] private GameObject doorRef = null;
+    [SerializeField] private GameObject baseScene = null;
+    [SerializeField] private GameObject fallingScene = null;
 
     private void Awake()
     {
@@ -90,6 +92,31 @@ public class TutorialManager : MonoBehaviour
         currentText = "N: In future, don’t be an idiot. Also do not hang up your phone, let me know what happens so I can help you out. Also my name is Noelle, remember it.";
         TextboxController.UpdateTextAndImage("In future, don’t be an idiot. Also do not hang up your phone, let me know what happens so I can help you out. Also my name is Noelle, remember it.", staticCharacters[1]);
         StartCoroutine(BeginDialogue());
+    }
+
+    public void StartFinalTransition()
+    {
+        GameController.instance.UpdatePauseState(true);
+        TextboxController.UpdateTextAndImage("... \n AAAAAAA!!!", staticCharacters[0]);
+        StartCoroutine(BeginFinalDialogue());
+        GameController.instance.gameObject.GetComponent<FadeController>().FadeInAndOut(2f);
+        StartCoroutine(ChangeScenes());
+    }
+
+    private IEnumerator ChangeScenes()
+    {
+        yield return new WaitForSeconds(2f);
+        baseScene.SetActive(false);
+        fallingScene.SetActive(true);
+        fallingScene.GetComponentInChildren<TutorialCamera>().ShakeCamera(0.01f, 100000f);
+        yield return new WaitForSeconds(2f);
+        fadeController.FadeOut();
+    }
+    
+    private IEnumerator BeginFinalDialogue()
+    {
+        yield return new WaitForSeconds(1f);
+        fadeController.FadeIn();
     }
 
     private IEnumerator BeginDialogue()

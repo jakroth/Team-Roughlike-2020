@@ -43,6 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool pauseState = false;
     private bool directionChangeX = false;
     private bool directionChangeY = false;
+    
 
 
     // for collisions
@@ -58,9 +59,14 @@ public class PlayerBehaviour : MonoBehaviour
     private Color originalColor;//11
     public float PlayerFlashTime = 0.25f;//11
 
+    [SerializeField] private bool isTutorial = false;
+    private TutorialManager tutorialManager;
+
     // Start is called before the first frame update
     void Start()
     {       
+        if(isTutorial)
+            tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
         pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
@@ -138,8 +144,15 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if (closestHit.collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
                 {
-                    Debug.Log("finalDoor");
-                    GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                    if(!isTutorial)
+                    {
+                        Debug.Log("finalDoor");
+                        GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                    }
+                    else
+                    {
+                        tutorialManager.StartFinalTransition();
+                    }
                 }
                 else
                     moveAway(closestHit);
