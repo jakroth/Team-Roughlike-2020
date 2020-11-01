@@ -5,12 +5,13 @@ using UnityEngine;
 public class TutorialCollectable : MonoBehaviour
 {
     public TutorialManager tutorialManager;
+    [SerializeField] private SceneLoader sceneLoader = null;
 
     public string type = "";
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Player")
+        if(col.gameObject.tag == "Player" || col.gameObject.tag == "FakePlayer")
         {
             switch(type)
             {
@@ -31,11 +32,24 @@ public class TutorialCollectable : MonoBehaviour
                         Destroy(this.gameObject);
                     }
                 break;
+                case "vanish":
+                    col.gameObject.GetComponent<FadeController>().FadeOut();
+                    Destroy(col.gameObject, 0.5f);
+                    StartCoroutine(LoadScene());
+                break;
                 default:
                 break;
             }
 
         }
+    }
+
+    private IEnumerator LoadScene()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameController.instance.gameObject.GetComponent<FadeController>().FadeInAndOut(2f);
+        yield return new WaitForSeconds(2f);
+        sceneLoader.LoadNextScene();
     }
 
 }

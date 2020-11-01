@@ -7,7 +7,7 @@ public class TutorialCamera : MonoBehaviour
     public float shakeTimer;
     public float shakeAmount;
 
-    bool shaking = false;
+    private bool shaking = false;
     private Vector3 originPos;
 
     private void Start()
