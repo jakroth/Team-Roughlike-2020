@@ -178,10 +178,12 @@ public class EnemyBehaviour : MonoBehaviour
                 if (joke.transform.position.x > this.transform.position.x)
                 {
                     SpiderRight = true;
+                    SpiderLeft = false;
                 }
-                else if(joke.transform.position.x > this.transform.position.x)
+                else if(joke.transform.position.x < this.transform.position.x)
                 {
                     SpiderLeft = true;
+                    SpiderRight = false;
                 }
 
                 if (joke.transform.localPosition.x < this.transform.localPosition.x)

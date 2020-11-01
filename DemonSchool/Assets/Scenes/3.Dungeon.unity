@@ -2206,6 +2206,7 @@ MonoBehaviour:
   stopped: 0
   pauseState: 0
   keyPart: 0
+  PlayerFlashTime: 0
 --- !u!95 &3333427571737588313
 Animator:
   serializedVersion: 3

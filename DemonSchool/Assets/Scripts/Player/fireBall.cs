@@ -9,6 +9,7 @@ public class fireBall : MonoBehaviour
     public Rigidbody2D rb;//Setting up Fireball's Rigidbody
     public Sprite touch;
 
+
     void Start()
     {
         rb.velocity = transform.right * speed;//fireball fly status
@@ -25,19 +26,20 @@ public class fireBall : MonoBehaviour
     {
         if (hit.tag == "enemy")
         {
-            //this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject);
+            this.GetComponent<SpriteRenderer>().sprite = touch;
+            Destroy(gameObject,0.05f);
         }
 
         else if(hit.tag == "boss")
         {
+            this.GetComponent<SpriteRenderer>().sprite = touch;
             Destroy(gameObject);
         }
 
-        else if (hit.tag == "map")
+        else if(hit.tag == "map" || hit.tag == "horoWall" || hit.tag == "door" || hit.tag == "vertWall")
         {
-           // this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject);
+            this.GetComponent<SpriteRenderer>().sprite = touch;
+            Destroy(gameObject, 0.05f);
         }
       
             
