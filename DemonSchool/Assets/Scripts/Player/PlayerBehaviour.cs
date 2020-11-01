@@ -308,7 +308,8 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (playerHealth <= 0)
             {
-                Destroy(gameObject);
+                
+                GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
             }
         }
         else if (other.tag == "boss")
@@ -326,7 +327,8 @@ public class PlayerBehaviour : MonoBehaviour
 
                     if (playerHealth <= 0)
                     {
-                        Destroy(gameObject);
+                       
+                        GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
                     }
 
                     Invoke("BossSkill", 1.06f);
@@ -380,7 +382,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (playerHealth <= 0)
         {
-            Destroy(gameObject);
+            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
         }
     }
 
