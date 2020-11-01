@@ -18,8 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
     public int enemyHealth;
 
     public float speed;
-    public float lineOfSite;
-    public float lineOfSite1;
+    public float lineOfSite, lineOfSite1, lineOfSiteBossDmg;//11
     private Transform joke;
 
     public Animator eneAnim;
@@ -31,8 +30,12 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         guardingRoom();
+        if(this.gameObject.tag == "boss")
+        {
+            this.GetComponent<BoxCollider2D>().size = new Vector2(6f, 4f);
+            this.GetComponent<BoxCollider2D>().offset = new Vector2(0.13f, -0.9f);
+        }
         
-
     }
 
     void Update()
@@ -76,6 +79,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             this.lineOfSite = 8f;
             this.lineOfSite1 = 4.5f;
+            this.lineOfSiteBossDmg = 3.78f;
             this.gameObject.tag = "boss";
             isBoss = true;
         }
@@ -200,10 +204,9 @@ public class EnemyBehaviour : MonoBehaviour
                 }
             }
         }
-
-
-
     }
+
+   
 
     private void OnDrawGizmosSelected()
     {
@@ -212,6 +215,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, lineOfSite1);
+
+        Gizmos.color = Color.green;//11
+        Gizmos.DrawWireSphere(transform.position, lineOfSiteBossDmg);//11
     }
 
 

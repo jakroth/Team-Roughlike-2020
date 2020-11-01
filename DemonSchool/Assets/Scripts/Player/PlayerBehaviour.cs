@@ -51,6 +51,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     public int keyPart = 0;
 
+    private Transform bossDis;//11
+    
+
+
     // Start is called before the first frame update
     void Start()
     {       
@@ -80,6 +84,9 @@ public class PlayerBehaviour : MonoBehaviour
             playerSoundManager.PlayFootsteps();
         else
             playerSoundManager.EndFootsteps();
+
+        
+
     }
 
 
@@ -238,6 +245,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Debug.Log("collision");
 
+        bossDis = GameObject.FindGameObjectWithTag("boss").transform;//11
+        float distanceFromBoss = Vector2.Distance(bossDis.position, transform.position);//11
+
         if (other.tag == "collection")
         {
             Destroy(other.gameObject);
@@ -282,32 +292,36 @@ public class PlayerBehaviour : MonoBehaviour
             playerScoreNum.text = playerScore.ToString();
         }
         else if (other.tag == "enemy")
-        {   
-            if(other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+        {
+            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
                 playerHealth -= 45;
                 playerHealthNum.text = playerHealth.ToString();
             }
-           
+
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
             }
         }
-        else if(other.tag == "boss")
-            {
+        else if (other.tag == "boss" && distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg)
+        {
+
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
+                //yield return new WaitForSeconds(3);
                 playerHealth -= 1;
                 playerHealthNum.text = playerHealth.ToString();
+                
             }
            
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
             }
-        }    
-        
+
+        }
+
         else if (other.tag == "horoWall")
         {
             Debug.Log("horoWall");
@@ -316,6 +330,7 @@ public class PlayerBehaviour : MonoBehaviour
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
         }
+
     }
 
 
@@ -336,7 +351,6 @@ public class PlayerBehaviour : MonoBehaviour
             playerAmmoNum.text = playerAmmo.ToString();
         }
     }
-
 
 
    
