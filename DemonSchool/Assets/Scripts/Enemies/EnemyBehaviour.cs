@@ -18,7 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
     public int enemyHealth;
 
     public float speed;
-    public float lineOfSite, lineOfSite1, lineOfSiteBossDmg;//11
+    public float lineOfSite, lineOfSite1, lineOfSiteBossDmg;
     private Transform joke;
 
     public Animator eneAnim;
@@ -27,9 +27,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public bool isBoss, isAttack, BossDie, SpiderDie,SpiderLeft,SpiderRight;
 
-    private SpriteRenderer sr;//11
-    private Color originalColor;//11
-    public float flashTime = 0.25f;//11
+    private SpriteRenderer sr;
+    private Color originalColor;
+    public float flashTime = 0.25f;
 
     void Start()
     {
@@ -40,8 +40,8 @@ public class EnemyBehaviour : MonoBehaviour
             this.GetComponent<BoxCollider2D>().offset = new Vector2(0.13f, -0.9f);
         }
 
-        sr = GetComponent<SpriteRenderer>();//11
-        originalColor = sr.color;//11
+        sr = GetComponent<SpriteRenderer>();
+        originalColor = sr.color;
         
     }
 
@@ -115,7 +115,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 enemyHealth -= 30;
 
-                FlashColor(flashTime);//11
+                FlashColor(flashTime);
 
                 if (enemyHealth <= 0)
                 {
@@ -137,7 +137,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 enemyHealth -= 10;
 
-                FlashColor(flashTime);//11
+                FlashColor(flashTime);
 
                 if (enemyHealth <= 0)
                 {
@@ -229,8 +229,8 @@ public class EnemyBehaviour : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, lineOfSite1);
 
-        Gizmos.color = Color.green;//11
-        Gizmos.DrawWireSphere(transform.position, lineOfSiteBossDmg);//11
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, lineOfSiteBossDmg);
     }
 
     void FlashColor(float flashTime)

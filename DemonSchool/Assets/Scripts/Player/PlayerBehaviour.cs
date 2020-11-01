@@ -52,7 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public int keyPart = 0;
 
-    private Transform bossDis;//11
+    private Transform bossDis;
     
 
 
@@ -249,13 +249,7 @@ public class PlayerBehaviour : MonoBehaviour
          
         Debug.Log("collision");
 
-        /*if(other.tag == "boss")
-        {
-
-        }
-        bossDis = GameObject.FindGameObjectWithTag("boss").transform;//11
-        float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);//11   */ 
-
+       
 
         if (other.tag == "collection")
         {
@@ -315,8 +309,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (other.tag == "boss")
         {
-            bossDis = GameObject.FindGameObjectWithTag("boss").transform;//11
-            float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);//11    
+            bossDis = GameObject.FindGameObjectWithTag("boss").transform;
+            float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);
 
             if (distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg) {
 
