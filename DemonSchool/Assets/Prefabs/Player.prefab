@@ -199,7 +199,7 @@ MonoBehaviour:
   speed: 5
   bounce: 3
   playerHealth: 100
-  playerAmmo: 10
+  playerAmmo: 0
   playerScore: 0
   playerHealthNum: {fileID: 0}
   playerAmmoNum: {fileID: 0}
