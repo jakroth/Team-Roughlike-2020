@@ -53,8 +53,10 @@ public class PlayerBehaviour : MonoBehaviour
     public int keyPart = 0;
 
     private Transform bossDis;
-    
 
+    private SpriteRenderer srP;//11
+    private Color originalColor;//11
+    public float PlayerFlashTime = 0.25f;//11
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +66,8 @@ public class PlayerBehaviour : MonoBehaviour
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
         coll = GetComponent<CircleCollider2D>();
 
-        
+        srP = GetComponent<SpriteRenderer>();//11
+        originalColor = srP.color;//11
 
         // set up player stats
         if (!pauseState)
@@ -299,6 +302,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
                 playerHealth -= 45;
+                FlashColor(PlayerFlashTime);//11
                 playerHealthNum.text = playerHealth.ToString();
             }
 
@@ -317,6 +321,7 @@ public class PlayerBehaviour : MonoBehaviour
                 if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
                 {
                     playerHealth -= 5;
+                    FlashColor(PlayerFlashTime);//11
                     playerHealthNum.text = playerHealth.ToString();
 
                     if (playerHealth <= 0)
@@ -325,6 +330,8 @@ public class PlayerBehaviour : MonoBehaviour
                     }
 
                     Invoke("BossSkill", 1.06f);
+                    FlashColor(PlayerFlashTime);//11
+                    FlashColor(PlayerFlashTime);//11
                 }
             }
 
@@ -377,6 +384,16 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    void FlashColor(float flashTime)//11
+    {
+        srP.color = Color.red;
+        Invoke("ResetColor", flashTime);
+    }
+
+    void ResetColor()//11
+    {
+        srP.color = originalColor;
+    }
 
 }
 

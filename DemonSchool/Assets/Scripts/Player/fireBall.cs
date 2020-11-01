@@ -28,6 +28,12 @@ public class fireBall : MonoBehaviour
             //this.GetComponent<SpriteRenderer>().sprite = touch;
             Destroy(gameObject);
         }
+
+        else if(hit.tag == "boss")
+        {
+            Destroy(gameObject);
+        }
+
         else if (hit.tag == "map")
         {
            // this.GetComponent<SpriteRenderer>().sprite = touch;
