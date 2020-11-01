@@ -31,8 +31,13 @@ public class EnemyBehaviour : MonoBehaviour
     private Color originalColor;
     public float flashTime = 0.25f;
 
+    [SerializeField] private bool isTutorial = false;
+    private TutorialManager tutorialManager;
+
     void Start()
     {
+        if(isTutorial)
+            tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
         guardingRoom();
         if(this.gameObject.tag == "boss")
         {
@@ -123,6 +128,8 @@ public class EnemyBehaviour : MonoBehaviour
                     speed = 0;
                     Destroy(gameObject,2);
                     Instantiate(keyPrefeb, this.gameObject.transform.position, new Quaternion(0, 0, 0, 0));
+                    if(isTutorial)
+                        tutorialManager.StartDeathDialogue();
                 }
             }
             else if (hit.tag == "Player")

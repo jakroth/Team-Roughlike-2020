@@ -70,12 +70,9 @@ public class PlayerBehaviour : MonoBehaviour
         originalColor = srP.color;//11
 
         // set up player stats
-        if (!pauseState)
-        {
-            playerAmmoNum.text = playerAmmo.ToString();
-            playerHealthNum.text = playerHealth.ToString();
-            playerScoreNum.text = playerScore.ToString();
-        }
+        playerAmmoNum.text = playerAmmo.ToString();
+        playerHealthNum.text = playerHealth.ToString();
+        playerScoreNum.text = playerScore.ToString();
     }
 
 

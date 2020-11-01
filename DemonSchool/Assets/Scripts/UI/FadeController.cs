@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FadeController : MonoBehaviour
 {
     public Image imageToFade;
+    [SerializeField] private bool beginFade = true;
     public float fadeSpeed = 2f;
     public bool isFading = false;
 
@@ -15,7 +16,8 @@ public class FadeController : MonoBehaviour
     void Awake() 
     {
         imageToFade.color = SetAlpha(imageToFade.color, 0);
-        imageToFade.gameObject.SetActive(false);
+        if(beginFade)
+            imageToFade.gameObject.SetActive(false);
     }
 
     //The update void is only for testing purposes
@@ -38,6 +40,8 @@ public class FadeController : MonoBehaviour
     {
         if(!isFading)
             StartCoroutine(FadeTo(true, fadeSpeed));
+        else
+            StartCoroutine(TryFadeInAgain());
 
         //TextboxController.UpdateText("Yo what are you looking at???? Mind your own business buddy.");
     }
@@ -46,6 +50,20 @@ public class FadeController : MonoBehaviour
     {
         if(!isFading)
             StartCoroutine(FadeTo(false, fadeSpeed));
+        else
+            StartCoroutine(TryFadeOutAgain());
+    }
+
+    private IEnumerator TryFadeOutAgain()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FadeOut();
+    }
+
+    private IEnumerator TryFadeInAgain()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FadeIn();
     }
 
     public void FadeInAndOut(float time)

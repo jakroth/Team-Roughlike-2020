@@ -1570,7 +1570,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageToFade: {fileID: 1077416536}
-  fadeSpeed: 2
+  beginFade: 1
+  fadeSpeed: 0.25
   isFading: 0
 --- !u!114 &1592009365
 MonoBehaviour:

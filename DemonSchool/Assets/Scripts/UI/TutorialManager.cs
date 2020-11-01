@@ -7,6 +7,10 @@ public class TutorialManager : MonoBehaviour
 {
     public List<Sprite> characters;
     public List<string> tutorialDialogue;
+    public List<string> attackDialogue;
+    public List<string> doorDialogue;
+    public List<string> spiderDialogue;
+    public List<string> deathDialogue;
     private static List<Sprite> staticCharacters = new List<Sprite>();
     private static List<string> staticDialogue = new List<string>();
 
@@ -14,6 +18,11 @@ public class TutorialManager : MonoBehaviour
 
     private string currentText = null;
     private string nextText = null;
+
+    public int part = 0;
+
+    [SerializeField] private bool isDoorDialogue = false;
+    [SerializeField] private GameObject doorRef = null;
 
     private void Awake()
     {
@@ -37,6 +46,59 @@ public class TutorialManager : MonoBehaviour
         fadeController.FadeIn();
     }
 
+    public void StartAttackDialogue()
+    {
+        GameController.instance.UpdatePauseState(true);
+        staticDialogue.Clear();
+        foreach(string str in attackDialogue)
+            staticDialogue.Add(str);
+        currentText = "N: Don't drink that!";
+        TextboxController.UpdateTextAndImage("Don't drink that!", staticCharacters[1]);
+        StartCoroutine(BeginDialogue());
+    }
+
+    public void StartDoorDialogue(GameObject door)
+    {
+        GameController.instance.UpdatePauseState(true);
+        staticDialogue.Clear();
+        foreach(string str in doorDialogue)
+            staticDialogue.Add(str);
+        currentText = "N: Ok, I’m going to leave it up to you to work out what is going on out there.";
+        TextboxController.UpdateTextAndImage("Ok, I’m going to leave it up to you to work out what is going on out there.", staticCharacters[1]);
+        isDoorDialogue = true;
+        doorRef = door;
+        StartCoroutine(BeginDialogue());
+    }
+
+    public void StartSpiderDialogue()
+    {
+        GameController.instance.UpdatePauseState(true);
+        staticDialogue.Clear();
+        foreach(string str in spiderDialogue)
+            staticDialogue.Add(str);
+        currentText = "N: Steven, use the attack buttons I told you about to kill it. If it hits you your HP will go down";
+        TextboxController.UpdateTextAndImage("Steven, use the attack buttons I told you about to kill it. If it hits you your HP will go down", staticCharacters[1]);
+        StartCoroutine(BeginDialogue());
+    }
+
+    public void StartDeathDialogue()
+    {
+        GameController.instance.UpdatePauseState(true);
+        staticDialogue.Clear();
+        foreach(string str in deathDialogue)
+            staticDialogue.Add(str);
+        currentText = "N: In future, don’t be an idiot. Also do not hang up your phone, let me know what happens so I can help you out. Also my name is Noelle, remember it.";
+        TextboxController.UpdateTextAndImage("In future, don’t be an idiot. Also do not hang up your phone, let me know what happens so I can help you out. Also my name is Noelle, remember it.", staticCharacters[1]);
+        StartCoroutine(BeginDialogue());
+    }
+
+    private IEnumerator BeginDialogue()
+    {
+        yield return new WaitForSeconds(0.25f);
+        fadeController.FadeIn();
+    }
+
+
     void Update()
     {
         if(Input.GetKeyUp(KeyCode.Space) && GameController.instance.GetPauseState() == true)
@@ -48,14 +110,14 @@ public class TutorialManager : MonoBehaviour
     public void NextDialogue()
     {
         //check next dialogue based on current dialogue
-        for(int i = 0; i < tutorialDialogue.Count + 1; i++)
+        for(int i = 0; i < staticDialogue.Count + 1; i++)
         {
-            if(tutorialDialogue[i] == currentText)
+            if(staticDialogue[i] == currentText)
             {
-                if(i >= 12)
+                if(i >= staticDialogue.Count - 1)
                     nextText = null;
                 else
-                    nextText = tutorialDialogue[i + 1];
+                    nextText = staticDialogue[i + 1];
                 break;
             }
         }
@@ -80,9 +142,26 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            currentText = nextText;
-            GameController.instance.UpdatePauseState(false);
-            fadeController.FadeOut();
+            if(!isDoorDialogue)
+            {
+                currentText = nextText;
+                GameController.instance.UpdatePauseState(false);
+                fadeController.FadeOut();
+                part++;
+            }
+            else
+            {
+                currentText = nextText;
+                Destroy(doorRef.GetComponent<FadeController>().imageToFade.gameObject);
+                GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(16.6f, 9.6f, 0f);
+                Destroy(doorRef);
+                doorRef = null;
+                isDoorDialogue = false;
+                GameController.instance.UpdatePauseState(false);
+                fadeController.FadeOut();
+                part++;
+            }
+
         }
 
     }
