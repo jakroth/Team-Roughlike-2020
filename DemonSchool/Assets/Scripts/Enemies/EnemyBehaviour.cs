@@ -78,8 +78,8 @@ public class EnemyBehaviour : MonoBehaviour
         if (this.spriteID == 1)
         {
             this.lineOfSite = 8f;
-            this.lineOfSite1 = 4.5f;
-            this.lineOfSiteBossDmg = 3.78f;
+            this.lineOfSite1 = 5.44f;
+            this.lineOfSiteBossDmg = 3.7f;
             this.gameObject.tag = "boss";
             isBoss = true;
         }

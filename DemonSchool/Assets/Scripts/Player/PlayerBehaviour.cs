@@ -307,14 +307,21 @@ public class PlayerBehaviour : MonoBehaviour
         else if (other.tag == "boss" && distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg)
         {
 
+            
+
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
-                //yield return new WaitForSeconds(3);
-                playerHealth -= 1;
+                playerHealth -= 5;
                 playerHealthNum.text = playerHealth.ToString();
-                
+
+                if (playerHealth <= 0)
+                {
+                    Destroy(gameObject);
+                }
+
+                Invoke("BossSkill",1.06f);
             }
-           
+
             if (playerHealth <= 0)
             {
                 Destroy(gameObject);
@@ -353,7 +360,16 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-   
+    public void BossSkill()
+    {
+        playerHealth -= 30;
+        playerHealthNum.text = playerHealth.ToString();
+
+        if (playerHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 
 
 }
