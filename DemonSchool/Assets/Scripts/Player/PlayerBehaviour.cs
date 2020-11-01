@@ -330,7 +330,13 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (playerHealth <= 0)
             {
-                
+                // update static player stats
+                PlayerStats.health = playerHealth;
+                PlayerStats.ammo = playerAmmo;
+                PlayerStats.score = playerScore;
+                PlayerStats.level = playerLevel;
+
+                // load game over scene
                 GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
             }
         }
