@@ -27,6 +27,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public bool isBoss, isAttack, BossDie, SpiderDie,SpiderLeft,SpiderRight;
 
+    private SpriteRenderer sr;//11
+    private Color originalColor;//11
+    public float flashTime = 0.25f;//11
+
     void Start()
     {
         guardingRoom();
@@ -35,6 +39,9 @@ public class EnemyBehaviour : MonoBehaviour
             this.GetComponent<BoxCollider2D>().size = new Vector2(6f, 4f);
             this.GetComponent<BoxCollider2D>().offset = new Vector2(0.13f, -0.9f);
         }
+
+        sr = GetComponent<SpriteRenderer>();//11
+        originalColor = sr.color;//11
         
     }
 
@@ -107,6 +114,9 @@ public class EnemyBehaviour : MonoBehaviour
             if (hit.tag == "bullet")
             {
                 enemyHealth -= 30;
+
+                FlashColor(flashTime);//11
+
                 if (enemyHealth <= 0)
                 {
                     SpiderDie = true;
@@ -126,6 +136,9 @@ public class EnemyBehaviour : MonoBehaviour
             if (hit.tag == "bullet")
             {
                 enemyHealth -= 10;
+
+                FlashColor(flashTime);//11
+
                 if (enemyHealth <= 0)
                 {
                     BossDie = true;
@@ -220,5 +233,15 @@ public class EnemyBehaviour : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, lineOfSiteBossDmg);//11
     }
 
+    void FlashColor(float flashTime)
+    {
+        sr.color = Color.red;
+        Invoke("ResetColor", flashTime);
+    }
+
+    void ResetColor()
+    {
+        sr.color = originalColor;   
+    }
 
 }

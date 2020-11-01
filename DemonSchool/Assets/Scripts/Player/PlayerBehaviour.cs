@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -63,8 +64,10 @@ public class PlayerBehaviour : MonoBehaviour
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
         coll = GetComponent<CircleCollider2D>();
 
+        
+
         // set up player stats
-        if(!pauseState)
+        if (!pauseState)
         {
             playerAmmoNum.text = playerAmmo.ToString();
             playerHealthNum.text = playerHealth.ToString();
@@ -243,10 +246,16 @@ public class PlayerBehaviour : MonoBehaviour
     // also makes player go behind lower walls
     private void OnTriggerEnter2D(Collider2D other)
     {
+         
         Debug.Log("collision");
 
+        /*if(other.tag == "boss")
+        {
+
+        }
         bossDis = GameObject.FindGameObjectWithTag("boss").transform;//11
-        float distanceFromBoss = Vector2.Distance(bossDis.position, transform.position);//11
+        float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);//11   */ 
+
 
         if (other.tag == "collection")
         {
@@ -304,22 +313,25 @@ public class PlayerBehaviour : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        else if (other.tag == "boss" && distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg)
+        else if (other.tag == "boss")
         {
+            bossDis = GameObject.FindGameObjectWithTag("boss").transform;//11
+            float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);//11    
 
-            
+            if (distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg) {
 
-            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
-            {
-                playerHealth -= 5;
-                playerHealthNum.text = playerHealth.ToString();
-
-                if (playerHealth <= 0)
+                if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
                 {
-                    Destroy(gameObject);
-                }
+                    playerHealth -= 5;
+                    playerHealthNum.text = playerHealth.ToString();
 
-                Invoke("BossSkill",1.06f);
+                    if (playerHealth <= 0)
+                    {
+                        Destroy(gameObject);
+                    }
+
+                    Invoke("BossSkill", 1.06f);
+                }
             }
 
             if (playerHealth <= 0)
@@ -337,7 +349,7 @@ public class PlayerBehaviour : MonoBehaviour
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
         }
-
+        
     }
 
 
