@@ -330,6 +330,14 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
+    public void daggerAttackAnimation()
+    {
+        isFiring = true;
+        animTime = 0;
+        GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 4];
+    }
+
+
     // controls collision with objects and enemies
     // also makes player go behind lower walls
     private void OnTriggerEnter2D(Collider2D other)

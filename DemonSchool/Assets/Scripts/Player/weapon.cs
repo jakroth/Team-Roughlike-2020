@@ -18,7 +18,7 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         isPaused = GameController.instance.GetPauseState();
-        
+
         if (Input.GetKeyDown(KeyCode.Space) && !isPaused) //fire key setting
         {
             GetComponent<PlayerBehaviour>().attackAnimation();
@@ -29,7 +29,11 @@ public class Weapon : MonoBehaviour
                 GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
             }
         }
-        
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isPaused) //fire key setting
+        {
+            GetComponent<PlayerBehaviour>().daggerAttackAnimation();
+
+        }
     }
 
     void Shoot()//Shoot Logic
