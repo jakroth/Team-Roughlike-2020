@@ -37,17 +37,25 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Animation Sprites")]
     // tile set for the Normal Tiles
     public List<Sprite> animationList;
+    [Header("Player Animation Attributes")]
     public int jockDirection;
     public int jockForm;
     public int formChangeDirection;
     public float animSpeed;
     public float animTime;
+    [Header("Player Movement Attributes")]
     public bool stopped;
-    public bool isFiring;
     public bool pauseState = false;
+    public bool isFiring = false;
+    // for the enemy push mechanics
+    [Header("Player Collision Attributes")]
+    public float pushSpeed = 3;
+    public float pushDistance = 3;
+    public bool isPushed = false;
+    private Vector2 pushDestination = Vector2.zero;
+    private float pushTime = 0;
     private bool directionChangeX = false;
     private bool directionChangeY = false;
-    
 
 
     // for collisions
@@ -55,12 +63,9 @@ public class PlayerBehaviour : MonoBehaviour
     private float laserLength = 0.4f;
     private CircleCollider2D coll;
 
-
-
+    [Header("Other Attributes")]
     public int keyPart = 0;
-
     private Transform bossDis;
-
     private SpriteRenderer srP;//11
     private Color originalColor;//11
     public float PlayerFlashTime = 0.25f;//11
@@ -128,7 +133,10 @@ public class PlayerBehaviour : MonoBehaviour
         if(!pauseState)
         {
             rayCollisionChecking();
-            move();
+            if(!isPushed)
+                move();
+            else
+                push();
         }
     }
 
@@ -345,7 +353,6 @@ public class PlayerBehaviour : MonoBehaviour
          
         Debug.Log("collision");
 
-       
 
         if (other.tag == "collection")
         {
@@ -400,8 +407,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
-                playerHealth -= 25;
-                FlashColor(PlayerFlashTime);//11
+                playerHealth -= 20;
+                FlashColor();  //11
                 playerHealthNum.text = playerHealth.ToString();
                 pushBack(other);
             }
@@ -429,19 +436,25 @@ public class PlayerBehaviour : MonoBehaviour
 
                 if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
                 {
-                    playerHealth -= 5;
-                    FlashColor(PlayerFlashTime);//11
+                    playerHealth -= 20;
+                    FlashColor();//11
                     playerHealthNum.text = playerHealth.ToString();
+                    pushBack(other);
 
                     if (playerHealth <= 0)
                     {
-                       
+                        // update static player stats
+                        PlayerStats.health = playerHealth;
+                        PlayerStats.ammo = playerAmmo;
+                        PlayerStats.score = playerScore;
+                        PlayerStats.level = playerLevel;
+
+                        // load game over scene
                         GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
                     }
-
                     Invoke("BossSkill", 1.06f);
-                    FlashColor(PlayerFlashTime);//11
-                    FlashColor(PlayerFlashTime);//11
+                    FlashColor();//11
+                    FlashColor();//11
                 }
             }
 
@@ -466,11 +479,26 @@ public class PlayerBehaviour : MonoBehaviour
     //TODO: make this much smoother, player loses control for a split second
     public void pushBack(Collider2D other)
     {
+        isPushed = true;
         float distance = Vector2.Distance(transform.position, other.transform.position);
         float deltaX = (other.bounds.center.x - transform.position.x)/distance;
-        float deltaY = (other.bounds.center.y - transform.position.y)/ distance; ;
-        transform.position = new Vector2(transform.position.x - (deltaX * 2), transform.position.y - (deltaY * 2));
+        float deltaY = (other.bounds.center.y - transform.position.y)/distance; ;
+        pushDestination = new Vector2(transform.position.x - (deltaX * pushDistance), transform.position.y - (deltaY * pushDistance));
+        pushTime = 0f;
+        push();
     }
+
+    private void push()
+    {
+        if (pushTime < 0.15f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
+            pushTime += Time.deltaTime;
+        }
+        else
+            isPushed = false;
+    }
+
 
     public void objectFunction()
     {
@@ -502,10 +530,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    void FlashColor(float flashTime)//11
+    void FlashColor()//11
     {
+        Debug.Log("flash player");
         srP.color = Color.red;
-        Invoke("ResetColor", flashTime);
+        Invoke("ResetColor", PlayerFlashTime);
     }
 
     void ResetColor()//11

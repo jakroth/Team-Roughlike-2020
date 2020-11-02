@@ -238,11 +238,15 @@ MonoBehaviour:
   animTime: 0
   stopped: 0
   pauseState: 0
+  isFiring: 0
+  pushSpeed: 15
+  pushDistance: 3
+  isPushed: 0
   keyPart: 0
-  PlayerFlashTime: 0
+  PlayerFlashTime: 0.25
   isTutorial: 0
-  backpackSprite: {fileID: 0}
-  studentSprite: {fileID: 0}
+  backpackSprite: {fileID: 21300000, guid: 8fd3c3c1135a9f249a99455bdbf54bdd, type: 3}
+  studentSprite: {fileID: 21300000, guid: 719f07d6fbee31047ad84d58b0c22915, type: 3}
 --- !u!114 &3185179777380893205
 MonoBehaviour:
   m_ObjectHideFlags: 0
