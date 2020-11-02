@@ -39,11 +39,6 @@ public class EnemyBehaviour : MonoBehaviour
         if(isTutorial)
             tutorialManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TutorialManager>();
         guardingRoom();
-        if(this.gameObject.tag == "boss")
-        {
-            this.GetComponent<BoxCollider2D>().size = new Vector2(6f, 4f);
-            this.GetComponent<BoxCollider2D>().offset = new Vector2(0.13f, -0.9f);
-        }
 
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
@@ -60,8 +55,12 @@ public class EnemyBehaviour : MonoBehaviour
             eneAnim.SetBool("isBoss", isBoss);
             eneAnim.SetBool("isAttack", isAttack);
             eneAnim.SetBool("BossDie", BossDie);
+
+            if(isAttack)
+                splashDamage();
+            
         }
-       else if(this.gameObject.tag == "enemy")
+        else if(this.gameObject.tag == "enemy")
         {
             eneAnim.SetFloat("speed", speed);
             eneAnim.SetBool("SpiderDie", SpiderDie);
@@ -94,6 +93,8 @@ public class EnemyBehaviour : MonoBehaviour
             this.lineOfSiteBossDmg = 3.7f;
             this.gameObject.tag = "boss";
             isBoss = true;
+            this.GetComponent<BoxCollider2D>().size = new Vector2(6.35f, 4.3f);
+            this.GetComponent<BoxCollider2D>().offset = new Vector2(0.24f, 0.14f);
         }
         else if (this.spriteID == 0)
         {
@@ -256,6 +257,25 @@ public class EnemyBehaviour : MonoBehaviour
     void ResetColor()
     {
         sr.color = originalColor;   
+    }
+
+
+    void splashDamage() {
+        CapsuleCollider2D test = gameObject.GetComponent<CapsuleCollider2D>();
+        if ((sr.sprite.ToString().Contains("demon_attack09") || sr.sprite.ToString().Contains("demon_attack10")))
+        {
+            if (test == null)
+            {
+                CapsuleCollider2D splashAttack = gameObject.AddComponent<CapsuleCollider2D>();
+                splashAttack.direction = CapsuleDirection2D.Horizontal;
+                splashAttack.offset = new Vector2(-0.25f, -1.45f);
+                splashAttack.size = new Vector2(9.75f, 2.25f);
+            }
+        }
+        else if (test != null)
+        {
+            Destroy(test);
+        }
     }
 
 }

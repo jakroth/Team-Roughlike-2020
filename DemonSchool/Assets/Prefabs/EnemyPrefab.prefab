@@ -104,6 +104,7 @@ MonoBehaviour:
   speed: 3
   lineOfSite: 6.28
   lineOfSite1: 0
+  lineOfSiteBossDmg: 0
   eneAnim: {fileID: 6995784953507241196}
   keyPrefeb: {fileID: 7626257983786648771, guid: dbb6f6105bd928a42a800c3f18fc0b02,
     type: 3}
@@ -113,6 +114,8 @@ MonoBehaviour:
   SpiderDie: 0
   SpiderLeft: 0
   SpiderRight: 0
+  flashTime: 0.25
+  isTutorial: 0
 --- !u!61 &5480114837076111089
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -126,7 +129,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012631059, y: 0.3008784}
+  m_Offset: {x: 0.025183916, y: 0.06865251}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -137,7 +140,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6057074, y: 1.3601172}
+  m_Size: {x: 2.9320793, y: 2.0756247}
   m_EdgeRadius: 0
 --- !u!95 &6995784953507241196
 Animator:

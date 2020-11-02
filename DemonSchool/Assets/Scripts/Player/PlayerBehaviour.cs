@@ -400,9 +400,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
-                playerHealth -= 45;
+                playerHealth -= 25;
                 FlashColor(PlayerFlashTime);//11
                 playerHealthNum.text = playerHealth.ToString();
+                pushBack(other);
             }
 
             if (playerHealth <= 0)
@@ -414,7 +415,7 @@ public class PlayerBehaviour : MonoBehaviour
                 PlayerStats.level = playerLevel;
 
                 // load game over scene
-                GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
             }
         } 
 
@@ -435,7 +436,7 @@ public class PlayerBehaviour : MonoBehaviour
                     if (playerHealth <= 0)
                     {
                        
-                        GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                        GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
                     }
 
                     Invoke("BossSkill", 1.06f);
@@ -462,6 +463,14 @@ public class PlayerBehaviour : MonoBehaviour
         
     }
 
+    //TODO: make this much smoother, player loses control for a split second
+    public void pushBack(Collider2D other)
+    {
+        float distance = Vector2.Distance(transform.position, other.transform.position);
+        float deltaX = (other.bounds.center.x - transform.position.x)/distance;
+        float deltaY = (other.bounds.center.y - transform.position.y)/ distance; ;
+        transform.position = new Vector2(transform.position.x - (deltaX * 2), transform.position.y - (deltaY * 2));
+    }
 
     public void objectFunction()
     {
