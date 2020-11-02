@@ -33,7 +33,7 @@ public class fireBall : MonoBehaviour
         else if(hit.tag == "boss")
         {
             this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject);
+            Destroy(gameObject, 0.05f);
         }
 
         else if(hit.tag == "map" || hit.tag == "horoWall" || hit.tag == "door" || hit.tag == "vertWall")

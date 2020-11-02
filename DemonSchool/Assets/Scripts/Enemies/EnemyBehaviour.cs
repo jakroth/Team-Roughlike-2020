@@ -118,17 +118,22 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (hit.tag == "bullet")
             {
-                enemyHealth -= 30;
+                if (!SpiderDie)
+                {
+                    enemyHealth -= 30;
+                    FlashColor(flashTime);
+                }
 
-                FlashColor(flashTime);
-
-                if (enemyHealth <= 0)
+                if (enemyHealth <= 0 && !SpiderDie)
                 {
                     SpiderDie = true;
                     speed = 0;
                     Destroy(gameObject,2);
                     Instantiate(keyPrefeb, this.gameObject.transform.position, new Quaternion(0, 0, 0, 0));
-                    if(isTutorial)
+                    PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+                    player.playerScore += 10;
+                    player.playerScoreNum.text = player.playerScore.ToString();
+                    if (isTutorial)
                         tutorialManager.StartDeathDialogue();
                 }
             }

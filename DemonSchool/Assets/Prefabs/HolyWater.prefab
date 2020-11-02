@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1836834978605129793}
   - component: {fileID: 359154691038536555}
   - component: {fileID: -1660682154584050310}
-  - component: {fileID: 6268364170536427830}
   m_Layer: 0
   m_Name: HolyWater
   m_TagString: bullet
@@ -135,25 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ce8f7f95eba024092eea81d8a32022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 9
   rb: {fileID: 1836834978605129793}
   touch: {fileID: -8074134874723915612, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
---- !u!95 &6268364170536427830
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836834978605129794}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e8ac5834cdc83324aae62a893375f8a9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
