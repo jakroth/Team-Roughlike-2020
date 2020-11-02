@@ -20,6 +20,7 @@ TagManager:
   - CharImg
   - FakePlayer
   - manager
+  - menu
   layers:
   - Default
   - TransparentFX

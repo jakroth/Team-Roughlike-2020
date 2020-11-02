@@ -160,7 +160,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             // load game over scene
             GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
-            GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+            GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
         }
     }
@@ -235,7 +235,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                             // pause game and fade out
                             GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
-                            GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+                            GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
 
                             // update static player stats
                             PlayerStats.health = playerHealth;
@@ -545,7 +545,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (playerHealth <= 0)
         {
-            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+            GameObject.Find("GameController").GetComponent<SceneLoader>().LoadNextScene();
         }
     }
 
@@ -570,7 +570,7 @@ public class PlayerBehaviour : MonoBehaviour
     private IEnumerator restartLevelRoutine()
     {
         GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
-        GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+        GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
         keyPart = 0;
         yield return new WaitForSeconds(2f);
         GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(false);
