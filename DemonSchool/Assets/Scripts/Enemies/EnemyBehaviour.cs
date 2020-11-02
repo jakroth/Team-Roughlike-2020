@@ -54,7 +54,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (!gameController.GetPauseState())
+        if (!GameController.instance.GetPauseState())
         {
             chasingPlayer();
 
