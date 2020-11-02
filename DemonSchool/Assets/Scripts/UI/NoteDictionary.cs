@@ -17,15 +17,16 @@ public class NoteDictionary : MonoBehaviour
         foreach(string str in studentRescues)
             staticRescues.Add(str);
     }
-    // Update is called once per frame
+  
     public static string RandomNote()
     {
         return staticNotes[UnityEngine.Random.Range(0, staticNotes.Count)];
     }
 
-    // Update is called once per frame
+    
     public static string StudentRescue()
     {
         return staticRescues[UnityEngine.Random.Range(0, staticRescues.Count)];
     }
+   
 }

@@ -43,11 +43,12 @@ public class PlayerBehaviour : MonoBehaviour
     public int formChangeDirection;
     public float animSpeed;
     public float animTime;
+
     [Header("Player Movement Attributes")]
     public bool stopped;
     public bool pauseState = false;
     public bool isFiring = false;
-    // for the enemy push mechanics
+
     [Header("Player Collision Attributes")]
     public float pushSpeed = 3;
     public float pushDistance = 3;
@@ -74,6 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
     private TutorialManager tutorialManager;
     [SerializeField] private Sprite backpackSprite = null;
     [SerializeField] private Sprite studentSprite = null;
+    [SerializeField] private Sprite keySprite = null;
 
 
 
@@ -117,8 +119,11 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         pauseState = GameController.instance.GetPauseState();
+
         if(!pauseState)
             updateAnimation();
+            checkPlayerHealth();
+
         if (!stopped && !pauseState)
             playerSoundManager.PlayFootsteps();
         else
@@ -133,10 +138,30 @@ public class PlayerBehaviour : MonoBehaviour
         if(!pauseState)
         {
             rayCollisionChecking();
+
             if(!isPushed)
                 move();
             else
                 push();
+        }
+    }
+
+
+    // loads next scene if player is dead
+    private void checkPlayerHealth()
+    {
+        if (playerHealth <= 0)
+        {
+            // update static player stats
+            PlayerStats.health = playerHealth;
+            PlayerStats.ammo = playerAmmo;
+            PlayerStats.score = playerScore;
+            PlayerStats.level = playerLevel;
+
+            // load game over scene
+            GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+            GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+            GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
         }
     }
 
@@ -198,29 +223,38 @@ public class PlayerBehaviour : MonoBehaviour
                     // if it's the final door, load the next scene
                     if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
                     {
-                        Debug.Log("finalDoor");
-
-                        // update static player stats
-                        PlayerStats.health = playerHealth;
-                        PlayerStats.ammo = playerAmmo;
-                        PlayerStats.score = playerScore;
-                        PlayerStats.level = playerLevel;  // increment level
-
-                        // check if dungeon max level reached
-                        playerLevel++;
-                        if (playerLevel > maxLevels)
+                        if (keyPart < 2)
                         {
-                            PlayerStats.level = maxLevels;
-                            GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
-                            return;
+                            TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                            fadeController.FadeInAndOut(1f);
+                            moveAway(rayArray[i]);
                         }
                         else
-                        {   // TODO: handle this better with a Coroutine, as in the the tutorial
-                            playerLevelNum.text = playerLevel.ToString();
-                            GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
-                            return;
+                        {
+                            Debug.Log("finalDoor");
+
+                            // update static player stats
+                            PlayerStats.health = playerHealth;
+                            PlayerStats.ammo = playerAmmo;
+                            PlayerStats.score = playerScore;
+                            PlayerStats.level = playerLevel;  // increment level
+
+                            // check if dungeon max level reached
+                            playerLevel++;
+                            if (playerLevel > maxLevels)
+                            {
+                                PlayerStats.level = maxLevels;
+                                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
+                                return;
+                            }
+                            else
+                            {   // TODO: handle this better with a Coroutine, as in the the tutorial
+                                playerLevelNum.text = playerLevel.ToString();
+                                keyPart = 0;
+                                GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
+                                return;
+                            }
                         }
-                        
                     }
                     else
                         moveAway(rayArray[i]);
@@ -367,11 +401,11 @@ public class PlayerBehaviour : MonoBehaviour
                 case 1:
                 case 2:
                 case 3:
+                case 4:
                     playerAmmo += 10;
                     playerAmmoNum.text = playerAmmo.ToString();
                     break;
 
-                case 4:
                 case 5:
                 case 6:
                     if ((playerHealth != 100) || (playerHealth < 100))
@@ -413,55 +447,28 @@ public class PlayerBehaviour : MonoBehaviour
                 pushBack(other);
             }
 
-            if (playerHealth <= 0)
-            {
-                // update static player stats
-                PlayerStats.health = playerHealth;
-                PlayerStats.ammo = playerAmmo;
-                PlayerStats.score = playerScore;
-                PlayerStats.level = playerLevel;
-
-                // load game over scene
-                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
-            }
         } 
 
 
         else if (other.tag == "boss")
         {
+            /* //why?
             bossDis = GameObject.FindGameObjectWithTag("boss").transform;
-            float distanceFromBoss = Vector2.Distance(bossDis.position, GameObject.FindGameObjectWithTag("Player").transform.position);
+            float distanceFromBoss = Vector2.Distance(bossDis.position, transform.position);
 
-            if (distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg) {
+            if (distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg) {*/
 
-                if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
-                {
-                    playerHealth -= 20;
-                    FlashColor();//11
-                    playerHealthNum.text = playerHealth.ToString();
-                    pushBack(other);
-
-                    if (playerHealth <= 0)
-                    {
-                        // update static player stats
-                        PlayerStats.health = playerHealth;
-                        PlayerStats.ammo = playerAmmo;
-                        PlayerStats.score = playerScore;
-                        PlayerStats.level = playerLevel;
-
-                        // load game over scene
-                        GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
-                    }
-                    Invoke("BossSkill", 1.06f);
-                    FlashColor();//11
-                    FlashColor();//11
-                }
-            }
-
-            if (playerHealth <= 0)
+            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
-                Destroy(gameObject);
+                playerHealth -= 20;
+                FlashColor();
+                playerHealthNum.text = playerHealth.ToString();
+                pushBack(other);
+                FlashColor();
+
+                //Invoke("BossSkill", 1.06f);
             }
+            
 
         }
 
@@ -518,7 +525,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-
+    // why this function?
     public void BossSkill()
     {
         playerHealth -= 30;

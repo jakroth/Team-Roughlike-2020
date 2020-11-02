@@ -33,41 +33,50 @@ public class EnemyBehaviour : MonoBehaviour
 
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
+    private GameController gameController;
 
     void Start()
     {
+        // set up the managers
         if(isTutorial)
             tutorialManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TutorialManager>();
-        guardingRoom();
+        else
+            gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
+        // set up the sprite colours
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
-        
+
+        // set initial behaviour
+        guardingRoom();
+
     }
 
     void Update()
     {
-        chasingPlayer();
-        
-        if (this.gameObject.tag == "boss")
+        if (!gameController.GetPauseState())
         {
-            isBoss = true;
-            eneAnim.SetBool("isBoss", isBoss);
-            eneAnim.SetBool("isAttack", isAttack);
-            eneAnim.SetBool("BossDie", BossDie);
+            chasingPlayer();
 
-            if(isAttack)
-                splashDamage();
-            
-        }
-        else if(this.gameObject.tag == "enemy")
-        {
-            eneAnim.SetFloat("speed", speed);
-            eneAnim.SetBool("SpiderDie", SpiderDie);
-            eneAnim.SetBool("SpiderLeft", SpiderLeft);
-            eneAnim.SetBool("SpiderRight", SpiderRight);
-        }
+            if (this.gameObject.tag == "boss")
+            {
+                isBoss = true;
+                eneAnim.SetBool("isBoss", isBoss);
+                eneAnim.SetBool("isAttack", isAttack);
+                eneAnim.SetBool("BossDie", BossDie);
 
+                if (isAttack)
+                    splashDamage();
+
+            }
+            else if (this.gameObject.tag == "enemy")
+            {
+                eneAnim.SetFloat("speed", speed);
+                eneAnim.SetBool("SpiderDie", SpiderDie);
+                eneAnim.SetBool("SpiderLeft", SpiderLeft);
+                eneAnim.SetBool("SpiderRight", SpiderRight);
+            }
+        }
     }
 
 
@@ -83,18 +92,21 @@ public class EnemyBehaviour : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
+        enemyHealth = 100;
+
         //set sprite and position
         this.spriteID = spriteID;
 
         if (this.spriteID == 1)
         {
+            isBoss = true;
             this.lineOfSite = 8f;
             this.lineOfSite1 = 5.44f;
             this.lineOfSiteBossDmg = 3.7f;
             this.gameObject.tag = "boss";
-            isBoss = true;
             this.GetComponent<BoxCollider2D>().size = new Vector2(6.35f, 4.3f);
             this.GetComponent<BoxCollider2D>().offset = new Vector2(0.24f, 0.14f);
+            enemyHealth += (PlayerStats.level * 50); // level 1 boss has 150 health, level 2 has 200, level 3 has 250, etc. 
         }
         else if (this.spriteID == 0)
         {
@@ -108,8 +120,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         // give the enemy a name in the Hierarchy
         gameObject.name = "Enemy (" + pos.x + "," + pos.y + "): " + spriteID;
-
-        enemyHealth = 100;
 
     }
 
@@ -148,15 +158,26 @@ public class EnemyBehaviour : MonoBehaviour
 
             if (hit.tag == "bullet")
             {
-                enemyHealth -= 10;
+                if (!BossDie)
+                {
+                    enemyHealth -= 10;
+                    FlashColor(flashTime);
+                }
 
-                FlashColor(flashTime);
-
-                if (enemyHealth <= 0)
+                if (enemyHealth <= 0 & !BossDie)
                 {
                     BossDie = true;
                     speed = 0;
                     Destroy(gameObject,2);
+                    Vector2 key1 = transform.position;
+                    Vector2 key2 = transform.position;
+                    key1.x -= 0.2f;
+                    key2.x += 0.2f;
+                    Instantiate(keyPrefeb, key1, new Quaternion(0, 0, 0, 0));
+                    Instantiate(keyPrefeb, key2, new Quaternion(0, 0, 0, 0));
+                    PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+                    player.playerScore += 100;
+                    player.playerScoreNum.text = player.playerScore.ToString();
                 }
             }
             else if (hit.tag == "Player")
