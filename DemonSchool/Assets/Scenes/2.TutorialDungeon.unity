@@ -213,7 +213,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &24818903
 MonoBehaviour:
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialManager: {fileID: 562989683}
-  sceneLoader: {fileID: 0}
+  sceneLoader: {fileID: 409961147}
   type: holywater
 --- !u!61 &24818904
 BoxCollider2D:
@@ -1252,7 +1252,7 @@ PrefabInstance:
     - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
         type: 3}
@@ -2698,7 +2698,7 @@ RectTransform:
   m_Children:
   - {fileID: 1457642741}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2810,7 +2810,7 @@ PrefabInstance:
     - target: {fileID: 5576512613293792699, guid: d0243637a40e2184091a6502ae25457d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5576512613293792699, guid: d0243637a40e2184091a6502ae25457d,
         type: 3}
@@ -4323,7 +4323,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &325993007
 PrefabInstance:
@@ -5469,7 +5469,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &409961147
 MonoBehaviour:
@@ -8268,7 +8268,7 @@ PrefabInstance:
     - target: {fileID: 8273580395080637346, guid: 679d11c362506ef42b74b48bf7b5f442,
         type: 3}
       propertyPath: isFinalDoor
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679d11c362506ef42b74b48bf7b5f442, type: 3}
@@ -8683,7 +8683,7 @@ MonoBehaviour:
   - 'S: Landed?'
   - "N: It\u2019s just as Mr Heckledore predicted. The geometric activity in this
     area was concerning. It appears the school has fallen into a sinkhole."
-  - 'S: haha, hole.'
+  - 'S: Haha, hole.'
   - "N: \u2026"
   - "N: Anyway, I\u2019ve been nerfed and I can\u2019t walk, I\u2019ve been hearing
     some weird noises outside. Liam and Mr Yolsmil also gone missing, which is concerning."
@@ -8697,7 +8697,7 @@ MonoBehaviour:
   - 'N: Don''t drink that!'
   - 'S: Why not?'
   - 'N: I''m not getting good readings about what is on the other side of the door,
-    it could be useful/ You can throw some using the SPACE button.'
+    it could be useful! You can throw some using the SPACE button.'
   doorDialogue:
   - "N: Ok, I\u2019m going to leave it up to you to work out what is going on out
     there."
@@ -10597,7 +10597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialManager: {fileID: 562989683}
-  sceneLoader: {fileID: 1513527660}
+  sceneLoader: {fileID: 409961147}
   type: vanish
 --- !u!1001 &661605763
 PrefabInstance:
@@ -16313,7 +16313,7 @@ PrefabInstance:
     - target: {fileID: 4965464990215112314, guid: c9fbca263b31e614db15b3ae7a99172e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4965464990215112314, guid: c9fbca263b31e614db15b3ae7a99172e,
         type: 3}
@@ -17689,7 +17689,7 @@ Transform:
   - {fileID: 2109485267}
   - {fileID: 650723471}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1117812526 stripped
 Transform:
@@ -19809,7 +19809,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1260698976
 BoxCollider2D:
@@ -19850,7 +19850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialManager: {fileID: 562989683}
-  sceneLoader: {fileID: 0}
+  sceneLoader: {fileID: 409961147}
   type: final
 --- !u!114 &1264729262 stripped
 MonoBehaviour:
@@ -24151,49 +24151,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1507693804}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1513527659
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1513527661}
-  - component: {fileID: 1513527660}
-  m_Layer: 0
-  m_Name: SceneLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1513527660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513527659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 977ca4dd9ce129f4d9923daa7ed2d4f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1513527661
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513527659}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1522807070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28009,7 +27966,7 @@ GameObject:
   - component: {fileID: 1850273649}
   - component: {fileID: 1850273650}
   - component: {fileID: 1850273651}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28079,7 +28036,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1850273649
 MonoBehaviour:
@@ -28094,7 +28051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialManager: {fileID: 562989683}
-  sceneLoader: {fileID: 0}
+  sceneLoader: {fileID: 409961147}
   type: door
 --- !u!114 &1850273650
 MonoBehaviour:
@@ -28125,7 +28082,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0064053535, y: -0.008356571}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -28136,7 +28093,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 0.3581648, y: 2.0501413}
   m_EdgeRadius: 0
 --- !u!1001 &1856377799
 PrefabInstance:
@@ -28789,7 +28746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialManager: {fileID: 562989683}
-  sceneLoader: {fileID: 0}
+  sceneLoader: {fileID: 409961147}
   type: spider
 --- !u!61 &1892090668
 BoxCollider2D:
@@ -28829,7 +28786,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1896061825
 PrefabInstance:
@@ -32534,7 +32491,7 @@ RectTransform:
   m_Children:
   - {fileID: 915117982}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -32931,21 +32888,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
-      propertyPath: animationList.Array.data[7]
-      value: 
-      objectReference: {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c,
-        type: 3}
-    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
-        type: 3}
-      propertyPath: animationList.Array.data[10]
-      value: 
-      objectReference: {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da,
-        type: 3}
-    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
-        type: 3}
       propertyPath: playerLevelNum
       value: 
       objectReference: {fileID: 285329326}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: playerAmmo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185179777380893288, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TutorialCollectable : MonoBehaviour
 {
     public TutorialManager tutorialManager;
-    [SerializeField] private SceneLoader sceneLoader = null;
+    [SerializeField] private SceneLoader sceneLoader;
 
     public string type = "";
 
@@ -19,6 +19,7 @@ public class TutorialCollectable : MonoBehaviour
                     if(tutorialManager.part == 1)
                     {
                         tutorialManager.StartAttackDialogue();
+                        GameObject.Find("Door").layer = 0;
                     }
                     break;
                 case "door":
@@ -38,6 +39,10 @@ public class TutorialCollectable : MonoBehaviour
                     StartCoroutine(LoadTheScene());
                     break;
                 case "final":
+                    PlayerStats.health = col.gameObject.GetComponent<PlayerBehaviour>().playerHealth;
+                    PlayerStats.ammo = col.gameObject.GetComponent<PlayerBehaviour>().playerAmmo;
+                    PlayerStats.score = col.gameObject.GetComponent<PlayerBehaviour>().playerScore;
+                    PlayerStats.level = 1;
                     tutorialManager.StartFinalTransition();
                     Destroy(this.gameObject);
                     break;

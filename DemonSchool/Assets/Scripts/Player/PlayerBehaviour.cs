@@ -118,8 +118,6 @@ public class PlayerBehaviour : MonoBehaviour
         else
             playerSoundManager.EndFootsteps();
 
-        
-
     }
 
 
@@ -196,7 +194,7 @@ public class PlayerBehaviour : MonoBehaviour
                         PlayerStats.ammo = playerAmmo;
                         PlayerStats.score = playerScore;
                         PlayerStats.level = playerLevel;  // increment level
-
+                         
                         // handle any transitions needed
                         if (!isTutorial)
                         {
@@ -206,7 +204,7 @@ public class PlayerBehaviour : MonoBehaviour
                             if (playerLevel > maxLevels)
                             {
                                 PlayerStats.level = maxLevels;
-                                GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadScene(4);
+                                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
                                 return;
                             }
                             else
@@ -363,11 +361,15 @@ public class PlayerBehaviour : MonoBehaviour
                     break;
             }
         }
+
+
         else if (other.tag == "key")
         {
             Destroy(other.gameObject);
             keyPart += 1;
         }
+
+
         else if (other.tag == "student")
         {
             Destroy(other.gameObject);
@@ -376,6 +378,8 @@ public class PlayerBehaviour : MonoBehaviour
             playerScore += 10;
             playerScoreNum.text = playerScore.ToString();
         }
+
+
         else if (other.tag == "enemy")
         {
             if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
@@ -396,7 +400,9 @@ public class PlayerBehaviour : MonoBehaviour
                 // load game over scene
                 GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
             }
-        }
+        } 
+
+
         else if (other.tag == "boss")
         {
             bossDis = GameObject.FindGameObjectWithTag("boss").transform;

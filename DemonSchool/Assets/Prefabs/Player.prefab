@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   bounceFactor: 3
+  maxLevels: 3
   playerHealth: 100
   playerAmmo: 10
   playerScore: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   playerHealthNum: {fileID: 0}
   playerAmmoNum: {fileID: 0}
   playerScoreNum: {fileID: 0}
+  playerLevelNum: {fileID: 0}
   HealthItemID: 0
   AmmoItemID: 1
   ScoreItemID: 2
@@ -231,6 +233,8 @@ MonoBehaviour:
   keyPart: 0
   PlayerFlashTime: 0
   isTutorial: 0
+  backpackSprite: {fileID: 0}
+  studentSprite: {fileID: 0}
 --- !u!114 &3185179777380893205
 MonoBehaviour:
   m_ObjectHideFlags: 0

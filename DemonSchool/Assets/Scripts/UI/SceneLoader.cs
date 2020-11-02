@@ -10,6 +10,21 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 2f, 0f));
         StartCoroutine(NextScene());
     }
+    public void LoadStartScene()
+    {
+        StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 2f, 0f));
+        StartCoroutine(StartScene());
+    }
+    public void LoadScene(int a)
+    {
+        StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 2f, 0f));
+        StartCoroutine(SelectScene(a));
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 
     private IEnumerator NextScene()
     {
@@ -19,16 +34,19 @@ public class SceneLoader : MonoBehaviour
         MusicController.instance.SetMusic(currentSceneIndex + 1);
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
-    public void LoadStartScene()
+    private IEnumerator StartScene()
     {
+        yield return new WaitForSeconds(2f);
+        GameController.instance.UpdatePauseState(false);
+        MusicController.instance.SetMusic(0);
         SceneManager.LoadScene(0);
     }
-    public void LoadScene(int a)
+    private IEnumerator SelectScene(int a)
     {
+        yield return new WaitForSeconds(2f);
+        GameController.instance.UpdatePauseState(false);
+        MusicController.instance.SetMusic(a);
         SceneManager.LoadScene(a);
     }
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+
 }
