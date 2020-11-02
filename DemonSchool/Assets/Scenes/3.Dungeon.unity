@@ -1329,11 +1329,6 @@ PrefabInstance:
       objectReference: {fileID: 2067728879}
     - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
-      propertyPath: maxLevels
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
-        type: 3}
       propertyPath: backpackSprite
       value: 
       objectReference: {fileID: 21300000, guid: 8fd3c3c1135a9f249a99455bdbf54bdd,

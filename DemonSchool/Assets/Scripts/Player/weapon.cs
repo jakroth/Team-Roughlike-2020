@@ -19,12 +19,13 @@ public class Weapon : MonoBehaviour
     {
         isPaused = GameController.instance.GetPauseState();
         
-        if (Input.GetKeyDown(KeyCode.Space) && !isPaused)//fire key setting
+        if (Input.GetKeyDown(KeyCode.Space) && !isPaused) //fire key setting
         {
-            if(GetComponent<PlayerBehaviour>().playerAmmo != 0)//Player will not allowed to shoot unless the ammo is > 0
+            GetComponent<PlayerBehaviour>().attackAnimation();
+            if (GetComponent<PlayerBehaviour>().playerAmmo != 0) //Player will not allowed to shoot unless the ammo is > 0
             {
                 Shoot();
-                GetComponent<PlayerBehaviour>().playerAmmo -= 1;//EveryTime Press shoot key it will makes ammo -1
+                GetComponent<PlayerBehaviour>().playerAmmo -= 1; //EveryTime Press shoot key it will makes ammo -1
                 GetComponent<PlayerBehaviour>().playerAmmoNum.text = GetComponent<PlayerBehaviour>().playerAmmo.ToString();
             }
         }
@@ -34,15 +35,15 @@ public class Weapon : MonoBehaviour
     void Shoot()//Shoot Logic
     {
 
-        if (GetComponent<PlayerBehaviour>().jockDirection == 6)
+        if (GetComponent<PlayerBehaviour>().jockDirection == 10)
         {
             Instantiate(fireBallPrefeb, firePointRight.position, firePointRight.rotation);
         }
-        else if (GetComponent<PlayerBehaviour>().jockDirection == 9)
+        else if (GetComponent<PlayerBehaviour>().jockDirection == 15)
         {
             Instantiate(fireBallPrefeb, firePointLeft.position, firePointLeft.rotation);
         }
-        else if (GetComponent<PlayerBehaviour>().jockDirection == 3)
+        else if (GetComponent<PlayerBehaviour>().jockDirection == 5)
         {
             Instantiate(fireBallPrefeb, firePointUp.position, firePointUp.rotation);
         }

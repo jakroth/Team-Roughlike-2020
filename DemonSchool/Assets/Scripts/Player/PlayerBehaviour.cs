@@ -43,6 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float animSpeed;
     public float animTime;
     public bool stopped;
+    public bool isFiring;
     public bool pauseState = false;
     private bool directionChangeX = false;
     private bool directionChangeY = false;
@@ -189,35 +190,29 @@ public class PlayerBehaviour : MonoBehaviour
                     // if it's the final door, load the next scene
                     if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
                     {
+                        Debug.Log("finalDoor");
+
                         // update static player stats
                         PlayerStats.health = playerHealth;
                         PlayerStats.ammo = playerAmmo;
                         PlayerStats.score = playerScore;
                         PlayerStats.level = playerLevel;  // increment level
-                         
-                        // handle any transitions needed
-                        if (!isTutorial)
+
+                        // check if dungeon max level reached
+                        playerLevel++;
+                        if (playerLevel > maxLevels)
                         {
-                            Debug.Log("finalDoor");
-                            playerLevel++;
-                            // check if dungeon max level reached
-                            if (playerLevel > maxLevels)
-                            {
-                                PlayerStats.level = maxLevels;
-                                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
-                                return;
-                            }
-                            else
-                            {   // TODO: handle this better with a Coroutine, as in the the tutorial
-                                playerLevelNum.text = playerLevel.ToString();
-                                GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
-                                return;
-                            }
+                            PlayerStats.level = maxLevels;
+                            GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
+                            return;
                         }
                         else
-                        {
-                            tutorialManager.StartFinalTransition();
+                        {   // TODO: handle this better with a Coroutine, as in the the tutorial
+                            playerLevelNum.text = playerLevel.ToString();
+                            GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
+                            return;
                         }
+                        
                     }
                     else
                         moveAway(rayArray[i]);
@@ -252,7 +247,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (newXPos < transform.position.x)
         {
             stopped = false;
-            jockDirection = 9;
+            jockDirection = 15;
             if (directionChangeX)
             {
                 GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
@@ -263,7 +258,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (newXPos > transform.position.x)
         {
             stopped = false;
-            jockDirection = 6;
+            jockDirection = 10;
             if (!directionChangeX)
             {
                 GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
@@ -274,7 +269,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (newYPos > transform.position.y)
         {
             stopped = false;
-            jockDirection = 3;
+            jockDirection = 5;
             if (directionChangeY)
             {
                 GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
@@ -303,7 +298,13 @@ public class PlayerBehaviour : MonoBehaviour
     // makes the players legs move and the player change direction
     public void updateAnimation()
     {
-        if (!stopped)
+        if (isFiring)
+        {
+            animTime += Time.deltaTime;
+            if (animTime > 2f / animSpeed) 
+                isFiring = false;
+        }
+        else if (!stopped)
         {
             animTime += Time.deltaTime;
             if (animTime > 2f / animSpeed)
@@ -319,6 +320,13 @@ public class PlayerBehaviour : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 1];
         }
+    }
+
+    public void attackAnimation()
+    {
+        isFiring = true;
+        animTime = 0;
+        GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 3];
     }
 
 
