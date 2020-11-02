@@ -79,12 +79,6 @@ public class DungeonManager : Singleton<DungeonManager>
             makeDungeon();
         }
 
-        // or if the user presses 'Esc'
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadStartScene();
-        }
-
     }
 
 

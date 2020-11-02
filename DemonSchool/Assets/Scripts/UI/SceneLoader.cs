@@ -20,9 +20,19 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 2f, 0f));
         StartCoroutine(SelectScene(a));
     }
+    public void QuickStart()
+    {
+        GameController.instance.UpdatePauseState(false);
+        MusicController.instance.SetMusic(0);
+        SceneManager.LoadScene(0);
+    }
     public void QuitGame()
     {
+# if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
 

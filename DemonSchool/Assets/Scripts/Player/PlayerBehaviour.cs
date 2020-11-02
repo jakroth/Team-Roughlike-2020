@@ -233,6 +233,10 @@ public class PlayerBehaviour : MonoBehaviour
                         {
                             Debug.Log("finalDoor");
 
+                            // pause game and fade out
+                            GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+                            GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+
                             // update static player stats
                             PlayerStats.health = playerHealth;
                             PlayerStats.ammo = playerAmmo;
@@ -251,7 +255,7 @@ public class PlayerBehaviour : MonoBehaviour
                             {   // TODO: handle this better with a Coroutine, as in the the tutorial
                                 playerLevelNum.text = playerLevel.ToString();
                                 keyPart = 0;
-                                GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
+                                StartCoroutine(makeNextDungeonLevel());
                                 return;
                             }
                         }
@@ -266,9 +270,17 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    // make dungeon with pause
+    private IEnumerator makeNextDungeonLevel()
+    {
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(false);
+        GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
+    }
 
-    // the bounce function
-    public void moveAway(RaycastHit2D r)
+
+        // the bounce function
+        public void moveAway(RaycastHit2D r)
     {
         float deltaX = r.point.x - coll.bounds.center.x;
         float deltaY = r.point.y - coll.bounds.center.y;
@@ -547,6 +559,22 @@ public class PlayerBehaviour : MonoBehaviour
     void ResetColor()//11
     {
         srP.color = originalColor;
+    }
+
+
+    public void restartLevel()
+    {
+        StartCoroutine(restartLevelRoutine());
+    }
+
+    private IEnumerator restartLevelRoutine()
+    {
+        GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+        GameObject.Find("GameController").GetComponent<FadeController>().FadeInAndOut(2f);
+        keyPart = 0;
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(false);
+        GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
     }
 
 }
