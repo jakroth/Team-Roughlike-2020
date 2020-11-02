@@ -19,6 +19,7 @@ TagManager:
   - button
   - CharImg
   - FakePlayer
+  - manager
   layers:
   - Default
   - TransparentFX

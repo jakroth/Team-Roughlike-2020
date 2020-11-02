@@ -1,18 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public static class FadeAudioSource 
+{
+    public static IEnumerator StartFade(AudioSource audioSource, float dur, float targetVolume)
+    {
+        float currentTime = 0;
+        float start = audioSource.volume;
+
+        while(currentTime < dur)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / dur);
+            yield return null;
+        }
+        yield break;
+    }
+}
 
 public class MusicController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    //plays music from a persistent audio source with this script attached but changes music based
+    public AudioSource audioSource;
+    public AudioClip bossMusic;
+    public AudioClip enemyMusic;
+    public AudioClip backgroundMusic;
+    public AudioClip titleMusic;
+
+    public static MusicController instance;
+
+    public void SetMusic(int index)
     {
-        
+        switch(index)
+        {
+            case 0:
+                audioSource.clip = titleMusic;
+                break;
+            case 1:
+                audioSource.clip = backgroundMusic;
+                break;
+            case 2:
+                audioSource.clip = backgroundMusic;
+                break;
+            case 3:
+                audioSource.clip = titleMusic;
+                break;
+        }
+        StartCoroutine(FadeAudioSource.StartFade(audioSource, 2f, 0.5f));
+        audioSource.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public AudioSource GetAudioSource()
     {
-        
+        return audioSource;
     }
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            Destroy(gameObject);
+
+        int index = SceneManager.GetActiveScene().buildIndex;
+        switch(index)
+        {
+            case 0:
+                audioSource.clip = titleMusic;
+                break;
+            case 1:
+                audioSource.clip = backgroundMusic;
+                break;
+            case 2:
+                audioSource.clip = backgroundMusic;
+                break;
+            case 3:
+                audioSource.clip = titleMusic;
+                break;
+        }
+
+        audioSource.Play();
+    }
+
 }
+
+

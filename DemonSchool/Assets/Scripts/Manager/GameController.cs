@@ -11,7 +11,15 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void UpdatePauseState(bool pauseValue)

@@ -37,7 +37,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         if(isTutorial)
-            tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
+            tutorialManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TutorialManager>();
         guardingRoom();
         if(this.gameObject.tag == "boss")
         {

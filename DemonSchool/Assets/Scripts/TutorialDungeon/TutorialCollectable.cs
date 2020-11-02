@@ -20,23 +20,27 @@ public class TutorialCollectable : MonoBehaviour
                     {
                         tutorialManager.StartAttackDialogue();
                     }
-                break;
+                    break;
                 case "door":
                     if(tutorialManager.part == 2)
                         tutorialManager.StartDoorDialogue(this.gameObject);
-                break;
+                    break;
                 case "spider":
                     if(tutorialManager.part == 3)
                     {
                         tutorialManager.StartSpiderDialogue();
                         Destroy(this.gameObject);
                     }
-                break;
+                    break;
                 case "vanish":
                     col.gameObject.GetComponent<FadeController>().FadeOut();
                     Destroy(col.gameObject, 0.5f);
-                    StartCoroutine(LoadScene());
-                break;
+                    StartCoroutine(LoadTheScene());
+                    break;
+                case "final":
+                    tutorialManager.StartFinalTransition();
+                    Destroy(this.gameObject);
+                    break;
                 default:
                 break;
             }
@@ -44,11 +48,15 @@ public class TutorialCollectable : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadScene()
+    void Awake()
+    {
+        sceneLoader = GameController.instance.gameObject.GetComponent<SceneLoader>();
+    }
+
+    private IEnumerator LoadTheScene()
     {
         yield return new WaitForSeconds(0.5f);
-        GameController.instance.gameObject.GetComponent<FadeController>().FadeInAndOut(2f);
-        yield return new WaitForSeconds(2f);
+        GameObject.FindGameObjectWithTag("manager").GetComponent<FadeController>().FadeInAndOut(2f);
         sceneLoader.LoadNextScene();
     }
 

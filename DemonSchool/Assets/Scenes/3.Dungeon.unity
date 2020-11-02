@@ -226,6 +226,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &213140203 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8810738837583595942, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 925019302}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &300359594
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,11 +640,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 562989682}
-  - component: {fileID: 562989681}
   - component: {fileID: 562989683}
+  - component: {fileID: 562989681}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -646,7 +658,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 562989680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32b877570cbfc3a419276e2062735900, type: 3}
+  m_Script: {fileID: 11500000, guid: 977ca4dd9ce129f4d9923daa7ed2d4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &562989682
@@ -675,82 +687,330 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f31f2973ca99cc408929412d1d6b5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &733150780
-GameObject:
+--- !u!1001 &622984344
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 733150781}
-  - component: {fileID: 733150783}
-  - component: {fileID: 733150782}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: CharImg
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &733150781
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981186, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213521374388981189, guid: da859d8402058c241ac521aa4dfaf72d,
+        type: 3}
+      propertyPath: m_Name
+      value: MusicPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: da859d8402058c241ac521aa4dfaf72d, type: 3}
+--- !u!1001 &925019302
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1592009368}
+    m_Modifications:
+    - target: {fileID: 8810738837426551829, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837426551829, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -403.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -806.31665
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: studentRescues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[0]
+      value: "\u201CDetention Notice Name: Liam Colten Witness: Dominic Yolsmil Reason:
+        Stole from teacher, Threatened a teacher (me), \u201CYour days are numbered\u201D,
+        talked back to teacher \u201CGo to hell\u201D Date due in detention: XX/XX/XXXX\u201D
+        The detention notice is signed by Mr Yolsmil "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[1]
+      value: "\u201CDetention Notice Name: Steven Jiao Witness: Jeanne Farkleberry
+        Reason: Paid student to do homework Date due in detention: XX/XX/XXXX\u201D
+        The detention notice is signed by Mrs Farkleberry "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[2]
+      value: "\u201CDetention Notice Name: Noelle Walters Witness: Jeanne Farkleberry
+        Reason: Sold homework answers to a student Date due in detention: XX/XX/XXXX\u201D
+        The detention notice is signed by Mrs Farkleberry "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[3]
+      value: "It is a ripped page from the student run gossip magazine \u201CSpotted:
+        Someone\u2019s been busy. One desk in every classroom now has a pentagram
+        carved into it. Is someone trying to make a deal with the devil? Who is this
+        mysterious Satanist? Send me all the deets. And who am I? That\u2019s the
+        secret I\u2019ll never tell. The only one. XOXO, Go-\u201D The rest has been
+        ripped off. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[4]
+      value: "\u201CObservations There is unusual seismic activity in this high school
+        as of late. The school is nowhere near a fault line yet still has frequent
+        tremors. The current foundations of the ground seem to have grown rapidly
+        unstable, seemingly out of nowhere. This is cause for further investigation,
+        I\u2019ve conscripted Ms Noelle Walters to assist with this investigation\u201D "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[5]
+      value: "It is a ripped page from the student run gossip magazine \u201CSteven
+        Jiao is the esteemed quarterback of the football team. This loveable goofball
+        is everything a girl could dream for, stunning eyes, massive muscles, deep,
+        confident voice, did I mention the massive muscles? He might be a little
+        stupid, but you can fulfill your tutoring fantasy! Want to find out his ideal
+        partner? Turn to page 26!!\u201D "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[6]
+      value: "It\u2019s an announcement from the official school newsletter. \u201CThe
+        XXXX Tasla Science Prize was awarded to Noelle Walters for her studies in
+        ultramarine geology. Her prize involves a paid internship with Tasla. \u201CI\u2019m
+        really excited to see where she goes from here,\u201D her science teacher
+        and mentor, Simon Heckledore commented, \u201CShe\u2019s a hard working student
+        and deserves the prize.\u201D The rest has been burnt off "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[7]
+      value: "It\u2019s a book called Demonology for Dummies. It\u2019s drenched
+        in blood. You open to a random page. \u201CHow to Succumb a Building into
+        Hell Remove all religious paraphernalia Surround the building in pentagrams
+        and other demonic symbols, if you cannot do the perimeter, put one in every
+        room Have a home base: build a shrine to begin the ritual Blood sacrifice!
+        This is the fun part. Grab an untainted person, and drip their blood onto
+        the shrine. Do the same with your blood Say the chant: \U0001F548\u2652\u264B\u29EB\u2B27
+        \U0001F790\u25A1\U0001F790\U0001F790\u2653\u25A0\u2651\u270D \u270C\u263C\u261D\u261F\U0001F4EC
+        \U0001F590\u29EB\u2B27 \u25CF\u2653\u29EB \u2653\u25A0 \u2652\u264F\u2752\u264F
+        \u2652\u25C6\u2652\u270D\" The chant is in language you don\u2019t know.
+        The rest of the book is too soaked to read "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[8]
+      value: "\u201CHall Monitor - Log XXXX \u2013 1700 shift There was nothing of
+        note as I was tasked to clear the school of remaining students who are here
+        without permission. Here\u2019s a list of people found without permission:    
+        John Smith     Abigail Holt     Liam Colten Noelle Walters was also found
+        but she has permission.\u201D This log was dated for yesterday. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: backpackNotes.Array.data[9]
+      value: "\u201CAttention all students! During after hours there has been graffiti
+        in our classrooms. We ask all students to clear out at 5pm unless they are
+        accompanied by or have special permission from staff. Any suspicious activity
+        is to be reported to the front desk.\u201D There is something scrawled at
+        the bottom. \u201CSINK TO HELL LC\u201D "
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: studentRescues.Array.data[0]
+      value: '"my hero!"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: studentRescues.Array.data[1]
+      value: '"thanks for saving me!"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595943, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: studentRescues.Array.data[2]
+      value: '"that was a close one!"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810738837583595945, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+        type: 3}
+      propertyPath: m_Name
+      value: TextPanel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c20cd577b3cec746bc2b2a2e9467e4c, type: 3}
+--- !u!224 &925019303 stripped
 RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8810738837583595941, guid: 2c20cd577b3cec746bc2b2a2e9467e4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 925019302}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733150780}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1077416539}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &733150782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733150780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &733150783
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733150780}
-  m_CullTransparentMesh: 0
---- !u!1 &1077416535
+--- !u!1 &1106449346
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -758,144 +1018,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1077416539}
-  - component: {fileID: 1077416538}
-  - component: {fileID: 1077416536}
-  - component: {fileID: 1077416537}
-  m_Layer: 5
-  m_Name: TextPanel
+  - component: {fileID: 1106449348}
+  - component: {fileID: 1106449347}
+  m_Layer: 0
+  m_Name: TextboxController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1077416536
+--- !u!114 &1106449347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077416535}
+  m_GameObject: {fileID: 1106449346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 32b877570cbfc3a419276e2062735900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.49803922}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &1077416537
-MonoBehaviour:
+--- !u!4 &1106449348
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077416535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2393a0a9075493a4cb2362bc5d0a2c26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backpackNotes:
-  - "\u201CDetention Notice Name: Liam Colten Witness: Dominic Yolsmil Reason: Stole
-    from teacher, Threatened a teacher (me), \u201CYour days are numbered\u201D,
-    talked back to teacher \u201CGo to hell\u201D Date due in detention: XX/XX/XXXX\u201D
-    The detention notice is signed by Mr Yolsmil "
-  - "\u201CDetention Notice Name: Steven Jiao Witness: Jeanne Farkleberry Reason:
-    Paid student to do homework Date due in detention: XX/XX/XXXX\u201D The detention
-    notice is signed by Mrs Farkleberry "
-  - "\u201CDetention Notice Name: Noelle Walters Witness: Jeanne Farkleberry Reason:
-    Sold homework answers to a student Date due in detention: XX/XX/XXXX\u201D The
-    detention notice is signed by Mrs Farkleberry "
-  - "It is a ripped page from the student run gossip magazine \u201CSpotted: Someone\u2019s
-    been busy. One desk in every classroom now has a pentagram carved into it. Is
-    someone trying to make a deal with the devil? Who is this mysterious Satanist?
-    Send me all the deets. And who am I? That\u2019s the secret I\u2019ll never tell.
-    The only one. XOXO, Go-\u201D The rest has been ripped off. "
-  - "\u201CObservations There is unusual seismic activity in this high school as
-    of late. The school is nowhere near a fault line yet still has frequent tremors.
-    The current foundations of the ground seem to have grown rapidly unstable, seemingly
-    out of nowhere. This is cause for further investigation, I\u2019ve conscripted
-    Ms Noelle Walters to assist with this investigation\u201D "
-  - "It is a ripped page from the student run gossip magazine \u201CSteven Jiao is
-    the esteemed quarterback of the football team. This loveable goofball is everything
-    a girl could dream for, stunning eyes, massive muscles, deep, confident voice,
-    did I mention the massive muscles? He might be a little stupid, but you can fulfill
-    your tutoring fantasy! Want to find out his ideal partner? Turn to page 26!!\u201D "
-  - "It\u2019s an announcement from the official school newsletter. \u201CThe XXXX
-    Tasla Science Prize was awarded to Noelle Walters for her studies in ultramarine
-    geology. Her prize involves a paid internship with Tasla. \u201CI\u2019m really
-    excited to see where she goes from here,\u201D her science teacher and mentor,
-    Simon Heckledore commented, \u201CShe\u2019s a hard working student and deserves
-    the prize.\u201D The rest has been burnt off "
-  - "It\u2019s a book called Demonology for Dummies. It\u2019s drenched in blood.
-    You open to a random page. \u201CHow to Succumb a Building into Hell Remove all
-    religious paraphernalia Surround the building in pentagrams and other demonic
-    symbols, if you cannot do the perimeter, put one in every room Have a home base:
-    build a shrine to begin the ritual Blood sacrifice! This is the fun part. Grab
-    an untainted person, and drip their blood onto the shrine. Do the same with your
-    blood Say the chant: \U0001F548\u2652\u264B\u29EB\u2B27 \U0001F790\u25A1\U0001F790\U0001F790\u2653\u25A0\u2651\u270D
-    \u270C\u263C\u261D\u261F\U0001F4EC \U0001F590\u29EB\u2B27 \u25CF\u2653\u29EB
-    \u2653\u25A0 \u2652\u264F\u2752\u264F \u2652\u25C6\u2652\u270D\" The chant is
-    in language you don\u2019t know. The rest of the book is too soaked to read "
-  - "\u201CHall Monitor - Log XXXX \u2013 1700 shift There was nothing of note as
-    I was tasked to clear the school of remaining students who are here without permission.
-    Here\u2019s a list of people found without permission:     John Smith     Abigail
-    Holt     Liam Colten Noelle Walters was also found but she has permission.\u201D
-    This log was dated for yesterday. "
-  - "\u201CAttention all students! During after hours there has been graffiti in
-    our classrooms. We ask all students to clear out at 5pm unless they are accompanied
-    by or have special permission from staff. Any suspicious activity is to be reported
-    to the front desk.\u201D There is something scrawled at the bottom. \u201CSINK
-    TO HELL LC\u201D "
-  studentRescues:
-  - '"my hero!"'
-  - '"thanks for saving me!"'
-  - '"that was a close one!"'
---- !u!222 &1077416538
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077416535}
-  m_CullTransparentMesh: 0
---- !u!224 &1077416539
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077416535}
+  m_GameObject: {fileID: 1106449346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1264363498}
-  - {fileID: 733150781}
-  m_Father: {fileID: 1592009368}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -403.2}
-  m_SizeDelta: {x: -200, y: -806.31665}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1118106428 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2574511063074342022, guid: 0b218ebaece5ccb4d91130fab010a0d4,
@@ -968,140 +1125,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1264363497
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1264363498}
-  - component: {fileID: 1264363500}
-  - component: {fileID: 1264363499}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Textbox
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1264363498
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264363497}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1077416539}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.6, y: -3.4}
-  m_SizeDelta: {x: 1589.6096, y: 194.10773}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1264363499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264363497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Nice
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 1
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1264363500
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264363497}
-  m_CullTransparentMesh: 0
 --- !u!1 &1592009363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead3f4d14ea875e4f93b4eb4057ae25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageToFade: {fileID: 1077416536}
+  imageToFade: {fileID: 213140203}
   beginFade: 1
   fadeSpeed: 0.25
   isFading: 0
@@ -1209,7 +1232,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1077416539}
+  - {fileID: 925019303}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1234,7 +1257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1679583475
 Transform:
   m_ObjectHideFlags: 0
@@ -1352,6 +1375,18 @@ PrefabInstance:
       propertyPath: maxLevels
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: backpackSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8fd3c3c1135a9f249a99455bdbf54bdd,
+        type: 3}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: studentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 719f07d6fbee31047ad84d58b0c22915,
+        type: 3}
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalPosition.x

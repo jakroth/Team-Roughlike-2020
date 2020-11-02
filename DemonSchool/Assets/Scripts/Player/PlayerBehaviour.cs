@@ -66,6 +66,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
+    [SerializeField] private Sprite backpackSprite = null;
+    [SerializeField] private Sprite studentSprite = null;
+
 
 
     // Start is called before the first frame update
@@ -73,7 +76,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (isTutorial)
         {
-            tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
+            tutorialManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TutorialManager>();
             playerLevel = 0;
         }
 
@@ -336,7 +339,7 @@ public class PlayerBehaviour : MonoBehaviour
             switch (other.GetComponent<ObjectBehaviour>().spriteID)
             {
                 case 0:
-                    TextboxController.UpdateText(NoteDictionary.RandomNote());
+                    TextboxController.UpdateTextAndImage(NoteDictionary.RandomNote(), backpackSprite);
                     fadeController.FadeInAndOut(5f);
                     break;
 
@@ -368,7 +371,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (other.tag == "student")
         {
             Destroy(other.gameObject);
-            TextboxController.UpdateText(NoteDictionary.StudentRescue());
+            TextboxController.UpdateTextAndImage(NoteDictionary.StudentRescue(), studentSprite);
             fadeController.FadeInAndOut(1f);
             playerScore += 10;
             playerScoreNum.text = playerScore.ToString();

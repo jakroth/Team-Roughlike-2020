@@ -38,7 +38,6 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
-        GameController.instance.UpdatePauseState(true);
         currentText = "S: ugh… what happened?";
         TextboxController.UpdateTextAndImage("ugh… what happened?", staticCharacters[0]);
         StartCoroutine(BeginTutorial());
@@ -47,6 +46,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator BeginTutorial()
     {
         yield return new WaitForSeconds(1f);
+        GameController.instance.UpdatePauseState(true);
         fadeController.FadeIn();
     }
 
@@ -99,10 +99,10 @@ public class TutorialManager : MonoBehaviour
     public void StartFinalTransition()
     {
         endDialogue = true;
-        GameController.instance.UpdatePauseState(true);
         TextboxController.UpdateTextAndImage("... \n AAAAAAA!!!", staticCharacters[0]);
         StartCoroutine(BeginFinalDialogue());
-        GameController.instance.gameObject.GetComponent<FadeController>().FadeInAndOut(2f);
+        GameController.instance.UpdatePauseState(true);
+        GameObject.FindGameObjectWithTag("manager").GetComponent<FadeController>().FadeInAndOut(2f);
         StartCoroutine(ChangeScenes());
     }
 
