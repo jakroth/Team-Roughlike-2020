@@ -1303,6 +1303,18 @@ Transform:
   m_Father: {fileID: 553746544}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2067728879 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2574511061426438912, guid: 0b218ebaece5ccb4d91130fab010a0d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2574511062027663290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &177538789489684546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1330,6 +1342,16 @@ PrefabInstance:
       propertyPath: playerScoreNum
       value: 
       objectReference: {fileID: 340440845}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: playerLevelNum
+      value: 
+      objectReference: {fileID: 2067728879}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: maxLevels
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalPosition.x

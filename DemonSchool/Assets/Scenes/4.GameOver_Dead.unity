@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f3ba3a5981294418bad794355fa8a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerFinalScore: {fileID: 1947874551}
+  playerFinalScore: {fileID: 466132046}
   playerFinalLevel: {fileID: 1947874551}
 --- !u!1 &1543994083
 GameObject:
@@ -1243,7 +1243,7 @@ GameObject:
   - component: {fileID: 1947874552}
   - component: {fileID: 1947874551}
   m_Layer: 5
-  m_Name: LevelReaced
+  m_Name: LevelAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

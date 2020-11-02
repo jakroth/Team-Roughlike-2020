@@ -197,10 +197,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  bounce: 3
+  bounceFactor: 3
   playerHealth: 100
-  playerAmmo: 0
+  playerAmmo: 10
   playerScore: 0
+  playerLevel: 0
   playerHealthNum: {fileID: 0}
   playerAmmoNum: {fileID: 0}
   playerScoreNum: {fileID: 0}
@@ -215,10 +216,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f7d79b810fac8fe47a307b26105f46f1, type: 3}
   - {fileID: 21300000, guid: d7a532508eeafa8458d0dbe4f1f4af4a, type: 3}
   - {fileID: 21300000, guid: 6d3f6d147de3bde4ba52f7e2f5702810, type: 3}
-  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
+  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
   - {fileID: 21300000, guid: 054d2c08a09bf124788a6d9a6984efd3, type: 3}
   - {fileID: 21300000, guid: d8a5e5dc456597f47a1665b89a74a4b9, type: 3}
-  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
+  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
   - {fileID: 21300000, guid: ed373031e4aac284fb9af8cdbf483731, type: 3}
   jockDirection: 0
   jockForm: 0

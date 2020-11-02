@@ -16,7 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Attributes")]
     // this is the speed pf the player
     public float speed;
-    public float bounce;
+    public float bounceFactor;
+    public int maxLevels = 3;
 
     // Player health, ammo and score settings;
     public int playerHealth;
@@ -27,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Text playerHealthNum;
     public Text playerAmmoNum;
     public Text playerScoreNum;
+    public Text playerLevelNum;
 
     public int HealthItemID = 0;
     public int AmmoItemID = 1;
@@ -48,9 +50,11 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     // for collisions
-    private RaycastHit2D[] rayArray = new RaycastHit2D[4];
+    private RaycastHit2D[] rayArray = new RaycastHit2D[8];
     private float laserLength = 0.4f;
     private CircleCollider2D coll;
+
+
 
     public int keyPart = 0;
 
@@ -63,11 +67,15 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
 
+
     // Start is called before the first frame update
     void Start()
-    {       
-        if(isTutorial)
+    {
+        if (isTutorial)
+        {
             tutorialManager = GameController.instance.gameObject.GetComponent<TutorialManager>();
+            playerLevel = 0;
+        }
 
         pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
@@ -91,6 +99,7 @@ public class PlayerBehaviour : MonoBehaviour
         playerAmmoNum.text = playerAmmo.ToString();
         playerHealthNum.text = playerHealth.ToString();
         playerScoreNum.text = playerScore.ToString();
+        playerLevelNum.text = playerLevel.ToString();
     }
 
 
@@ -126,17 +135,49 @@ public class PlayerBehaviour : MonoBehaviour
     // checks for collisions around the player, and bounces the player away if they get too close
     private void rayCollisionChecking()
     {
-        float shortestDistance = 100;
-        RaycastHit2D closestHit = new RaycastHit2D();
-
-        // Get the closest object hit by the rays
-        for (int i = 0; i < 4; i++)
+        // Create the directions for the rays
+        for (int i = 0; i < 8; i++)
         {
-            // work out directions (0,1 or -1,0, etc)
-            Vector2 direction = new Vector2(i % 2 * Mathf.Pow(-1, i % 3), (i + 1) % 2 * Mathf.Pow(-1, (i + 1) % 3));
-            //Debug.Log(direction);
-            Debug.DrawRay(coll.bounds.center, direction * laserLength, Color.red);
+            Vector2 direction = Vector2.zero;
+            switch (i)
+            {
+                case 0:
+                    direction = new Vector2(1, 0);
+                    laserLength = 0.4f;
+                    break;
+                case 1:
+                    direction = new Vector2(0.7f, 0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 2:
+                    direction = new Vector2(0, 1);
+                    laserLength = 0.6f;
+                    break;
+                case 3:
+                    direction = new Vector2(0.7f, -0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 4:
+                    direction = new Vector2(0, -1);
+                    laserLength = 0.4f;
+                    break;
+                case 5:
+                    direction = new Vector2(-0.7f, -0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 6:
+                    direction = new Vector2(-1, 0);
+                    laserLength = 0.4f;
+                    break;
+                case 7:
+                    direction = new Vector2(-0.7f, 0.8f);
+                    laserLength = 0.55f;
+                    break;
 
+            }
+            // draw the ray for debugging
+            Debug.DrawRay(coll.bounds.center, direction * laserLength, Color.red);
+            
             // send out the ray
             rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength, LayerMask.GetMask("Wall"));
             if (rayArray[i].collider != null)
@@ -151,13 +192,26 @@ public class PlayerBehaviour : MonoBehaviour
                         PlayerStats.health = playerHealth;
                         PlayerStats.ammo = playerAmmo;
                         PlayerStats.score = playerScore;
-                        PlayerStats.level = playerLevel;
+                        PlayerStats.level = playerLevel;  // increment level
 
                         // handle any transitions needed
                         if (!isTutorial)
                         {
                             Debug.Log("finalDoor");
-                            GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadNextScene();
+                            playerLevel++;
+                            // check if dungeon max level reached
+                            if (playerLevel > maxLevels)
+                            {
+                                PlayerStats.level = maxLevels;
+                                GameObject.Find("SceneLoader").GetComponent<SceneLoader>().LoadScene(4);
+                                return;
+                            }
+                            else
+                            {   // TODO: handle this better with a Coroutine, as in the the tutorial
+                                playerLevelNum.text = playerLevel.ToString();
+                                GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
+                                return;
+                            }
                         }
                         else
                         {
@@ -181,7 +235,7 @@ public class PlayerBehaviour : MonoBehaviour
         float deltaX = r.point.x - coll.bounds.center.x;
         float deltaY = r.point.y - coll.bounds.center.y;
 
-        transform.position = new Vector2(transform.position.x - deltaX / bounce, transform.position.y - deltaY / bounce);
+        transform.position = new Vector2(transform.position.x - deltaX / bounceFactor, transform.position.y - deltaY / bounceFactor);
     }
 
 
