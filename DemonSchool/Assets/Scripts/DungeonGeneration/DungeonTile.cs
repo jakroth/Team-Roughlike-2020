@@ -73,139 +73,116 @@ public class DungeonTile : MonoBehaviour
         switch (spriteID)
         {
             // Corners, Horos and Verts
-            case 0:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.41f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.8f);
-                BoxCollider2D newBC0 = gameObject.AddComponent<BoxCollider2D>();
-                newBC0.offset = new Vector2(0f, -0.76f);
-                newBC0.size = new Vector2(0.36f, 0.5f);
-                newBC0.isTrigger = true;
+            case 0: // Wall_Top_Left
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.41f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.388f);
                 break;
-            case 1:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(-0.41f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.8f);
-                BoxCollider2D newBC1 = gameObject.AddComponent<BoxCollider2D>();
-                newBC1.offset = new Vector2(0f, -0.75f);
-                newBC1.size = new Vector2(0.36f, 0.53f);
-                newBC1.isTrigger = true;
+            case 1: // Wall_Top_Right
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(-0.41f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.388f);
                 break;
-            case 2:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.41f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.8f);
+            case 2: // Wall_Bottom_Left
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.41f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.388f);
                 BoxCollider2D newBC2 = gameObject.AddComponent<BoxCollider2D>();
-                newBC2.offset = new Vector2(0f, 0.65f);
-                newBC2.size = new Vector2(0.36f, 0.72f);
-                newBC2.isTrigger = true;
+                newBC2.offset = new Vector2(0f, 0.195f);
+                newBC2.size = new Vector2(0.36f, 1.61f);
                 break;
-            case 3:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(-0.41f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.8f);
+            case 3: // Wall_Bottom_Right
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(-0.41f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 0.388f);
                 BoxCollider2D newBC3 = gameObject.AddComponent<BoxCollider2D>();
-                newBC3.offset = new Vector2(0f, 0.65f);
-                newBC3.size = new Vector2(0.36f, 0.72f);
-                newBC3.isTrigger = true;
+                newBC3.offset = new Vector2(0f, 0.195f);
+                newBC3.size = new Vector2(0.36f, 1.61f);
                 break;
-            case 4:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.8f);
+            case 4: // Wall_Horizontal
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 break;
-            case 5:
+            case 5: // Wall_Vertical
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 break;
 
 
             // T-Joins
-            case 6:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.8f);
-                BoxCollider2D newBC6 = gameObject.AddComponent<BoxCollider2D>();
-                newBC6.offset = new Vector2(0f, -0.76f);
-                newBC6.size = new Vector2(0.36f, 0.5f);
-                newBC6.isTrigger = true;
+            case 6: // Wall_Top_T_Join
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 break;
-            case 7:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.8f);
+            case 7: // Wall_Bottom_T_Join
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 BoxCollider2D newBC7 = gameObject.AddComponent<BoxCollider2D>();
-                newBC7.offset = new Vector2(0f, 0.65f);
-                newBC7.size = new Vector2(0.36f, 0.72f);
-                newBC7.isTrigger = true;
+                newBC7.offset = new Vector2(0f, 0.2f);
+                newBC7.size = new Vector2(0.36f, 1.62f);
                 break;
-            case 8:
+            case 8: // Wall_Left_T_Join
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 BoxCollider2D newBC8 = gameObject.AddComponent<BoxCollider2D>();
-                newBC8.offset = new Vector2(0.59f, -0.1f);
-                newBC8.size = new Vector2(0.82f, 0.8f);
-                newBC8.isTrigger = true;
+                newBC8.offset = new Vector2(0.59f, -0.805f);
+                newBC8.size = new Vector2(0.82f, 0.388f);
                 break;
-            case 9:
+            case 9:// Wall_Right_T_Join
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 BoxCollider2D newBC9 = gameObject.AddComponent<BoxCollider2D>();
-                newBC9.offset = new Vector2(-0.59f, -0.1f);
-                newBC9.size = new Vector2(0.82f, 0.8f);
-                newBC9.isTrigger = true;
+                newBC9.offset = new Vector2(-0.59f, -0.805f);
+                newBC9.size = new Vector2(0.82f, 0.388f);
                 break;
-            case 10:
+            case 10: // Wall_Fourway_Join
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 BoxCollider2D newBC10 = gameObject.AddComponent<BoxCollider2D>();
                 newBC10.offset = new Vector2(0f, -0.1f);
                 newBC10.size = new Vector2(2f, 0.8f);
-                newBC10.isTrigger = true;
                 break;
 
 
             // DOORS
-            case 11:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.8f);
+            case 11: // Door_Top_Closed
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 break;
-            case 12:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.8f);
+            case 12: // Door_Top_Open
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 break;
-            case 13:
+            case 13: // Door_Vertical_Closed
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 break;
-            case 14:
+            case 14: // Door_Vertical_Closed2
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 break;
-            case 15:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 1f);
+            case 15: // Door_Bottom_Closed
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 break;
-            case 16:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 1f);
+            case 16: // Door_Bottom_Closed
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 break;
 
 
             // Wall Shadows
-            case 17:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 1f);
+            case 17: // ShadowWall_Horizontal
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 break;
-            case 18:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0.41f, 1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 1f);
+            case 18: // ShadowWall_Left
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 break;
-            case 19:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(-0.41f, 1f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(1.18f, 1f);
+            case 19: // ShadowWall_Right
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 break;
 
 
             // Vertical Wall Ends
-            case 20:
-                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0.25f);
-                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 1.5f);
+            case 20: // Wall_Vertical_End
+                gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
+                gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 break;
-            case 21:
+            case 21: // ShadowWall_Vertical_Bottom
                 // no collider
                 break;
 

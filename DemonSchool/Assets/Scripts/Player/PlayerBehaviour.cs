@@ -42,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     public int jockForm;
     public int formChangeDirection;
     public float animSpeed;
-    public float animTime;
+    public float animTime; 
 
     [Header("Player Movement Attributes")]
     public bool stopped;
@@ -58,12 +58,6 @@ public class PlayerBehaviour : MonoBehaviour
     private float pushTime = 0;
     private bool directionChangeX = false;
     private bool directionChangeY = false;
-
-
-    // for collisions
-    private RaycastHit2D[] rayArray = new RaycastHit2D[8];
-    private float laserLength = 0.4f;
-    private CircleCollider2D coll;
 
     [Header("Other Attributes")]
     public int keyPart = 0;
@@ -92,8 +86,7 @@ public class PlayerBehaviour : MonoBehaviour
         pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
-
-        coll = GetComponent<CircleCollider2D>();
+        
         srP = GetComponent<SpriteRenderer>();//11
         originalColor = srP.color;//11
 
@@ -107,11 +100,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
 
-        // set up player stats
+        // set up player stats on the screen
         playerAmmoNum.text = playerAmmo.ToString();
         playerHealthNum.text = playerHealth.ToString();
         playerScoreNum.text = playerScore.ToString();
-        playerLevelNum.text = playerLevel.ToString();
+        playerLevelNum.text = playerLevel.ToString() + " / " + maxLevels;
     }
 
 
@@ -143,7 +136,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if(!pauseState)
         {
-            rayCollisionChecking();
+            // this is only used for door collisions now, used to be all physics collisions
+            //rayCollisionChecking();
 
             if(!isPushed)
                 move();
@@ -206,133 +200,21 @@ public class PlayerBehaviour : MonoBehaviour
 
 
 
-    // checks for collisions around the player, and bounces the player away if they get too close
-    private void rayCollisionChecking()
-    {
-        // Create the directions for the rays
-        for (int i = 0; i < 8; i++)
-        {
-            Vector2 direction = Vector2.zero;
-            switch (i)
-            {
-                case 0:
-                    direction = new Vector2(1, 0);
-                    laserLength = 0.4f;
-                    break;
-                case 1:
-                    direction = new Vector2(0.7f, 0.8f);
-                    laserLength = 0.55f;
-                    break;
-                case 2:
-                    direction = new Vector2(0, 1);
-                    laserLength = 0.6f;
-                    break;
-                case 3:
-                    direction = new Vector2(0.7f, -0.8f);
-                    laserLength = 0.55f;
-                    break;
-                case 4:
-                    direction = new Vector2(0, -1);
-                    laserLength = 0.4f;
-                    break;
-                case 5:
-                    direction = new Vector2(-0.7f, -0.8f);
-                    laserLength = 0.55f;
-                    break;
-                case 6:
-                    direction = new Vector2(-1, 0);
-                    laserLength = 0.4f;
-                    break;
-                case 7:
-                    direction = new Vector2(-0.7f, 0.8f);
-                    laserLength = 0.55f;
-                    break;
-
-            }
-            // draw the ray for debugging
-            Debug.DrawRay(coll.bounds.center, direction * laserLength, Color.red);
-            
-            // send out the ray
-            rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength, LayerMask.GetMask("Wall"));
-            if (rayArray[i].collider != null)
-            {
-                // check if the ray hits a door
-                if (rayArray[i].collider.gameObject.tag == "door")
-                {
-                    // if it's the final door, load the next scene
-                    if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
-                    {
-                        if (keyPart < 2)
-                        {
-                            TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
-                            fadeController.FadeInAndOut(1f);
-                            moveAway(rayArray[i]);
-                        }
-                        else
-                        {
-                            Debug.Log("finalDoor");
-
-                            // pause game and fade out
-                            GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
-                            GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
-
-                            // update static player stats
-                            PlayerStats.health = playerHealth;
-                            PlayerStats.ammo = playerAmmo;
-                            PlayerStats.score = playerScore;
-                            PlayerStats.level = playerLevel;  // increment level
-
-                            // check if dungeon max level reached
-                            playerLevel++;
-                            if (playerLevel > maxLevels)
-                            {
-                                PlayerStats.level = maxLevels;
-                                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
-                                return;
-                            }
-                            else
-                            {   // TODO: handle this better with a Coroutine, as in the the tutorial
-                                playerLevelNum.text = playerLevel.ToString();
-                                keyPart = 0;
-                                StartCoroutine(makeNextDungeonLevel());
-                                return;
-                            }
-                        }
-                    }
-                    else
-                        moveAway(rayArray[i]);
-                }
-                // otherwise move away from wall
-                else
-                    moveAway(rayArray[i]);
-            }
-        }
-    }
-
+    
     // make dungeon with pause
     private IEnumerator makeNextDungeonLevel()
     {
         yield return new WaitForSeconds(2f);
+        playerLevelNum.text = playerLevel.ToString() + " / " + maxLevels;
+        keyPart = 0;
         GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(false);
         GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
     }
 
 
-        // the bounce function
-        public void moveAway(RaycastHit2D r)
-    {
-        float deltaX = r.point.x - coll.bounds.center.x;
-        float deltaY = r.point.y - coll.bounds.center.y;
-
-        transform.position = new Vector2(transform.position.x - deltaX / bounceFactor, transform.position.y - deltaY / bounceFactor);
-    }
-
-
-
     // checks player move input
     public void move()
     {
-
         var newXPos = transform.position.x + Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
         var newYPos = transform.position.y + Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
 
@@ -384,7 +266,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             stopped = true;
         }
-        transform.position = new Vector2(newXPos, newYPos);
+        GetComponent<Rigidbody2D>().MovePosition(new Vector2(newXPos, newYPos));
+            //transform.position = new Vector2(newXPos, newYPos);
     }
 
 
@@ -523,14 +406,58 @@ public class PlayerBehaviour : MonoBehaviour
 
         }
 
-        else if (other.tag == "horoWall" || other.tag == "door")
+
+        if (other.tag == "door")
+        {
+            // if it's the final door, load the next scene
+            if (other.gameObject.GetComponent<DungeonTile>().isFinalDoor)
+            {
+                if (keyPart < 2)
+                {
+                    TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                    fadeController.FadeInAndOut(1f);
+                    //moveAway(rayArray[i]);
+                }
+                else
+                {
+                    Debug.Log("finalDoor");
+
+                    // pause game and fade out
+                    GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+                    GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
+
+                    // update static player stats
+                    PlayerStats.health = playerHealth;
+                    PlayerStats.ammo = playerAmmo;
+                    PlayerStats.score = playerScore;
+                    PlayerStats.level = playerLevel;
+
+                    // check if dungeon max level reached
+                    playerLevel++;
+                    if (playerLevel > maxLevels)
+                    {
+                        PlayerStats.level = maxLevels;
+                        GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
+                        return;
+                    }
+                    else
+                    {
+                        StartCoroutine(makeNextDungeonLevel());
+                        return;
+                    }
+                }
+            }
+        }
+
+       // NOT USING THIS LAYERING ANYMORE (MIGHT REVISIT LATER)
+       /* else if (other.tag == "horoWall" || other.tag == "door")
         {
             Debug.Log("horoWall");
             if (other.transform.position.y < transform.position.y)
             {
                 other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
             }
-        }
+        }*/
         
     }
 
@@ -550,7 +477,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (pushTime < 0.15f)
         {
-            transform.position = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
+            Vector2 pos = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
+            GetComponent<Rigidbody2D>().MovePosition(pos);
+            //transform.position = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
             pushTime += Time.deltaTime;
         }
         else
@@ -616,8 +545,136 @@ public class PlayerBehaviour : MonoBehaviour
         GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
     }
 
+
+
+
+
+
+    // *********LEGACY COLLISION CODE, NOT USED ANYMORE***********
+
+    // for collisions NOT USED ANYMORE
+    //private RaycastHit2D[] rayArray = new RaycastHit2D[8];
+    //private float laserLength = 0.4f;
+    //private CircleCollider2D coll;
+
+    //coll = GetComponent<CircleCollider2D>();
+
+
+    // checks for collisions around the player, and bounces the player away if they get too close
+    /*private void rayCollisionChecking()
+    {
+        // Create the directions for the rays
+        for (int i = 0; i < 8; i++)
+        {
+            Vector2 direction = Vector2.zero;
+            switch (i)
+            {
+                case 0:
+                    direction = new Vector2(1, 0);
+                    laserLength = 0.4f;
+                    break;
+                case 1:
+                    direction = new Vector2(0.7f, 0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 2:
+                    direction = new Vector2(0, 1);
+                    laserLength = 0.6f;
+                    break;
+                case 3:
+                    direction = new Vector2(0.7f, -0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 4:
+                    direction = new Vector2(0, -1);
+                    laserLength = 0.4f;
+                    break;
+                case 5:
+                    direction = new Vector2(-0.7f, -0.8f);
+                    laserLength = 0.55f;
+                    break;
+                case 6:
+                    direction = new Vector2(-1, 0);
+                    laserLength = 0.4f;
+                    break;
+                case 7:
+                    direction = new Vector2(-0.7f, 0.8f);
+                    laserLength = 0.55f;
+                    break;
+
+            }
+            // draw the ray for debugging
+            Debug.DrawRay(coll.bounds.center, direction * laserLength, Color.red);
+
+            // send out the ray
+            rayArray[i] = Physics2D.Raycast(coll.bounds.center, direction, laserLength, LayerMask.GetMask("Wall"));
+            if (rayArray[i].collider != null)
+            {
+                // check if the ray hits a door
+                if (rayArray[i].collider.gameObject.tag == "door")
+                {
+                    // if it's the final door, load the next scene
+                    if (rayArray[i].collider.gameObject.GetComponent<DungeonTile>().isFinalDoor)
+                    {
+                        if (keyPart < 2)
+                        {
+                            TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                            fadeController.FadeInAndOut(1f);
+                            //moveAway(rayArray[i]);
+                        }
+                        else
+                        {
+                            Debug.Log("finalDoor");
+
+                            // pause game and fade out
+                            GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+                            GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
+
+                            // update static player stats
+                            PlayerStats.health = playerHealth;
+                            PlayerStats.ammo = playerAmmo;
+                            PlayerStats.score = playerScore;
+                            PlayerStats.level = playerLevel;
+
+                            // check if dungeon max level reached
+                            playerLevel++;
+                            if (playerLevel > maxLevels)
+                            {
+                                PlayerStats.level = maxLevels;
+                                GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
+                                return;
+                            }
+                            else
+                            {
+                                StartCoroutine(makeNextDungeonLevel());
+                                return;
+                            }
+                        }
+                    }
+                    //else
+                    //moveAway(rayArray[i]);
+                }
+                // otherwise move away from wall
+                //else
+                //moveAway(rayArray[i]);
+            }
+        }
+    }
+    
+     
+    // the bounce function
+    public void moveAway(RaycastHit2D r)
+    {
+        float deltaX = r.point.x - coll.bounds.center.x;
+        float deltaY = r.point.y - coll.bounds.center.y;
+
+        transform.position = new Vector2(transform.position.x - deltaX / bounceFactor, transform.position.y - deltaY / bounceFactor);
+    }
+     
+     
+     */
 }
 
 
-   
+
 
