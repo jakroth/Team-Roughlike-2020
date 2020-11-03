@@ -114,8 +114,8 @@ public class DungeonTile : MonoBehaviour
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.805f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(2f, 0.388f);
                 BoxCollider2D newBC7 = gameObject.AddComponent<BoxCollider2D>();
-                newBC7.offset = new Vector2(0f, 0.2f);
-                newBC7.size = new Vector2(0.36f, 1.62f);
+                newBC7.offset = new Vector2(0f, 0.195f);
+                newBC7.size = new Vector2(0.36f, 1.61f);
                 break;
             case 8: // Wall_Left_T_Join
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);

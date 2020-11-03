@@ -19,7 +19,8 @@ public class TutorialCollectable : MonoBehaviour
                     if(tutorialManager.part == 1)
                     {
                         tutorialManager.StartAttackDialogue();
-                        GameObject.Find("Door").layer = 0;
+                        //GameObject.Find("Door").GetComponent<SpriteRenderer>().sortingLayerName = "Background";
+                        GameObject.Find("Door").GetComponent<BoxCollider2D>().isTrigger = true;
                     }
                     break;
                 case "door":
