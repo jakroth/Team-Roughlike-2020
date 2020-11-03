@@ -14,7 +14,7 @@ public class fireBall : MonoBehaviour
     {
         rb.velocity = transform.right * speed;//fireball fly status
 
-        Destroy(gameObject, 1);
+        Destroy(gameObject, 0.3f);
     }
 
     private void Update()
@@ -27,19 +27,19 @@ public class fireBall : MonoBehaviour
         if (hit.tag == "enemy")
         {
             this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject,0.05f);
+            Destroy(gameObject,0.025f);
         }
 
         else if(hit.tag == "boss")
         {
             this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject, 0.05f);
+            Destroy(gameObject, 0.025f);
         }
 
         else if(hit.tag == "map" || hit.tag == "horoWall" || hit.tag == "door" || hit.tag == "vertWall")
         {
             this.GetComponent<SpriteRenderer>().sprite = touch;
-            Destroy(gameObject, 0.05f);
+            Destroy(gameObject, 0.025f);
         }
       
             
