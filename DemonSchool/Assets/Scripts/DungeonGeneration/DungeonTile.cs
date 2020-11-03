@@ -102,6 +102,11 @@ public class DungeonTile : MonoBehaviour
             case 5: // Wall_Vertical
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
+                if(gameObject.tag == "vertNoneAbove")
+                {
+                    gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, -0.38f);
+                    gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 1.24f);
+                }
                 break;
 
 
@@ -135,8 +140,8 @@ public class DungeonTile : MonoBehaviour
                 gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 gameObject.GetComponent<BoxCollider2D>().size = new Vector2(0.36f, 2f);
                 BoxCollider2D newBC10 = gameObject.AddComponent<BoxCollider2D>();
-                newBC10.offset = new Vector2(0f, -0.1f);
-                newBC10.size = new Vector2(2f, 0.8f);
+                newBC10.offset = new Vector2(0f, -0.805f);
+                newBC10.size = new Vector2(2f, 0.388f);
                 break;
 
 

@@ -384,7 +384,7 @@ public class DungeonRenderer : MonoBehaviour
                         createTile(wallHorizontalTile, new Vector2Int(x, y), wallTileMap, actualTopLayer, true, wallGameLayer, horoWallTag);
                     // only wall is below
                     else if (count == 5)
-                        createTile(wallVerticalTile, new Vector2Int(x, y), wallTileMap, actualTopLayer, true, wallGameLayer, horoWallTag);
+                        createTile(wallVerticalTile, new Vector2Int(x, y), wallTileMap, actualTopLayer, true, wallGameLayer, "vertNoneAbove");
                     // only wall is above
                     else if (count == 7)
                         createTile(wallVerticalEndTile, new Vector2Int(x, y), wallTileMap, actualTopLayer, true, wallGameLayer, vertWallTag);
@@ -402,10 +402,10 @@ public class DungeonRenderer : MonoBehaviour
 
     private void createDoors()
     {
-        int finalRoom = dungeonGenerator.rooms.Count - 1;
-        if (finalRoom > -1)
+        int firstRoom = dungeonGenerator.rooms.Count - 1;
+        if (firstRoom > -1)
         {
-            Vector2Int door = dungeonGenerator.rooms[finalRoom].door;
+            Vector2Int door = dungeonGenerator.rooms[firstRoom].door;
             int twice = 0;
             // create start and end doors
             while (twice < 2)
@@ -427,6 +427,7 @@ public class DungeonRenderer : MonoBehaviour
             }
             // set finalDoor variable in the assigned tile in the first/Boss room
             wallTileMap[dungeonGenerator.rooms[0].door.x, dungeonGenerator.rooms[0].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
+            wallTileMap[dungeonGenerator.rooms[0].door.x, dungeonGenerator.rooms[0].door.y].GetComponent<BoxCollider2D>().isTrigger = true;
         }
 
     }

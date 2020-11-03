@@ -111,7 +111,6 @@ public class EnemyBehaviour : MonoBehaviour
         else if (this.spriteID == 0)
         {
             this.gameObject.tag = "enemy";
-            this.lineOfSite = 10f;
         }
 
         this.pos = pos;

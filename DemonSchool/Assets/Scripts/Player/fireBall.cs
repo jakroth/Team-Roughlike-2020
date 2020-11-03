@@ -13,8 +13,7 @@ public class fireBall : MonoBehaviour
     void Start()
     {
         rb.velocity = transform.right * speed;//fireball fly status
-
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, 0.5f);
     }
 
     private void Update()
