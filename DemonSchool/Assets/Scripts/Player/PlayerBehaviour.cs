@@ -373,42 +373,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
 
-        else if (other.tag == "enemy")
-        {
-            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
-            {
-                playerHealth -= 20;
-                FlashColor();  //11
-                playerHealthNum.text = playerHealth.ToString();
-                pushBack(other);
-            }
-
-        } 
-
-
-        else if (other.tag == "boss")
-        {
-            /* //why?
-            bossDis = GameObject.FindGameObjectWithTag("boss").transform;
-            float distanceFromBoss = Vector2.Distance(bossDis.position, transform.position);
-
-            if (distanceFromBoss <= other.GetComponent<EnemyBehaviour>().lineOfSiteBossDmg) {*/
-
-            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
-            {
-                playerHealth -= 20;
-                FlashColor();
-                playerHealthNum.text = playerHealth.ToString();
-                pushBack(other);
-                FlashColor();
-
-                //Invoke("BossSkill", 1.06f);
-            }
-            
-
-        }
-
-
         if (other.tag == "door")
         {
             // if it's the final door, load the next scene
@@ -452,12 +416,39 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-    public void pushBack(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "enemy")
+        {
+            if (collision.gameObject.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            {
+                playerHealth -= 20;
+                FlashColor();  //11
+                playerHealthNum.text = playerHealth.ToString();
+                pushBack(collision.gameObject);
+            }
+
+        }
+
+        else if (collision.gameObject.tag == "boss")
+        {
+            if (collision.gameObject.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            {
+                playerHealth -= 20;
+                FlashColor();
+                playerHealthNum.text = playerHealth.ToString();
+                pushBack(collision.gameObject);
+                FlashColor();
+            }
+        }
+    }
+
+    public void pushBack(GameObject other)
     {
         isPushed = true;
         float distance = Vector2.Distance(transform.position, other.transform.position);
-        float deltaX = (other.bounds.center.x - transform.position.x)/distance;
-        float deltaY = (other.bounds.center.y - transform.position.y)/distance; ;
+        float deltaX = (other.transform.position.x - transform.position.x)/distance;
+        float deltaY = (other.transform.position.y - transform.position.y)/distance;
         pushDestination = new Vector2(transform.position.x - (deltaX * pushDistance), transform.position.y - (deltaY * pushDistance));
         pushTime = 0f;
         push();

@@ -171,10 +171,6 @@ public class EnemyBehaviour : MonoBehaviour
                         tutorialManager.StartDeathDialogue();
                 }
             }
-            else if (hit.tag == "Player")
-            {
-                transform.position = Vector2.MoveTowards(transform.position, jock.transform.position, speed * Time.deltaTime);
-            }
         }
         else if (gameObject.tag == "boss")
         {
@@ -203,10 +199,6 @@ public class EnemyBehaviour : MonoBehaviour
                     player.playerScore += 100;
                     player.playerScoreNum.text = player.playerScore.ToString();
                 }
-            }
-            else if (hit.tag == "Player")
-            {
-                transform.position = Vector2.MoveTowards(transform.position, jock.transform.position, speed * Time.deltaTime);
             }
         }
 
