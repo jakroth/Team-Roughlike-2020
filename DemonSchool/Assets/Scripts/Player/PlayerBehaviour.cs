@@ -47,6 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Movement Attributes")]
     public bool stopped;
     public bool pauseState = false;
+    private bool bossInRange = false;
     public bool isFiring = false;
 
     [Header("Player Collision Attributes")]
@@ -123,6 +124,11 @@ public class PlayerBehaviour : MonoBehaviour
         if(!pauseState)
             updateAnimation();
             checkPlayerHealth();
+        
+        if(!pauseState && !bossInRange)
+            checkBossMusic(false);
+        else if(!pauseState && bossInRange)
+            checkBossMusic(true);
 
         if (!stopped && !pauseState)
             playerSoundManager.PlayFootsteps();
@@ -163,6 +169,39 @@ public class PlayerBehaviour : MonoBehaviour
             GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
         }
+    }
+
+    private void checkBossMusic(bool inRange)
+    {
+        if(GameObject.FindGameObjectWithTag("boss") != null)
+        {
+            GameObject boss = GameObject.FindGameObjectWithTag("boss");
+            if(!inRange)
+            {
+                if(Vector2.Distance(gameObject.transform.position, boss.transform.position) < 10)
+                {
+                    StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 0.5f, 0f));
+                    bossInRange = true;
+                    StartCoroutine(BossMusicFade(2));
+                }
+            }
+            else
+            {
+                if(Vector2.Distance(gameObject.transform.position, boss.transform.position) > 20)
+                {
+                    StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 0.5f, 0f));
+                    bossInRange = false;
+                    StartCoroutine(BossMusicFade(3));
+                }
+            }
+        }
+
+    }
+
+    private IEnumerator BossMusicFade(int index)
+    {
+        yield return new WaitForSeconds(0.5f);
+        MusicController.instance.SetMusic(index);
     }
 
 

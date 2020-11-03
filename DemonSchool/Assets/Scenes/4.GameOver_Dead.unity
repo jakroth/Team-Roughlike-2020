@@ -659,6 +659,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2414384884028997539, guid: bd559b49eff72234eaee410cc157d391,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4147904782621849913, guid: bd559b49eff72234eaee410cc157d391,
         type: 3}
       propertyPath: m_Name
@@ -721,6 +726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 517549919215639877, guid: bd559b49eff72234eaee410cc157d391, type: 3}
+    - {fileID: 2414384884028997539, guid: bd559b49eff72234eaee410cc157d391, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd559b49eff72234eaee410cc157d391, type: 3}
 --- !u!114 &1300031234 stripped
 MonoBehaviour:

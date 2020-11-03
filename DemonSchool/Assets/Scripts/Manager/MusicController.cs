@@ -43,10 +43,10 @@ public class MusicController : MonoBehaviour
                 audioSource.clip = backgroundMusic;
                 break;
             case 2:
-                audioSource.clip = backgroundMusic;
+                audioSource.clip = bossMusic;
                 break;
             case 3:
-                audioSource.clip = titleMusic;
+                audioSource.clip = enemyMusic;
                 break;
         }
         StartCoroutine(FadeAudioSource.StartFade(audioSource, 2f, 0.5f));
@@ -78,10 +78,13 @@ public class MusicController : MonoBehaviour
                 audioSource.clip = backgroundMusic;
                 break;
             case 2:
-                audioSource.clip = backgroundMusic;
+                audioSource.clip = enemyMusic;
                 break;
             case 3:
-                audioSource.clip = titleMusic;
+                audioSource.clip = enemyMusic;
+                break;
+            case 4:
+                audioSource.clip = backgroundMusic;
                 break;
         }
 

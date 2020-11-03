@@ -7,7 +7,7 @@ public class TutorialCamera : MonoBehaviour
     public float shakeTimer;
     public float shakeAmount;
 
-    private bool shaking = false;
+    //private bool isShaking = false;
     private Vector3 originPos;
 
     private void Start()
@@ -19,7 +19,7 @@ public class TutorialCamera : MonoBehaviour
     {
         if (shakeTimer >= 0)
         {
-            shaking = true;
+            //isShaking = true;
             Vector2 shakePos = Random.insideUnitCircle * shakeAmount;
             transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, transform.position.z);
             StartCoroutine("EndShaking", shakeTimer);
@@ -36,6 +36,6 @@ public class TutorialCamera : MonoBehaviour
     IEnumerator EndShaking(float shakeTimer)
     {
         yield return new WaitForSeconds(shakeTimer);
-        shaking = false;
+        //isShaking = false;
     }
 }
