@@ -19,7 +19,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public float speed;
     public float lineOfSite, lineOfSite1, lineOfSiteBossDmg;
-    private Transform joke;
+    private GameObject jock;
 
     public Animator eneAnim;
 
@@ -32,11 +32,13 @@ public class EnemyBehaviour : MonoBehaviour
     public float flashTime = 0.25f;
 
     private Rigidbody2D enemyBody;
-    private Vector2 newPosition; 
+    private Vector2 newPosition;
+    private Vector2 originalPosition;
 
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
     private GameController gameController;
+    private DungeonGenerator dungeonGen;
 
     void Start()
     {
@@ -46,12 +48,18 @@ public class EnemyBehaviour : MonoBehaviour
         else
             gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
+        // find the player & dungeon
+        jock = GameObject.FindGameObjectWithTag("Player");
+        dungeonGen = GameObject.Find("DungeonManager").GetComponent<DungeonGenerator>();
+
         // set up the sprite colours
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
 
         //set initial position
+        originalPosition = transform.position;
         newPosition = transform.position;
+
         enemyBody = GetComponent<Rigidbody2D>();
 
         // set initial behaviour
@@ -165,7 +173,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (hit.tag == "Player")
             {
-                transform.position = Vector2.MoveTowards(transform.position, joke.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, jock.transform.position, speed * Time.deltaTime);
             }
         }
         else if (gameObject.tag == "boss")
@@ -198,7 +206,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (hit.tag == "Player")
             {
-                transform.position = Vector2.MoveTowards(transform.position, joke.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, jock.transform.position, speed * Time.deltaTime);
             }
         }
 
@@ -212,32 +220,33 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void guardingRoom()// randommly run around room
     {
-        joke = GameObject.FindGameObjectWithTag("Player").transform;
+        //
     }
 
 
     public void chasingPlayer()// chase player
     {
-        float distanceFromPlayer = Vector2.Distance(joke.position, transform.position);
+        float distanceFromPlayer = Vector2.Distance(jock.transform.position, transform.position);
 
-        if(distanceFromPlayer < lineOfSite)
+        if (this.gameObject.tag == "enemy")
         {
-            newPosition = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
-
-            if (this.gameObject.tag == "enemy")
+            if (distanceFromPlayer < lineOfSite)
             {
-                if (joke.transform.position.x > this.transform.position.x)
+                // move towards player
+                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.deltaTime);
+
+                if (jock.transform.transform.position.x > this.transform.position.x)
                 {
                     SpiderRight = true;
                     SpiderLeft = false;
                 }
-                else if(joke.transform.position.x < this.transform.position.x)
+                else if (jock.transform.position.x < this.transform.position.x)
                 {
                     SpiderLeft = true;
                     SpiderRight = false;
                 }
 
-                if (joke.transform.localPosition.x < this.transform.localPosition.x)
+                if (jock.transform.localPosition.x < this.transform.localPosition.x)
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
                 }
@@ -246,10 +255,23 @@ public class EnemyBehaviour : MonoBehaviour
                     transform.localScale = new Vector3(1, 1, 1);
                 }
             }
-
-            else if (this.gameObject.tag == "boss")
+            else
             {
-                if(distanceFromPlayer < lineOfSite1)
+                // move back to original position
+                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.deltaTime);
+            }
+        }
+            //getPlayerTile();
+
+        else if (this.gameObject.tag == "boss")
+        {
+            // if player is in Boss room
+            if (getPlayerTile() == 1)
+            {
+                // move towards player
+                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.deltaTime);
+
+                if (distanceFromPlayer < lineOfSite1)
                 {
                     isAttack = true;
                 }
@@ -258,7 +280,7 @@ public class EnemyBehaviour : MonoBehaviour
                     isAttack = false;
                 }
 
-                if (joke.transform.localPosition.x < this.transform.localPosition.x)
+                if (jock.transform.localPosition.x < this.transform.localPosition.x)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
                 }
@@ -267,7 +289,13 @@ public class EnemyBehaviour : MonoBehaviour
                     transform.localScale = new Vector3(-1, 1, 1);
                 }
             }
+            else
+            {
+                // move back to original position
+                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.deltaTime);
+            }
         }
+        
     }
 
    
@@ -313,5 +341,22 @@ public class EnemyBehaviour : MonoBehaviour
             Destroy(test);
         }
     }
+
+
+    int getPlayerTile()
+    {
+        int xCoor = (int)jock.transform.position.x;
+        int yCoor = (int)jock.transform.position.y;
+
+        xCoor = (xCoor % 2 == 0) ? (xCoor / 2) : (xCoor / 2 + 1);
+
+        yCoor = (yCoor % 2 == 0) ? (yCoor / 2) : (yCoor / 2 + 1);
+
+        int mapID = dungeonGen.map[xCoor, yCoor];
+        //Debug.Log(mapID);
+
+        return mapID;
+    }
+
 
 }

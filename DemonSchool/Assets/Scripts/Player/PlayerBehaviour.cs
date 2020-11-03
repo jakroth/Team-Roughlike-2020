@@ -18,6 +18,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float speed;
     public float bounceFactor;
     public int maxLevels = 3;
+    public bool isDead = false;
 
     // Player health, ammo and score settings;
     public int playerHealth;
@@ -153,8 +154,9 @@ public class PlayerBehaviour : MonoBehaviour
     // loads next scene if player is dead
     private void checkPlayerHealth()
     {
-        if (playerHealth <= 0)
+        if (playerHealth <= 0 && isDead == false)
         {
+            isDead = true;
             // update static player stats
             PlayerStats.health = playerHealth;
             PlayerStats.ammo = playerAmmo;

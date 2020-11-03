@@ -19,6 +19,8 @@ public class DungeonTile : MonoBehaviour
     public bool isCollision;
     // is this tile is the final door
     public bool isFinalDoor = false;
+    // mapID of the tile
+    public int mapID;
 
 
     // set up the tile
@@ -48,12 +50,13 @@ public class DungeonTile : MonoBehaviour
 
         // set up this tile with tileID and position
         this.spriteID = spriteID;
+        this.mapID = dungeonGenerator.map[pos.x, pos.y];
         this.pos = pos;
         this.isCollision = isCollision;
         collisionBox.enabled = isCollision;
 
         // give the tile a name in the Hierarchy
-        gameObject.name = "Pos (" + pos.x + "," + pos.y + "); mapID: " + dungeonGenerator.map[pos.x,pos.y] + (isCollision ? ", Coll; " : ", NColl; ") + "spriteID: " + spriteID + "; L: " + sortingLayer;
+        gameObject.name = "Pos (" + pos.x + "," + pos.y + "); mapID: " + mapID + (isCollision ? ", Coll; " : ", NColl; ") + "spriteID: " + spriteID + "; L: " + sortingLayer;
 
      
         // render the tile with the correct sprite, and check if Hell tile or Normal tile

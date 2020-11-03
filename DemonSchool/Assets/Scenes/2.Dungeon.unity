@@ -2735,6 +2735,11 @@ PrefabInstance:
       propertyPath: playerLevelNum
       value: 
       objectReference: {fileID: 2067728879}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: maxLevels
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalPosition.x
