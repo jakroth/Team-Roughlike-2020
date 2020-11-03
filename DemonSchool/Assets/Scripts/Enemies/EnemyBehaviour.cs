@@ -100,7 +100,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (this.spriteID == 1)
         {
             isBoss = true;
-            this.lineOfSite = 8f;
+            this.lineOfSite = 10f;
             this.lineOfSite1 = 5.44f;
             this.lineOfSiteBossDmg = 3.7f;
             this.gameObject.tag = "boss";
@@ -111,6 +111,7 @@ public class EnemyBehaviour : MonoBehaviour
         else if (this.spriteID == 0)
         {
             this.gameObject.tag = "enemy";
+            this.lineOfSite = 10f;
         }
 
         this.pos = pos;
