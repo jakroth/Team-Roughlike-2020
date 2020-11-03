@@ -403,31 +403,33 @@ public class DungeonRenderer : MonoBehaviour
     private void createDoors()
     {
         int firstRoom = dungeonGenerator.rooms.Count - 1;
+        int lastRoom = 0;
         if (firstRoom > -1)
         {
             Vector2Int door = dungeonGenerator.rooms[firstRoom].door;
+            string tag = doorTag;
             int twice = 0;
             // create start and end doors
             while (twice < 2)
             {
                 // doors on the border
                 if (door.y <= 0 || door.y >= mapHeight - 1)
-                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, doorTag);
+                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, tag);
                 else if (door.x <= 0 || door.x >= mapWidth - 1)
-                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, doorTag);
+                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, tag);
 
                 // doors on interior walls
                 else if (map[door.x - 1, door.y] == WALL || map[door.x + 1, door.y] == WALL)
-                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, doorTag);
+                    createTile(doorTopClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, tag);
                 else if (map[door.x, door.y - 1] == WALL || map[door.x, door.y + 1] == WALL)
-                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, doorTag);
+                    createTile(doorVerticalClosedTile, new Vector2Int(door.x, door.y), wallTileMap, actualTopLayer, true, wallGameLayer, tag);
 
-                door = dungeonGenerator.rooms[0].door;
+                door = dungeonGenerator.rooms[lastRoom].door;
+                tag = "finalDoor";
                 twice++;
             }
             // set finalDoor variable in the assigned tile in the first/Boss room
-            wallTileMap[dungeonGenerator.rooms[0].door.x, dungeonGenerator.rooms[0].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
-            wallTileMap[dungeonGenerator.rooms[0].door.x, dungeonGenerator.rooms[0].door.y].GetComponent<BoxCollider2D>().isTrigger = true;
+            wallTileMap[dungeonGenerator.rooms[lastRoom].door.x, dungeonGenerator.rooms[lastRoom].door.y].GetComponent<DungeonTile>().isFinalDoor = true;
         }
 
     }

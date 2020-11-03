@@ -162,7 +162,7 @@ public class EnemyBehaviour : MonoBehaviour
                     SpiderDie = true;
                     speed = 0;
                     GetComponent<CapsuleCollider2D>().enabled = false;
-                    Destroy(gameObject,2);
+                    Destroy(gameObject,1.5f);
                     GameObject key = Instantiate(keyPrefeb, gameObject.transform.position, new Quaternion(0, 0, 0, 0));
                     Destroy(key, 5f);
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
@@ -189,7 +189,7 @@ public class EnemyBehaviour : MonoBehaviour
                     BossDie = true;
                     speed = 0;
                     GetComponent<CapsuleCollider2D>().enabled = false;
-                    Destroy(gameObject,2);
+                    Destroy(gameObject,1.5f);
                     Vector2 key1 = transform.position;
                     Vector2 key2 = transform.position;
                     key1.x -= 0.2f;
@@ -228,7 +228,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (distanceFromPlayer < lineOfSite)
             {
                 // move towards player
-                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.deltaTime);
+                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.fixedDeltaTime);
 
                 if (jock.transform.transform.position.x > this.transform.position.x)
                 {
@@ -253,7 +253,7 @@ public class EnemyBehaviour : MonoBehaviour
             else
             {
                 // move back to original position
-                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.deltaTime);
+                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.fixedDeltaTime);
             }
         }
             //getPlayerTile();
@@ -264,7 +264,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (getPlayerTile() == 1)
             {
                 // move towards player
-                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.deltaTime);
+                newPosition = Vector2.MoveTowards(this.transform.position, jock.transform.position, speed * Time.fixedDeltaTime);
 
                 if (distanceFromPlayer < lineOfSite1)
                 {
@@ -287,7 +287,7 @@ public class EnemyBehaviour : MonoBehaviour
             else
             {
                 // move back to original position
-                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.deltaTime);
+                newPosition = Vector2.MoveTowards(this.transform.position, originalPosition, speed * Time.fixedDeltaTime);
             }
         }
         

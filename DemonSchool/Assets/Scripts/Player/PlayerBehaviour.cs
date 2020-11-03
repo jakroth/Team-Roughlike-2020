@@ -13,13 +13,15 @@ public class PlayerBehaviour : MonoBehaviour
     //needs access to the FadeController to fade the notes in and out
     private FadeController fadeController;
 
-    [Header("Player Attributes")]
+    [Header("Player Controls")]
     // this is the speed pf the player
     public float speed;
     public float bounceFactor;
     public int maxLevels = 3;
     public bool isDead = false;
+    public bool foundKeys = false;
 
+    [Header("Player Attributes")]
     // Player health, ammo and score settings;
     public int playerHealth;
     public int playerAmmo;
@@ -123,7 +125,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if(!pauseState)
             updateAnimation();
-            checkPlayerHealth();
+            checkPlayer();
         
         if(!pauseState && !bossInRange)
             checkBossMusic(false);
@@ -152,7 +154,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     // loads next scene if player is dead
-    private void checkPlayerHealth()
+    private void checkPlayer()
     {
         if (playerHealth <= 0 && isDead == false)
         {
@@ -167,6 +169,11 @@ public class PlayerBehaviour : MonoBehaviour
             GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
             GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
+        }
+        if (keyPart >= 2 && foundKeys == false)
+        {
+            foundKeys = true;
+            GameObject.FindGameObjectWithTag("finalDoor").GetComponent<BoxCollider2D>().isTrigger = true;
         }
     }
 
@@ -219,8 +226,8 @@ public class PlayerBehaviour : MonoBehaviour
     // checks player move input
     public void move()
     {
-        var newXPos = transform.position.x + Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
-        var newYPos = transform.position.y + Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+        var newXPos = transform.position.x + Input.GetAxisRaw("Horizontal") * Time.fixedDeltaTime * speed;
+        var newYPos = transform.position.y + Input.GetAxisRaw("Vertical") * Time.fixedDeltaTime * speed;
 
         // move left
         if (newXPos < transform.position.x)
@@ -372,55 +379,54 @@ public class PlayerBehaviour : MonoBehaviour
             playerScoreNum.text = playerScore.ToString();
         }
 
-
-        if (other.tag == "door")
+        // if it's the final door, load the next scene
+        if (other.tag == "finalDoor")
         {
-            // if it's the final door, load the next scene
-            if (other.gameObject.GetComponent<DungeonTile>().isFinalDoor)
+            if (keyPart < 2)
             {
-                if (keyPart < 2)
+                TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                fadeController.FadeInAndOut(1f);
+            }
+            else
+            {
+                Debug.Log("finalDoor");
+
+                // pause game and fade out
+                GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
+                GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
+
+                // update static player stats
+                PlayerStats.health = playerHealth;
+                PlayerStats.ammo = playerAmmo;
+                PlayerStats.score = playerScore;
+                PlayerStats.level = playerLevel;
+
+                // check if dungeon max level reached
+                playerLevel++;
+                if (playerLevel > maxLevels)
                 {
-                    TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
-                    fadeController.FadeInAndOut(1f);
+                    PlayerStats.level = maxLevels;
+                    GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
+                    return;
                 }
                 else
                 {
-                    Debug.Log("finalDoor");
-
-                    // pause game and fade out
-                    GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(true);
-                    GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
-
-                    // update static player stats
-                    PlayerStats.health = playerHealth;
-                    PlayerStats.ammo = playerAmmo;
-                    PlayerStats.score = playerScore;
-                    PlayerStats.level = playerLevel;
-
-                    // check if dungeon max level reached
-                    playerLevel++;
-                    if (playerLevel > maxLevels)
-                    {
-                        PlayerStats.level = maxLevels;
-                        GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(4);
-                        return;
-                    }
-                    else
-                    {
-                        StartCoroutine(makeNextDungeonLevel());
-                        return;
-                    }
+                    StartCoroutine(makeNextDungeonLevel());
+                    return;
                 }
             }
+            
         }     
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "enemy")
+        GameObject other = collision.gameObject;
+
+        if (other.tag == "enemy")
         {
-            if (collision.gameObject.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
                 playerHealth -= 20;
                 FlashColor();  //11
@@ -430,15 +436,25 @@ public class PlayerBehaviour : MonoBehaviour
 
         }
 
-        else if (collision.gameObject.tag == "boss")
+        else if (other.tag == "boss")
         {
-            if (collision.gameObject.GetComponent<EnemyBehaviour>().enemyHealth > 0)
+            if (other.GetComponent<EnemyBehaviour>().enemyHealth > 0)
             {
-                playerHealth -= 20;
+                playerHealth -= 30;
                 FlashColor();
                 playerHealthNum.text = playerHealth.ToString();
-                pushBack(collision.gameObject);
+                pushBack(other);
                 FlashColor();
+            }
+        }
+
+        // if it's the final door, check keys and display message
+        else if (other.tag == "finalDoor")
+        {
+            if (keyPart < 2)
+            {
+                TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                fadeController.FadeInAndOut(1f);
             }
         }
     }
@@ -459,7 +475,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (pushTime < 0.15f)
         {
-            Vector2 pos = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
+            Vector2 pos = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.fixedDeltaTime);
             playerBody.MovePosition(pos);
             pushTime += Time.deltaTime;
         }

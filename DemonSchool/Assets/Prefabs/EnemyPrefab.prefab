@@ -101,7 +101,7 @@ MonoBehaviour:
   spriteID: 0
   pos: {x: 0, y: 0}
   enemyHealth: 0
-  speed: 8
+  speed: 4
   lineOfSite: 6.28
   lineOfSite1: 0
   lineOfSiteBossDmg: 0
