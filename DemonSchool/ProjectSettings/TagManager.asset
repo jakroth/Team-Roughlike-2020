@@ -21,6 +21,7 @@ TagManager:
   - FakePlayer
   - manager
   - menu
+  - vertNoneAbove
   layers:
   - Default
   - TransparentFX

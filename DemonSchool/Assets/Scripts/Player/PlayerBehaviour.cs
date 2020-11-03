@@ -37,18 +37,21 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Animation Sprites")]
     // tile set for the Normal Tiles
     public List<Sprite> animationList;
+
     [Header("Player Animation Attributes")]
     public int jockDirection;
     public int jockForm;
     public int formChangeDirection;
     public float animSpeed;
-    public float animTime; 
+    public float animTime;
+    private SpriteRenderer sprite;
 
     [Header("Player Movement Attributes")]
     public bool stopped;
     public bool pauseState = false;
     private bool bossInRange = false;
     public bool isFiring = false;
+    private Rigidbody2D playerBody;
 
     [Header("Player Collision Attributes")]
     public float pushSpeed = 3;
@@ -62,7 +65,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Other Attributes")]
     public int keyPart = 0;
     private Transform bossDis;
-    private SpriteRenderer srP;//11
+    private SpriteRenderer playerSprite;//11
     private Color originalColor;//11
     public float PlayerFlashTime = 0.25f;//11
 
@@ -86,9 +89,12 @@ public class PlayerBehaviour : MonoBehaviour
         pauseState = GameController.instance.GetPauseState(); 
         playerSoundManager = gameObject.GetComponent<PlayerSoundManager>();
         fadeController = GameObject.FindGameObjectWithTag("UI").GetComponent<FadeController>();
-        
-        srP = GetComponent<SpriteRenderer>();//11
-        originalColor = srP.color;//11
+
+
+        playerBody = GetComponent<Rigidbody2D>();
+        playerSprite = GetComponent<SpriteRenderer>();
+        originalColor = playerSprite.color;//11
+
 
         // load player stats from tutorial, if not tutorial
         if (!isTutorial)
@@ -136,9 +142,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if(!pauseState)
         {
-            // this is only used for door collisions now, used to be all physics collisions
-            //rayCollisionChecking();
-
             if(!isPushed)
                 move();
             else
@@ -199,7 +202,6 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-
     
     // make dungeon with pause
     private IEnumerator makeNextDungeonLevel()
@@ -225,7 +227,7 @@ public class PlayerBehaviour : MonoBehaviour
             jockDirection = 15;
             if (directionChangeX)
             {
-                GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
+                playerSprite.sprite = animationList[jockDirection + 2];
                 directionChangeX = false;
             }
         }
@@ -236,7 +238,7 @@ public class PlayerBehaviour : MonoBehaviour
             jockDirection = 10;
             if (!directionChangeX)
             {
-                GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
+                playerSprite.sprite = animationList[jockDirection + 2];
                 directionChangeX = true;
             }
         }
@@ -247,7 +249,7 @@ public class PlayerBehaviour : MonoBehaviour
             jockDirection = 5;
             if (directionChangeY)
             {
-                GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
+                playerSprite.sprite = animationList[jockDirection + 2];
                 directionChangeY = false;
             }
         }
@@ -258,7 +260,7 @@ public class PlayerBehaviour : MonoBehaviour
             jockDirection = 0;
             if (!directionChangeY)
             {
-                GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 2];
+                playerSprite.sprite = animationList[jockDirection + 2];
                 directionChangeY = true;
             }
         }
@@ -266,8 +268,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             stopped = true;
         }
-        GetComponent<Rigidbody2D>().MovePosition(new Vector2(newXPos, newYPos));
-            //transform.position = new Vector2(newXPos, newYPos);
+        playerBody.MovePosition(new Vector2(newXPos, newYPos));
     }
 
 
@@ -289,12 +290,12 @@ public class PlayerBehaviour : MonoBehaviour
                 jockForm += formChangeDirection;
                 if (jockForm >= 2 || jockForm <= 0)
                     formChangeDirection *= -1;
-                GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + jockForm];
+                playerSprite.sprite = animationList[jockDirection + jockForm];
             }
         }
         else
         {
-            GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 1];
+            playerSprite.sprite = animationList[jockDirection + 1];
         }
     }
 
@@ -302,7 +303,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         isFiring = true;
         animTime = 0;
-        GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 3];
+        playerSprite.sprite = animationList[jockDirection + 3];
     }
 
 
@@ -310,7 +311,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         isFiring = true;
         animTime = 0;
-        GetComponent<SpriteRenderer>().sprite = animationList[jockDirection + 4];
+        playerSprite.sprite = animationList[jockDirection + 4];
     }
 
 
@@ -320,7 +321,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
          
         Debug.Log("collision");
-
 
         if (other.tag == "collection")
         {
@@ -416,7 +416,6 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
                     fadeController.FadeInAndOut(1f);
-                    //moveAway(rayArray[i]);
                 }
                 else
                 {
@@ -447,21 +446,10 @@ public class PlayerBehaviour : MonoBehaviour
                     }
                 }
             }
-        }
-
-       // NOT USING THIS LAYERING ANYMORE (MIGHT REVISIT LATER)
-       /* else if (other.tag == "horoWall" || other.tag == "door")
-        {
-            Debug.Log("horoWall");
-            if (other.transform.position.y < transform.position.y)
-            {
-                other.GetComponent<SpriteRenderer>().sortingLayerName = "TopLayer";
-            }
-        }*/
-        
+        }     
     }
 
-    //TODO: make this much smoother, player loses control for a split second
+
     public void pushBack(Collider2D other)
     {
         isPushed = true;
@@ -473,13 +461,13 @@ public class PlayerBehaviour : MonoBehaviour
         push();
     }
 
+
     private void push()
     {
         if (pushTime < 0.15f)
         {
             Vector2 pos = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
-            GetComponent<Rigidbody2D>().MovePosition(pos);
-            //transform.position = Vector2.MoveTowards(transform.position, pushDestination, pushSpeed * Time.deltaTime);
+            playerBody.MovePosition(pos);
             pushTime += Time.deltaTime;
         }
         else
@@ -520,13 +508,13 @@ public class PlayerBehaviour : MonoBehaviour
     void FlashColor()//11
     {
         Debug.Log("flash player");
-        srP.color = Color.red;
+        playerSprite.color = Color.red;
         Invoke("ResetColor", PlayerFlashTime);
     }
 
     void ResetColor()//11
     {
-        srP.color = originalColor;
+        playerSprite.color = originalColor;
     }
 
 
@@ -558,6 +546,10 @@ public class PlayerBehaviour : MonoBehaviour
     //private CircleCollider2D coll;
 
     //coll = GetComponent<CircleCollider2D>();
+
+
+    // this is only used for door collisions now, used to be all physics collisions
+    //rayCollisionChecking();
 
 
     // checks for collisions around the player, and bounces the player away if they get too close

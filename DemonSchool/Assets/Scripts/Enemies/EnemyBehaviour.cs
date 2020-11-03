@@ -31,6 +31,9 @@ public class EnemyBehaviour : MonoBehaviour
     private Color originalColor;
     public float flashTime = 0.25f;
 
+    private Rigidbody2D enemyBody;
+    private Vector2 newPosition; 
+
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
     private GameController gameController;
@@ -46,6 +49,10 @@ public class EnemyBehaviour : MonoBehaviour
         // set up the sprite colours
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
+
+        //set initial position
+        newPosition = transform.position;
+        enemyBody = GetComponent<Rigidbody2D>();
 
         // set initial behaviour
         guardingRoom();
@@ -80,6 +87,12 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
 
+    void FixedUpdate()
+    {
+        enemyBody.MovePosition(newPosition);
+    }
+
+
     public void setEnemy(int spriteID, Vector2Int pos)
     {
         // make sure these links exist
@@ -104,8 +117,8 @@ public class EnemyBehaviour : MonoBehaviour
             this.lineOfSite1 = 5.44f;
             this.lineOfSiteBossDmg = 3.7f;
             this.gameObject.tag = "boss";
-            this.GetComponent<BoxCollider2D>().size = new Vector2(6.35f, 4.3f);
-            this.GetComponent<BoxCollider2D>().offset = new Vector2(0.24f, 0.14f);
+            this.GetComponent<CapsuleCollider2D>().offset = new Vector2(0.18f, -0.17f);
+            this.GetComponent<CapsuleCollider2D>().size = new Vector2(7f, 4.75f);
             enemyHealth += (PlayerStats.level * 50); // level 1 boss has 150 health, level 2 has 200, level 3 has 250, etc. 
         }
         else if (this.spriteID == 0)
@@ -123,9 +136,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
+
     private void OnTriggerEnter2D(Collider2D hit)
     {
-        if(this.gameObject.tag == "enemy")
+        if(gameObject.tag == "enemy")
         {
             if (hit.tag == "bullet")
             {
@@ -139,8 +153,9 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     SpiderDie = true;
                     speed = 0;
+                    GetComponent<CapsuleCollider2D>().enabled = false;
                     Destroy(gameObject,2);
-                    Instantiate(keyPrefeb, this.gameObject.transform.position, new Quaternion(0, 0, 0, 0));
+                    Instantiate(keyPrefeb, gameObject.transform.position, new Quaternion(0, 0, 0, 0));
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
                     player.playerScore += 10;
                     player.playerScoreNum.text = player.playerScore.ToString();
@@ -150,10 +165,10 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (hit.tag == "Player")
             {
-                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, joke.position, speed * Time.deltaTime);
             }
         }
-        else if (this.gameObject.tag == "boss")
+        else if (gameObject.tag == "boss")
         {
 
             if (hit.tag == "bullet")
@@ -168,6 +183,7 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     BossDie = true;
                     speed = 0;
+                    GetComponent<CapsuleCollider2D>().enabled = false;
                     Destroy(gameObject,2);
                     Vector2 key1 = transform.position;
                     Vector2 key2 = transform.position;
@@ -182,7 +198,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (hit.tag == "Player")
             {
-                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, joke.position, speed * Time.deltaTime);
             }
         }
 
@@ -199,16 +215,17 @@ public class EnemyBehaviour : MonoBehaviour
         joke = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+
     public void chasingPlayer()// chase player
     {
         float distanceFromPlayer = Vector2.Distance(joke.position, transform.position);
 
         if(distanceFromPlayer < lineOfSite)
         {
-            if(this.gameObject.tag == "enemy")
-            {
-                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
+            newPosition = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
 
+            if (this.gameObject.tag == "enemy")
+            {
                 if (joke.transform.position.x > this.transform.position.x)
                 {
                     SpiderRight = true;
@@ -232,8 +249,6 @@ public class EnemyBehaviour : MonoBehaviour
 
             else if (this.gameObject.tag == "boss")
             {
-                transform.position = Vector2.MoveTowards(this.transform.position, joke.position, speed * Time.deltaTime);
-
                 if(distanceFromPlayer < lineOfSite1)
                 {
                     isAttack = true;
@@ -282,13 +297,13 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     void splashDamage() {
-        CapsuleCollider2D test = gameObject.GetComponent<CapsuleCollider2D>();
+        BoxCollider2D test = gameObject.GetComponent<BoxCollider2D>();
         if ((sr.sprite.ToString().Contains("demon_attack09") || sr.sprite.ToString().Contains("demon_attack10")))
         {
             if (test == null)
             {
-                CapsuleCollider2D splashAttack = gameObject.AddComponent<CapsuleCollider2D>();
-                splashAttack.direction = CapsuleDirection2D.Horizontal;
+                BoxCollider2D splashAttack = gameObject.AddComponent<BoxCollider2D>();
+                //splashAttack.direction = CapsuleDirection2D.Horizontal;
                 splashAttack.offset = new Vector2(-0.25f, -1.45f);
                 splashAttack.size = new Vector2(9.75f, 2.25f);
             }
