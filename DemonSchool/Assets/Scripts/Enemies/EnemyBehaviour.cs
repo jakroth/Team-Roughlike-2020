@@ -163,8 +163,8 @@ public class EnemyBehaviour : MonoBehaviour
                     speed = 0;
                     GetComponent<CapsuleCollider2D>().enabled = false;
                     Destroy(gameObject,1.5f);
-                    GameObject key = Instantiate(keyPrefeb, gameObject.transform.position, new Quaternion(0, 0, 0, 0));
-                    Destroy(key, 5f);
+                    //GameObject key = Instantiate(keyPrefeb, gameObject.transform.position, new Quaternion(0, 0, 0, 0));//ForTesting
+                   // Destroy(key, 5f); //ForTesting
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
                     player.playerScore += 10;
                     player.playerScoreNum.text = player.playerScore.ToString();
@@ -196,8 +196,8 @@ public class EnemyBehaviour : MonoBehaviour
                     key2.x += 0.2f;
                     GameObject keyObj1 = Instantiate(keyPrefeb, key1, new Quaternion(0, 0, 0, 0));
                     GameObject keyObj2 = Instantiate(keyPrefeb, key2, new Quaternion(0, 0, 0, 0));
-                    Destroy(keyObj1, 5f);
-                    Destroy(keyObj2, 5f);
+                    //Destroy(keyObj1, 5f);//ForTesting
+                   // Destroy(keyObj2, 5f);//ForTesting
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
                     player.playerScore += 100;
                     player.playerScoreNum.text = player.playerScore.ToString();

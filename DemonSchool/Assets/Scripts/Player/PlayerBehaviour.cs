@@ -170,7 +170,7 @@ public class PlayerBehaviour : MonoBehaviour
             GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
         }
-        if (keyPart >= 2 && foundKeys == false)
+        if (keyPart >= 2 /*&& foundKeys == false*/)//That one will causing final door unfunctional after level 2 :( 
         {
             foundKeys = true;
             GameObject.FindGameObjectWithTag("finalDoor").GetComponent<BoxCollider2D>().isTrigger = true;
