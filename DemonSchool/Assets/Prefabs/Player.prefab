@@ -199,6 +199,7 @@ MonoBehaviour:
   bounceFactor: 3
   maxLevels: 3
   isDead: 0
+  foundKeys: 0
   playerHealth: 100
   playerAmmo: 10
   playerScore: 0
@@ -222,12 +223,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2f1fab35234471444b2f6433ff694805, type: 3}
   - {fileID: 21300000, guid: e44500c3e6f190142b4412458a50b13b, type: 3}
   - {fileID: 21300000, guid: 6d3f6d147de3bde4ba52f7e2f5702810, type: 3}
-  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
+  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
   - {fileID: 21300000, guid: 054d2c08a09bf124788a6d9a6984efd3, type: 3}
   - {fileID: 21300000, guid: 77931415a769dba45b6b842c1763d8d9, type: 3}
   - {fileID: 21300000, guid: dcc026ede8f443d49aaf055b1a8e3d47, type: 3}
   - {fileID: 21300000, guid: d8a5e5dc456597f47a1665b89a74a4b9, type: 3}
-  - {fileID: 21300000, guid: 31c3534f899372640b03f2aab834b01c, type: 3}
+  - {fileID: 21300000, guid: 4a1d48e19359dcd47be4d30d3928f6da, type: 3}
   - {fileID: 21300000, guid: ed373031e4aac284fb9af8cdbf483731, type: 3}
   - {fileID: 21300000, guid: 62a24e4ecdbaa1647963902d9bd4a4ee, type: 3}
   - {fileID: 21300000, guid: e1d03adeb99fc8c43a1367752aec4611, type: 3}
