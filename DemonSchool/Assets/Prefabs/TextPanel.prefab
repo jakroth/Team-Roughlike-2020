@@ -239,8 +239,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -372,8 +372,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2393a0a9075493a4cb2362bc5d0a2c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backpackNotes: []
-  studentRescues: []
+  backpackNotes:
+  - "\u201CDetention Notice Name: Liam Colten Witness: Dominic Yolsmil Reason: Stole
+    from teacher, Threatened a teacher (me), \u201CYour days are numbered\u201D,
+    talked back to teacher \u201CGo to hell\u201D Date due in detention: XX/XX/XXXX\u201D
+    The detention notice is signed by Mr Yolsmil "
+  - "\u201CDetention Notice Name: Steven Jiao Witness: Jeanne Farkleberry Reason:
+    Paid student to do homework Date due in detention: XX/XX/XXXX\u201D The detention
+    notice is signed by Mrs Farkleberry "
+  - "\u201CDetention Notice Name: Noelle Walters Witness: Jeanne Farkleberry Reason:
+    Sold homework answers to a student Date due in detention: XX/XX/XXXX\u201D The
+    detention notice is signed by Mrs Farkleberry "
+  - "It is a ripped page from the student run gossip magazine \u201CSpotted: Someone\u2019s
+    been busy. One desk in every classroom now has a pentagram carved into it. Is
+    someone trying to make a deal with the devil? Who is this mysterious Satanist?
+    Send me all the deets. And who am I? That\u2019s the secret I\u2019ll never tell.
+    The only one. XOXO, Go-\u201D The rest has been ripped off. "
+  - "\u201CObservations There is unusual seismic activity in this high school as
+    of late. The school is nowhere near a fault line yet still has frequent tremors.
+    The current foundations of the ground seem to have grown rapidly unstable, seemingly
+    out of nowhere. This is cause for further investigation, I\u2019ve conscripted
+    Ms Noelle Walters to assist with this investigation\u201D "
+  - "It is a ripped page from the student run gossip magazine \u201CSteven Jiao is
+    the esteemed quarterback of the football team. This loveable goofball is everything
+    a girl could dream for, stunning eyes, massive muscles, deep, confident voice,
+    did I mention the massive muscles? He might be a little stupid, but you can fulfill
+    your tutoring fantasy! Want to find out his ideal partner? Turn to page 26!!\u201D "
+  - "It\u2019s an announcement from the official school newsletter. \u201CThe XXXX
+    Tasla Science Prize was awarded to Noelle Walters for her studies in ultramarine
+    geology. Her prize involves a paid internship with Tasla. \u201CI\u2019m really
+    excited to see where she goes from here,\u201D her science teacher and mentor,
+    Simon Heckledore commented, \u201CShe\u2019s a hard working student and deserves
+    the prize.\u201D The rest has been burnt off "
+  - "It\u2019s a book called Demonology for Dummies. It\u2019s drenched in blood.
+    You open to a random page. \u201CHow to Succumb a Building into Hell Remove all
+    religious paraphernalia Surround the building in pentagrams and other demonic
+    symbols, if you cannot do the perimeter, put one in every room Have a home base:
+    build a shrine to begin the ritual Blood sacrifice! This is the fun part. Grab
+    an untainted person, and drip their blood onto the shrine. Do the same with your
+    blood Say the chant: \U0001F548\u2652\u264B\u29EB\u2B27 \U0001F790\u25A1\U0001F790\U0001F790\u2653\u25A0\u2651\u270D
+    \u270C\u263C\u261D\u261F\U0001F4EC \U0001F590\u29EB\u2B27 \u25CF\u2653\u29EB
+    \u2653\u25A0 \u2652\u264F\u2752\u264F \u2652\u25C6\u2652\u270D\" The chant is
+    in language you don\u2019t know. The rest of the book is too soaked to read "
+  - "\u201CHall Monitor - Log XXXX \u2013 1700 shift There was nothing of note as
+    I was tasked to clear the school of remaining students who are here without permission.
+    Here\u2019s a list of people found without permission:     John Smith     Abigail
+    Holt     Liam Colten Noelle Walters was also found but she has permission.\u201D
+    This log was dated for yesterday. "
+  - "\u201CAttention all students! During after hours there has been graffiti in
+    our classrooms. We ask all students to clear out at 5pm unless they are accompanied
+    by or have special permission from staff. Any suspicious activity is to be reported
+    to the front desk.\u201D There is something scrawled at the bottom. \u201CSINK
+    TO HELL LC\u201D "
+  studentRescues:
+  - '"my hero!"'
+  - '"thanks for saving me!"'
+  - '"that was a close one!"'
 --- !u!1 &8810738838905802100
 GameObject:
   m_ObjectHideFlags: 0

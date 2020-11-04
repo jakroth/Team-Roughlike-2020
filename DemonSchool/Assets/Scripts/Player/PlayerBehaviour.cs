@@ -188,7 +188,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 0.5f, 0f));
                     bossInRange = true;
-                    StartCoroutine(BossMusicFade(2));
+                    StartCoroutine(BossMusicFade(3));
                 }
             }
             else
@@ -197,7 +197,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     StartCoroutine(FadeAudioSource.StartFade(MusicController.instance.GetAudioSource(), 0.5f, 0f));
                     bossInRange = false;
-                    StartCoroutine(BossMusicFade(3));
+                    StartCoroutine(BossMusicFade(2));
                 }
             }
         }
