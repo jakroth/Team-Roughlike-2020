@@ -2586,6 +2586,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: attackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 55847a5ec817f5849b439f0b618a81f0, type: 3}
     - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: playerHealthNum

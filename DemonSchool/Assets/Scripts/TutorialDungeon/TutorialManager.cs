@@ -45,9 +45,9 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator BeginTutorial()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.01f);
         GameController.instance.UpdatePauseState(true);
-        fadeController.FadeIn();
+        //fadeController.FadeIn();
     }
 
     public void StartAttackDialogue()

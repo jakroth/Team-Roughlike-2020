@@ -40,6 +40,11 @@ public class EnemyBehaviour : MonoBehaviour
     private GameController gameController;
     private DungeonGenerator dungeonGen;
 
+    [SerializeField] private AudioClip enemyClip = null;
+    [SerializeField] private AudioClip bossClip = null;
+    private bool isSounding = true;
+    private AudioSource audioSource;
+
     void Start()
     {
         // set up the managers
@@ -48,6 +53,7 @@ public class EnemyBehaviour : MonoBehaviour
         else
             gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
+        audioSource = GetComponent<AudioSource>();
         // find the player & dungeon
         jock = GameObject.FindGameObjectWithTag("Player");
         dungeonGen = GameObject.Find("DungeonManager").GetComponent<DungeonGenerator>();
@@ -72,6 +78,8 @@ public class EnemyBehaviour : MonoBehaviour
         if (!GameController.instance.GetPauseState())
         {
             chasingPlayer();
+            if(isSounding)
+                PlaySounds();
 
             if (this.gameObject.tag == "boss")
             {
@@ -92,6 +100,22 @@ public class EnemyBehaviour : MonoBehaviour
                 eneAnim.SetBool("SpiderRight", SpiderRight);
             }
         }
+    }
+
+    private void PlaySounds()
+    {
+        if(Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < 5)
+        {
+            isSounding = false;
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    private IEnumerator PlaySound()
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f));
+        audioSource.PlayOneShot(this.gameObject.tag == "boss" ? bossClip : enemyClip);
+        isSounding = true;
     }
 
 

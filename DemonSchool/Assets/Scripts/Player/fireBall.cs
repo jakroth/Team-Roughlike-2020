@@ -9,9 +9,16 @@ public class fireBall : MonoBehaviour
     public Rigidbody2D rb;//Setting up Fireball's Rigidbody
     public Sprite touch;
 
+    [SerializeField] private AudioClip attackSound = null;
+    private AudioSource audioSource;
+
+
+    private bool isPaused = false;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(attackSound);
         rb.velocity = transform.right * speed;//fireball fly status
         Destroy(gameObject, 0.5f);
     }

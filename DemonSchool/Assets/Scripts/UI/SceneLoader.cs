@@ -38,8 +38,8 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator NextScene()
     {
-        yield return new WaitForSeconds(2f);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        yield return new WaitForSeconds(2f);
         GameController.instance.UpdatePauseState(false);
         MusicController.instance.SetMusic(currentSceneIndex + 1);
         SceneManager.LoadScene(currentSceneIndex + 1);

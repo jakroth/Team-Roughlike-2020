@@ -32,35 +32,6 @@ public class MusicController : MonoBehaviour
 
     public static MusicController instance;
 
-    public void SetMusic(int index)
-    {
-        switch(index)
-        {
-            case 0:
-                audioSource.clip = titleMusic;
-                break;
-            case 1:
-                audioSource.clip = backgroundMusic;
-                break;
-            case 2:
-                audioSource.clip = enemyMusic;
-                break;
-            case 3:
-                audioSource.clip = bossMusic;
-                break;
-            case 4:
-                audioSource.clip = backgroundMusic;
-                break;
-        }
-        StartCoroutine(FadeAudioSource.StartFade(audioSource, 2f, 0.5f));
-        audioSource.Play();
-    }
-
-    public AudioSource GetAudioSource()
-    {
-        return audioSource;
-    }
-
     void Awake()
     {
         if(instance == null)
@@ -93,6 +64,37 @@ public class MusicController : MonoBehaviour
 
         audioSource.Play();
     }
+
+    public void SetMusic(int index)
+    {
+        switch(index)
+        {
+            case 0:
+                audioSource.clip = titleMusic;
+                break;
+            case 1:
+                audioSource.clip = backgroundMusic;
+                break;
+            case 2:
+                audioSource.clip = enemyMusic;
+                break;
+            case 3:
+                audioSource.clip = bossMusic;
+                break;
+            case 4:
+                audioSource.clip = backgroundMusic;
+                break;
+        }
+        StartCoroutine(FadeAudioSource.StartFade(audioSource, 2f, 0.5f));
+        audioSource.Play();
+    }
+
+    public AudioSource GetAudioSource()
+    {
+        return audioSource;
+    }
+
+
 
 }
 

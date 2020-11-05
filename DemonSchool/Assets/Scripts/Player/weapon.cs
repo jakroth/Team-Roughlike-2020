@@ -12,7 +12,6 @@ public class Weapon : MonoBehaviour
 
     public GameObject fireBallPrefeb;//Using fireball from Prefeb
 
-
     private bool isPaused = false;
 
     void Update()
