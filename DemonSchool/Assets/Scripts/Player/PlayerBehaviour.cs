@@ -77,6 +77,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private Sprite backpackSprite = null;
     [SerializeField] private Sprite studentSprite = null;
     [SerializeField] private Sprite keySprite = null;
+    [SerializeField] private AudioClip deathSound = null;
 
 
 
@@ -510,6 +511,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (playerHealth <= 0)
         {
+            Camera.main.GetComponent<AudioSource>().PlayOneShot(deathSound);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadNextScene();
         }
     }

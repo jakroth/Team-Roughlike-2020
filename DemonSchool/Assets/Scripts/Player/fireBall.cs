@@ -12,9 +12,6 @@ public class fireBall : MonoBehaviour
     [SerializeField] private AudioClip attackSound = null;
     private AudioSource audioSource;
 
-
-    private bool isPaused = false;
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();

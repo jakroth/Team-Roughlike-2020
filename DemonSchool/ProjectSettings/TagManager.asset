@@ -23,6 +23,7 @@ TagManager:
   - menu
   - vertNoneAbove
   - finalDoor
+  - Health
   layers:
   - Default
   - TransparentFX
