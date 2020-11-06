@@ -379,6 +379,7 @@ public class PlayerBehaviour : MonoBehaviour
             TextboxController.UpdateTextAndImage(NoteDictionary.StudentRescue(), other.tag == "boyStudent" ? studentSprite0 : studentSprite1);
             fadeController.FadeInAndOut(1f);
             playerScore += 10;
+            PlayerStats.students++;
             playerScoreNum.text = playerScore.ToString();
         }
 
