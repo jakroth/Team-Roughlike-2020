@@ -2761,6 +2761,18 @@ PrefabInstance:
       propertyPath: deathSound
       value: 
       objectReference: {fileID: 8300000, guid: 4878fea6e3c3ce041a977247551b8d8b, type: 3}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: studentSprite0
+      value: 
+      objectReference: {fileID: 21300000, guid: 719f07d6fbee31047ad84d58b0c22915,
+        type: 3}
+    - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: studentSprite1
+      value: 
+      objectReference: {fileID: 21300000, guid: 86cc40646c55cfd43a6d94abe7ec641c,
+        type: 3}
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalPosition.x

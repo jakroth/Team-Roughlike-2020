@@ -75,7 +75,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private bool isTutorial = false;
     private TutorialManager tutorialManager;
     [SerializeField] private Sprite backpackSprite = null;
-    [SerializeField] private Sprite studentSprite = null;
+    [SerializeField] private Sprite studentSprite0 = null;
+    [SerializeField] private Sprite studentSprite1 = null;
     [SerializeField] private Sprite keySprite = null;
     [SerializeField] private AudioClip deathSound = null;
 
@@ -375,7 +376,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (other.tag == "boyStudent" || other.tag == "girlStudent")
         {
             Destroy(other.gameObject);
-            TextboxController.UpdateTextAndImage(NoteDictionary.StudentRescue(), studentSprite);
+            TextboxController.UpdateTextAndImage(NoteDictionary.StudentRescue(), other.tag == "boyStudent" ? studentSprite0 : studentSprite1);
             fadeController.FadeInAndOut(1f);
             playerScore += 10;
             playerScoreNum.text = playerScore.ToString();
