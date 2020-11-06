@@ -171,7 +171,7 @@ public class PlayerBehaviour : MonoBehaviour
             GameObject.Find("MenuPrefab").GetComponent<FadeController>().FadeInAndOut(2f);
             GameObject.Find("GameController").GetComponent<SceneLoader>().LoadScene(3);
         }
-        if (keyPart >= 2 /*&& foundKeys == false*/)//That one will causing final door unfunctional after level 2 :( 
+        if (keyPart >= 1 && foundKeys == false) //That one will causing final door unfunctional after level 2 :( 
         {
             foundKeys = true;
             GameObject.FindGameObjectWithTag("finalDoor").GetComponent<BoxCollider2D>().isTrigger = true;
@@ -219,6 +219,7 @@ public class PlayerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(2f);
         playerLevelNum.text = playerLevel.ToString() + " / " + maxLevels;
         keyPart = 0;
+        foundKeys = false;
         GameObject.Find("GameController").GetComponent<GameController>().UpdatePauseState(false);
         GameObject.Find("DungeonManager").GetComponent<DungeonManager>().makeDungeon();
     }
@@ -383,9 +384,9 @@ public class PlayerBehaviour : MonoBehaviour
         // if it's the final door, load the next scene
         if (other.tag == "finalDoor")
         {
-            if (keyPart < 2)
+            if (keyPart < 1)
             {
-                TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                TextboxController.UpdateTextAndImage("You need a key to exit this dungeon level!!", keySprite);
                 fadeController.FadeInAndOut(1f);
             }
             else

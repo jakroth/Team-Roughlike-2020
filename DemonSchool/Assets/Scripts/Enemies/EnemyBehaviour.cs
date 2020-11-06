@@ -221,9 +221,9 @@ public class EnemyBehaviour : MonoBehaviour
                     key1.x -= 0.2f;
                     key2.x += 0.2f;
                     GameObject keyObj1 = Instantiate(keyPrefeb, key1, new Quaternion(0, 0, 0, 0));
-                    GameObject keyObj2 = Instantiate(keyPrefeb, key2, new Quaternion(0, 0, 0, 0));
-                    //Destroy(keyObj1, 5f);//ForTesting
-                   // Destroy(keyObj2, 5f);//ForTesting
+                    //GameObject keyObj2 = Instantiate(keyPrefeb, key2, new Quaternion(0, 0, 0, 0));
+                    Destroy(keyObj1, 20f);//ForTesting
+                    //Destroy(keyObj2, 20f);//ForTesting
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
                     player.playerScore += 100;
                     player.playerScoreNum.text = player.playerScore.ToString();

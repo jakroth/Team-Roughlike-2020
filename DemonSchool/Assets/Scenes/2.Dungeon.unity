@@ -859,9 +859,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bb17ee9dc18f4fe43a9305c910011a19, type: 3}
   - {fileID: 21300000, guid: bb17ee9dc18f4fe43a9305c910011a19, type: 3}
   studentSprites:
-  - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
-  - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
-  - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
+  - {fileID: 21300000, guid: 3806b7109f93cfa47995980e9e29bda1, type: 3}
   - {fileID: 21300000, guid: ab4dd4bd3b1cb4a4fb995393183c020e, type: 3}
 --- !u!114 &553746548
 MonoBehaviour:
