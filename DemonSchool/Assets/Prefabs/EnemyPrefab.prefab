@@ -107,6 +107,8 @@ MonoBehaviour:
   lineOfSite1: 0
   lineOfSiteBossDmg: 0
   eneAnim: {fileID: 6995784953507241196}
+  studentAnim: {fileID: 8889589014775349263, guid: 6cf6afa2c9e6a8741931ac951c4fb804,
+    type: 3}
   keyPrefeb: {fileID: 7626257983786648771, guid: dbb6f6105bd928a42a800c3f18fc0b02,
     type: 3}
   isBoss: 0
@@ -115,6 +117,7 @@ MonoBehaviour:
   SpiderDie: 0
   SpiderLeft: 0
   SpiderRight: 0
+  isGirl: 0
   flashTime: 0.25
   isTutorial: 0
   enemyClip: {fileID: 8300000, guid: 6f34fec7571d35c4aa3c57105fcf39f8, type: 3}

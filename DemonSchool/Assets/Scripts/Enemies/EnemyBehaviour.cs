@@ -21,11 +21,11 @@ public class EnemyBehaviour : MonoBehaviour
     public float lineOfSite, lineOfSite1, lineOfSiteBossDmg;
     private GameObject jock;
 
-    public Animator eneAnim;
+    public Animator eneAnim/*, studentAnim*/;
 
     public GameObject keyPrefeb;
 
-    public bool isBoss, isAttack, BossDie, SpiderDie,SpiderLeft,SpiderRight;
+    public bool isBoss, isAttack, BossDie, SpiderDie,SpiderLeft,SpiderRight/*,isGirl*/;
 
     private SpriteRenderer sr;
     private Color originalColor;
@@ -99,6 +99,16 @@ public class EnemyBehaviour : MonoBehaviour
                 eneAnim.SetBool("SpiderLeft", SpiderLeft);
                 eneAnim.SetBool("SpiderRight", SpiderRight);
             }
+           /* else if (this.gameObject.tag == "boyStudent")
+            {
+                isGirl = false;
+                studentAnim.SetBool("isGirl", isGirl);
+            }
+            else if (this.gameObject.tag == "girlStudent")
+            {
+                isGirl = true;
+                studentAnim.SetBool("isGirl", isGirl);
+            }*/
         }
     }
 

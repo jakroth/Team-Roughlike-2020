@@ -24,6 +24,8 @@ TagManager:
   - vertNoneAbove
   - finalDoor
   - Health
+  - boyStudent
+  - girlStudent
   layers:
   - Default
   - TransparentFX

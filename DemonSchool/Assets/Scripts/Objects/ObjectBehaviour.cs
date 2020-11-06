@@ -16,7 +16,22 @@ public class ObjectBehaviour : MonoBehaviour
     public Vector2Int pos;
 
     // temp variable used to pass collision test in PlayerBehaviour
-    public bool isObject = true;
+    public bool isObject = true, isGirl;
+    public Animator studentAni;
+
+    void Start()
+    {
+        if(this.gameObject.tag == "boyStudent")
+        {
+            isGirl = false;
+            studentAni.SetBool("isGirl", isGirl);
+        }
+        else if(this.gameObject.tag == "girlStudent")
+        {
+            isGirl = true;
+            studentAni.SetBool("isGirl", isGirl);
+        }
+    }
 
     public void setObject(int spriteID, Vector2Int pos, int type)
     {
@@ -32,6 +47,9 @@ public class ObjectBehaviour : MonoBehaviour
 
         //set sprite and position
         this.spriteID = spriteID;
+        
+        
+
         this.pos = pos;
 
         // update sprite on object
@@ -48,6 +66,14 @@ public class ObjectBehaviour : MonoBehaviour
 
             // give the student a name in the Hierarchy
             gameObject.name = "Student (" + pos.x + "," + pos.y + "): " + spriteID;
+            if (this.spriteID == 0)
+            {
+                this.gameObject.tag = "boyStudent";
+            }
+            else if(this.spriteID == 1)
+            {
+                this.gameObject.tag = "girlStudent";
+            }
         }
 
     }

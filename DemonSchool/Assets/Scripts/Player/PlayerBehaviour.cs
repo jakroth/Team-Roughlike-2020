@@ -372,7 +372,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
 
-        else if (other.tag == "student")
+        else if (other.tag == "boyStudent" || other.tag == "girlStudent")
         {
             Destroy(other.gameObject);
             TextboxController.UpdateTextAndImage(NoteDictionary.StudentRescue(), studentSprite);
@@ -455,7 +455,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (keyPart < 2)
             {
-                TextboxController.UpdateTextAndImage("You need 2 keys to exit this dungeon level!!", keySprite);
+                TextboxController.UpdateTextAndImage("You need a keys to exit this dungeon level!!", keySprite);
                 fadeController.FadeInAndOut(1f);
             }
         }

@@ -344,6 +344,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &232260309 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185179776906870511, guid: cd8f302358e0aa445971d2377077f9bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 177538789489684546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &300359594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1045,12 @@ MonoBehaviour:
   beginFade: 1
   fadeSpeed: 2
   isFading: 0
+--- !u!4 &606906822 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185179777168216814, guid: cd8f302358e0aa445971d2377077f9bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 177538789489684546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &622984344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1113,6 +1125,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da859d8402058c241ac521aa4dfaf72d, type: 3}
+--- !u!4 &666371989 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185179777786857480, guid: cd8f302358e0aa445971d2377077f9bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 177538789489684546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &925019302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1372,6 +1390,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975636043}
   m_CullTransparentMesh: 0
+--- !u!4 &1104625820 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3185179776962903397, guid: cd8f302358e0aa445971d2377077f9bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 177538789489684546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1106449346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2686,6 +2710,32 @@ PrefabInstance:
       propertyPath: attackSound
       value: 
       objectReference: {fileID: 8300000, guid: 55847a5ec817f5849b439f0b618a81f0, type: 3}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: firePointRight
+      value: 
+      objectReference: {fileID: 1104625820}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: firePointLeft
+      value: 
+      objectReference: {fileID: 606906822}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: firePointDown
+      value: 
+      objectReference: {fileID: 232260309}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: firePointUp
+      value: 
+      objectReference: {fileID: 666371989}
+    - target: {fileID: 3185179777380893205, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: fireBallPrefeb
+      value: 
+      objectReference: {fileID: 1836834978605129794, guid: 4ae2d03bb53906f47966dbb74c7b1586,
+        type: 3}
     - target: {fileID: 3185179777380893210, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: playerHealthNum
