@@ -437,6 +437,8 @@ MonoBehaviour:
   spriteID: 2
   pos: {x: 0, y: 0}
   isObject: 1
+  isGirl: 0
+  studentAni: {fileID: 0}
 --- !u!4 &27205401 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7668032848208302304, guid: 679d11c362506ef42b74b48bf7b5f442,
@@ -34770,6 +34772,11 @@ PrefabInstance:
     - target: {fileID: 3185179777380893289, guid: cd8f302358e0aa445971d2377077f9bc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185179777380893295, guid: cd8f302358e0aa445971d2377077f9bc,
+        type: 3}
+      propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

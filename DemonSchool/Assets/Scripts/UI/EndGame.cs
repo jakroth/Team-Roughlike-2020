@@ -25,18 +25,19 @@ public class EndGame : MonoBehaviour
 
             for(int i = 0; i < PlayerStats.students; i++)
             {
-                GameObject go = Instantiate(studentPrefab, new Vector3(Random.Range(-8f, 8f), -3f, 0), Quaternion.identity);
-                go.tag = Random.Range(0, 2) == 0 ? "boyStudent" : "girlStudent";
-                go.AddComponent<Rigidbody2D>();
-                go.GetComponent<BoxCollider2D>().isTrigger = false;
-                go.GetComponent<BoxCollider2D>().sharedMaterial = bounceMat;
+                StartCoroutine(SpawnStudents());
+
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator SpawnStudents()
     {
-
+        yield return new WaitForSeconds(Random.Range(0.25f, 2f));
+        GameObject go = Instantiate(studentPrefab, new Vector3(Random.Range(-8f, 8f), 6f, 0), Quaternion.identity);
+        go.tag = Random.Range(0, 2) == 0 ? "boyStudent" : "girlStudent";
+        go.AddComponent<Rigidbody2D>();
+        go.GetComponent<BoxCollider2D>().isTrigger = false;
+        go.GetComponent<BoxCollider2D>().sharedMaterial = bounceMat;
     }
 }
