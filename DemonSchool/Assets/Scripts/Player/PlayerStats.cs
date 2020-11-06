@@ -8,6 +8,6 @@ public static class PlayerStats
     public static int ammo = 10;
     public static int score = 0;
     public static int level = 0;
-    public static int students = 100;
+    public static int students = 0;
 
 }
