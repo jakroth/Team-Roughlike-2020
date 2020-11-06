@@ -37,10 +37,10 @@ public class MusicController : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
-        else
-            Destroy(gameObject);
+        //else
+        //    Destroy(gameObject);
 
         int index = SceneManager.GetActiveScene().buildIndex;
         switch(index)

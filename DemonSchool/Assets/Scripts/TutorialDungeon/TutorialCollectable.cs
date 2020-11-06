@@ -54,7 +54,7 @@ public class TutorialCollectable : MonoBehaviour
         }
     }
 
-    void Awake()
+    void Start()
     {
         sceneLoader = GameController.instance.gameObject.GetComponent<SceneLoader>();
     }

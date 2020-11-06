@@ -190,6 +190,8 @@ public class EnemyBehaviour : MonoBehaviour
                     //GameObject key = Instantiate(keyPrefeb, gameObject.transform.position, new Quaternion(0, 0, 0, 0));//ForTesting
                    // Destroy(key, 5f); //ForTesting
                     PlayerBehaviour player = GameObject.Find("Player").GetComponent<PlayerBehaviour>();
+                    if(isBoss)
+                        MusicController.instance.SetMusic(2);
                     player.playerScore += 10;
                     player.playerScoreNum.text = player.playerScore.ToString();
                     if (isTutorial)

@@ -10,12 +10,10 @@ public class fireBall : MonoBehaviour
     public Sprite touch;
 
     [SerializeField] private AudioClip attackSound = null;
-    private AudioSource audioSource;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        audioSource.PlayOneShot(attackSound);
+        Camera.main.GetComponent<AudioSource>().PlayOneShot(attackSound);
         rb.velocity = transform.right * speed;//fireball fly status
         Destroy(gameObject, 0.5f);
     }
